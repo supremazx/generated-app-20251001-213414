@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerSettingsEntity } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, ResellerSettingsSchema } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -222,5 +222,20 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       return notFound(c, 'Client not found');
     }
     return ok(c, { id });
+  });
+  app.get('/api/reseller/settings', async (c) => {
+    const settingsEntity = new ResellerSettingsEntity(c.env);
+    const settings = await settingsEntity.getState();
+    return ok(c, settings);
+  });
+  app.post('/api/reseller/settings', async (c) => {
+    const body = await c.req.json();
+    const validation = ResellerSettingsSchema.safeParse(body);
+    if (!validation.success) {
+      return bad(c, 'Invalid settings data');
+    }
+    const settingsEntity = new ResellerSettingsEntity(c.env);
+    await settingsEntity.save(validation.data);
+    return ok(c, validation.data);
   });
 }
