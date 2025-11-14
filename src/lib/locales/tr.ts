@@ -1,52 +1,16 @@
 export const tr = {
   // App Layout
-  appTitle: "YzSantralim Edge Dialer",
+  appTitle: "Yzsantralim.com",
   nav: {
     dashboard: "Kontrol Paneli",
-    userDashboard: "Kullanıcı Paneli",
     dialer: "Çevirici",
     campaigns: "Kampanyalar",
     agents: "Operatörler",
     callLists: "Arama Listeleri",
-    audioFiles: "Ses Dosyaları",
     account: "Hesap",
-    clients: "Müşteriler",
-    billing: "Analiz ve Faturalandırma",
+    billing: "Faturalandırma",
     settings: "Ayarlar",
-    accountSettings: "Hesap Ayarları",
     logout: "Çıkış Yap",
-    reseller: {
-      title: "Bayi",
-      dashboard: "Bayi Paneli",
-      billing: "Faturalandırma",
-    },
-    vogent: {
-      title: "Vogent.ai",
-      knowledgeBase: "Bilgi Bankası",
-    }
-  },
-  // Login Page
-  loginPage: {
-    title: "Hesabınıza Giriş Yapın",
-    description: "Devam etmek için bilgilerinizi girin.",
-    emailLabel: "E-posta",
-    passwordLabel: "Şifre",
-    loginButton: "Giriş Yap",
-    loginAsAdmin: "Yönetici Olarak Giriş Yap",
-    loginAsUser: "Kullanıcı Olarak Giriş Yap",
-  },
-  // Campaign Statuses
-  campaignStatus: {
-    Active: "Aktif",
-    Paused: "Duraklatıldı",
-    Completed: "Tamamlandı",
-    Draft: "Taslak",
-  },
-  callLogStatus: {
-    Dialing: "Aranıyor",
-    Answered: "Cevaplandı",
-    Busy: "Meşgul",
-    Failed: "Ba��arısız",
   },
   // Dashboard Page
   dashboardPage: {
@@ -91,25 +55,6 @@ export const tr = {
     },
     emptyState: "Kampanya bulunamadı. Başlamak için bir tane oluşturun.",
   },
-  // Campaign Detail Page
-  campaignDetailPage: {
-    totalLeads: "Toplam Potansiyel Müşteri",
-    dialedLeads: "Aranan Potansiyel Müşteri",
-    connections: "Bağlantılar",
-    connectionRate: "Bağlantı Oranı",
-    progress: "Kampanya İlerlemesi",
-    knowledgeBase: "Bilgi Bankası",
-    audioFile: "Ses Dosyası",
-    callListDetails: "Arama Listesi Detayları",
-    callListDescription: "Detaylı arama listesi bilgileri gelecekteki bir güncellemede burada görüntülenecektir.",
-    callLogs: {
-      title: "Arama Kayıtları",
-      phoneNumber: "Telefon Numarası",
-      status: "Durum",
-      duration: "Süre",
-      timestamp: "Zaman Damgası",
-    },
-  },
   // Agents Page
   agentsPage: {
     title: "Operatörler",
@@ -143,65 +88,9 @@ export const tr = {
     },
     emptyState: "Arama listesi bulunamadı. Başlamak için bir tane yükleyin.",
   },
-  // Call List Detail Page
-  callListDetailPage: {
-    title: "Arama Listesi Detayları",
-    uploadedOn: "Yüklenme Tarihi",
-    totalLeads: "Toplam Potansiyel Müşteri",
-    dialedLeads: "Aranan Potansiyel Müşteri",
-    dialedPercentage: "Aranma Yüzdesi",
-    dialingProgress: "Arama İlerlemesi",
-    dialed: "arandı",
-    total: "toplam",
-    leadsTitle: "Potansiyel Müşteriler",
-    leadsDescription: "Bireysel potansiyel müşterilerin detaylı görünümü gelecekteki bir güncellemede mevcut olacaktır.",
-  },
-  // Knowledge Base Page
-  knowledgeBasePage: {
-    title: "Vogent.ai Bilgi Bankası",
-    upload: "Yükle",
-    table: {
-      name: "İsim",
-      leadCount: "Kişi Sayısı",
-      uploadedAt: "Yüklenme Tarihi",
-      actions: "Eylemler",
-    },
-    actions: {
-      delete: "Sil",
-    },
-    deleteDialog: {
-      title: "Emin misiniz?",
-      description: "Bu eylem geri alınamaz. Bu, bilgi bankasını kalıcı olarak silecektir.",
-      cancel: "İptal",
-      confirm: "Sil",
-    },
-    emptyState: "Bilgi bankası bulunamadı. Başlamak için bir tane yükleyin.",
-  },
-  // Audio Files Page
-  audioFilesPage: {
-    title: "Ses Dosyaları",
-    upload: "Yükle",
-    table: {
-      name: "İsim",
-      fileName: "Dosya Adı",
-      size: "Boyut",
-      uploadedAt: "Yüklenme Tarihi",
-      actions: "Eylemler",
-    },
-    actions: {
-      delete: "Sil",
-    },
-    deleteDialog: {
-      title: "Emin misiniz?",
-      description: "Bu eylem geri alınamaz. Bu, ses dosyasını kalıcı olarak silecektir.",
-      cancel: "İptal",
-      confirm: "Sil",
-    },
-    emptyState: "Ses dosyası bulunamadı. Başlamak için bir tane yükleyin.",
-  },
   // Billing Page
   billingPage: {
-    title: "Analiz ve Faturalandırma",
+    title: "Faturalandırma",
     usageOverview: "Kullanım Özeti",
     statCards: {
       currentUsage: "Mevcut Kullanım",
@@ -233,7 +122,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    accountSettings: "Hesap Ayarları",
+    changePassword: "Şifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -247,26 +136,6 @@ export const tr = {
       title: "AI Maliyet Analizi",
       description: "Mevcut dönem için AI kullanımınızın tahmini maliyeti.",
       estimatedCost: "Tahmini AI Maliyeti",
-    },
-  },
-  // Account Settings Page
-  accountSettingsPage: {
-    title: "Hesap Ayarları",
-    description: "Hesap bilgilerinizi ve güvenlik ayarlarınızı yönetin.",
-    changeEmail: {
-      title: "E-posta Adresini Değiştir",
-      description: "Hesabınızla ilişkili e-posta adresini güncelleyin.",
-      newEmailLabel: "Yeni E-posta Adresi",
-      passwordLabel: "Onay için Şifre",
-      submitButton: "E-postayı Güncelle",
-    },
-    changePassword: {
-      title: "Şifreyi Değiştir",
-      description: "Güvenlik için şifrenizi düzenli olarak güncelleyin.",
-      currentPasswordLabel: "Mevcut Şifre",
-      newPasswordLabel: "Yeni Şifre",
-      confirmPasswordLabel: "Yeni Şifreyi Onayla",
-      submitButton: "Şifreyi Güncelle",
     },
   },
   // Settings Page
@@ -292,83 +161,16 @@ export const tr = {
     pricing: {
       title: "Fiyatlandırma Yapılandırması",
       description: "Kârlılık analizi için iç maliyetleri belirleyin.",
-      pricePerMinute: "Kullanıcı Dakika Başına Fiyatı",
-      pricePerMinuteDescription: "Kullanıcılardan AI dakikası başına alınacak ücret.",
       aiBasePrice: "AI Dakika Başına Taban Fiyatı",
       aiBasePriceDescription: "AI servisleri için dakika başına iç maliyetiniz.",
       sipCost: "AI Agent SIP Dakika Maliyeti",
       sipCostDescription: "Agent'ın SIP bağlantısı için iç maliyetiniz.",
     },
     integrations: {
-        title: "Yapay Zeka Sağlayıcı",
-        description: "Dinamik fiyatlandırma için harici servislere bağlanın.",
-        sippulseApiKey: "Yapay Zeka Sağlayıcı Anahtarı",
+        title: "Üçüncü Parti Entegrasyonlar",
+        description: "Dinamik fiyatlandırma için Sippulse gibi harici servislere bağlanın.",
+        sippulseApiKey: "Sippulse AI API Anahtarı",
         sippulseDescription: "AI dakikaları için dinamik, gerçek zamanlı fiyatlandırmayı etkinleştirir.",
-    },
-  },
-  // Reseller Dashboard Page
-  resellerDashboardPage: {
-    title: "Bayi Paneli",
-    statCards: {
-      totalClients: "Toplam Müşteri",
-      activeClients: "Aktif Müşteri",
-      mrr: "Aylık Yinelenen Gelir",
-      totalAgents: "Toplam Agent",
-    },
-    charts: {
-      clientGrowth: "Müşteri Büyümesi",
-      revenueOverTime: "Zamana Göre Gelir",
-    },
-  },
-  // Reseller Clients Page (now Clients Page)
-  resellerClientsPage: {
-    title: "Müşteriler",
-    newClient: "Yeni Müşteri",
-    table: {
-      companyName: "Şirket Adı",
-      status: "Durum",
-      provisionedAgents: "Agent Sayısı",
-      monthlySpend: "Aylık Harcama",
-      createdAt: "Katılma Tarihi",
-      actions: "Eylemler",
-    },
-    actions: {
-      edit: "Düzenle",
-      delete: "Sil",
-      suspend: "Askıya Al",
-      activate: "Aktif Et",
-    },
-    deleteDialog: {
-      title: "Müşteriyi silmek istediğinizden emin misiniz?",
-      description: "Bu eylem geri alınamaz. Bu, müşteriyi ve ilişkili tüm verileri kalıcı olarak silecektir.",
-      cancel: "İptal",
-      confirm: "Sil",
-    },
-    emptyState: "Müşteri bulunamadı. Başlamak için bir tane ekleyin.",
-  },
-  resellerBillingPage: {
-    title: "Bayi Faturalandırma",
-    overview: "Genel Bakış",
-    statCards: {
-      totalRevenue: "Toplam Gelir",
-      activeSubscriptions: "Aktif Abonelikler",
-      mrr: "Aylık Yinelenen Gelir",
-    },
-    invoiceHistory: {
-      title: "Fatura Geçmişi",
-      description: "Tüm müşteri faturalarını görüntüleyin ve yönetin.",
-      invoiceId: "Fatura ID",
-      clientName: "Müşteri Adı",
-      date: "Tarih",
-      amount: "Tutar",
-      status: "Durum",
-      actions: "Eylemler",
-      download: "İndir",
-    },
-    status: {
-      paid: "Ödendi",
-      due: "Vadesi Geldi",
-      overdue: "Vadesi Geçti",
     },
   },
   // Dialogs
@@ -379,17 +181,8 @@ export const tr = {
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
     callListPlaceholder: "Bir arama listesi seçin",
-    assignAgentsLabel: "Agent Ata",
-    assignAgentsPlaceholder: "Bir agent seçin",
-    knowledgeBaseLabel: "Bilgi Bankası (Opsiyonel)",
-    knowledgeBasePlaceholder: "Bir bilgi bankası seçin",
-    audioFileLabel: "Ses Dosyası (Opsiyonel)",
-    audioFilePlaceholder: "Bir ses dosyası seçin",
     cancel: "İptal",
     submit: "Kampanya Oluştur",
-    selectTypeTitle: "Kampanya Türü Seçin",
-    createWithAi: "Yapay zeka ile yarat",
-    createWithAudio: "Ses gönderme ile yarat",
   },
   editCampaignDialog: {
     title: "Kampanyayı Düzenle",
@@ -407,42 +200,14 @@ export const tr = {
     cancel: "İptal",
     submit: "Listeyi Yükle",
   },
-  uploadKnowledgeBaseDialog: {
-    title: "Yeni Bilgi Bankası Yükle",
-    description: "Bir isim belirtin ve verilerinizi içeren bir CSV, PDF, Excel veya TXT dosyası yükleyin.",
-    nameLabel: "Bilgi Bankası Adı",
-    namePlaceholder: "Örn., Ürün Bilgileri",
-    fileLabel: "Veri Dosyası (CSV, PDF, XLS, XLSX, TXT)",
-    fileDescription: "Dosyayı buraya sürükleyin veya seçmek için tıklayın",
+  changePasswordDialog: {
+    title: "Şifre Değiştir",
+    description: "Aşağıya mevcut ve yeni şifrenizi girin.",
+    currentPassword: "Mevcut Şifre",
+    newPassword: "Yeni Şifre",
+    confirmPassword: "Yeni Şifreyi Onayla",
     cancel: "İptal",
-    submit: "Yükle",
-  },
-  uploadAudioFileDialog: {
-    title: "Yeni Ses Dosyası Yükle",
-    description: "Bir isim belirtin ve bir MP3 veya WAV dosyası yükleyin.",
-    nameLabel: "Ses Dosyası Adı",
-    namePlaceholder: "Örn., Hoş Geldiniz Mesajı",
-    fileLabel: "Ses Dosyası (MP3, WAV)",
-    fileDescription: "Dosyayı buraya sürükleyin veya seçmek için tıklayın",
-    cancel: "İptal",
-    submit: "Yükle",
-  },
-  createResellerClientDialog: {
-    title: "Yeni Müşteri Ekle",
-    description: "Yeni bir bayi müşterisi oluşturmak için aşağıdaki ayrıntıları doldurun.",
-    companyNameLabel: "Şirket Adı",
-    companyNamePlaceholder: "Örn., Innovate Corp",
-    contactEmailLabel: "Yetkili E-postası",
-    contactEmailPlaceholder: "Örn., contact@innovate.com",
-    provisionedAgentsLabel: "Agent Ata",
-    cancel: "İptal",
-    submit: "Müşteri Oluştur",
-  },
-  editClientDialog: {
-    title: "Müşteriyi Düzenle",
-    description: "Müşteri bilgilerini aşağıda güncelleyin.",
-    cancel: "İptal",
-    submit: "Değişiklikleri Kaydet",
+    submit: "Şifreyi Güncelle",
   },
   // Toasts (Notifications)
   toasts: {
@@ -452,17 +217,8 @@ export const tr = {
     campaignUpdated: "Kampanya başarıyla güncellendi!",
     callListUploaded: "Arama listesi başarıyla yüklendi!",
     callListDeleted: "Arama listesi başarıyla silindi!",
-    knowledgeBaseUploaded: "Bilgi bankası başarıyla yüklendi!",
-    knowledgeBaseDeleted: "Bilgi bankası başarıyla silindi!",
-    audioFileUploaded: "Ses dosyası başarıyla yüklendi!",
-    audioFileDeleted: "Ses dosyası başarıyla silindi!",
     settingsSaved: "Ayarlar başarıyla kaydedildi!",
     passwordChanged: "Şifre başarıyla değiştirildi!",
-    emailChanged: "E-posta başarıyla değiştirildi!",
-    resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
-    resellerClientUpdated: "Müşteri başarıyla güncellendi!",
-    resellerClientDeleted: "Müşteri başarıyla silindi!",
-    clientStatusUpdated: (status: string) => `Müşteri durumu ${status} olarak güncellendi.`,
     error: {
       generic: "Bir hata oluştu",
       createCampaign: "Kampanya oluşturulamadı",
@@ -471,15 +227,7 @@ export const tr = {
       updateCampaign: "Kampanya güncellenemedi",
       uploadCallList: "Arama listesi yüklenemedi",
       deleteCallList: "Arama listesi silinemedi",
-      uploadKnowledgeBase: "Bilgi bankası yüklenemedi",
-      deleteKnowledgeBase: "Bilgi bankası silinemedi",
-      uploadAudioFile: "Ses dosyası yüklenemedi",
-      deleteAudioFile: "Ses dosyası silinemedi",
       changePassword: "Şifre değiştirilemedi",
-      changeEmail: "E-posta değiştirilemedi",
-      createResellerClient: "Müşteri oluşturulamadı",
-      updateResellerClient: "Müşteri güncellenemedi",
-      deleteResellerClient: "Müşteri silinemedi",
     },
   },
 };

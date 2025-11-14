@@ -20,9 +20,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateCampaignSchema, type CreateCampaignData } from '@shared/types';
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
-import { useAgentStore } from '@/stores/useAgentStore';
-import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
-import { useAudioFileStore } from '@/stores/useAudioFileStore';
 import { useEffect } from 'react';
 import {
   Form,
@@ -33,38 +30,26 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { tr } from '@/lib/locales/tr';
-import { cn } from '@/lib/utils';
 interface CreateCampaignDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  campaignType: 'ai' | 'audio' | null;
 }
-export function CreateCampaignDialog({ open, onOpenChange, campaignType }: CreateCampaignDialogProps) {
+export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialogProps) {
   const addCampaign = useCampaignStore((state) => state.addCampaign);
   const callLists = useCallListStore((state) => state.callLists);
   const fetchCallLists = useCallListStore((state) => state.fetchCallLists);
-  const agents = useAgentStore((state) => state.agents);
-  const fetchAgents = useAgentStore((state) => state.fetchAgents);
-  const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
-  const { audioFiles, fetchAudioFiles } = useAudioFileStore();
   const form = useForm<CreateCampaignData>({
     resolver: zodResolver(CreateCampaignSchema),
     defaultValues: {
       name: '',
       callListId: '',
-      agentId: '',
-      knowledgeBaseId: '',
-      audioFileId: '',
     },
   });
   useEffect(() => {
     if (open) {
       fetchCallLists();
-      fetchAgents();
-      fetchKnowledgeBases();
-      fetchAudioFiles();
     }
-  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases, fetchAudioFiles]);
+  }, [open, fetchCallLists]);
   const onSubmit = async (data: CreateCampaignData) => {
     await addCampaign(data);
     form.reset();
@@ -72,7 +57,7 @@ export function CreateCampaignDialog({ open, onOpenChange, campaignType }: Creat
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[500px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{tr.createCampaignDialog.title}</DialogTitle>
           <DialogDescription>
@@ -110,82 +95,6 @@ export function CreateCampaignDialog({ open, onOpenChange, campaignType }: Creat
                       {callLists.map((list) => (
                         <SelectItem key={list.id} value={list.id}>
                           {list.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {campaignType === 'ai' && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="agentId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder={tr.createCampaignDialog.assignAgentsPlaceholder} />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {agents.map((agent) => (
-                            <SelectItem key={agent.id} value={agent.id}>
-                              {agent.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="knowledgeBaseId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{tr.createCampaignDialog.knowledgeBaseLabel}</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="ring-2 ring-blue-500">
-                            <SelectValue placeholder={tr.createCampaignDialog.knowledgeBasePlaceholder} />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {knowledgeBases.map((kb) => (
-                            <SelectItem key={kb.id} value={kb.id}>
-                              {kb.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
-            <FormField
-              control={form.control}
-              name="audioFileId"
-              render={({ field }) => (
-                <FormItem className={cn(campaignType === 'ai' && 'opacity-50')}>
-                  <FormLabel>{tr.createCampaignDialog.audioFileLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={campaignType === 'ai'}>
-                    <FormControl>
-                      <SelectTrigger className={cn(campaignType === 'audio' && 'ring-2 ring-blue-500')}>
-                        <SelectValue placeholder={tr.createCampaignDialog.audioFilePlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {audioFiles.map((af) => (
-                        <SelectItem key={af.id} value={af.id}>
-                          {af.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -26,7 +26,7 @@ import { toast } from 'sonner';
 import { tr } from '@/lib/locales/tr';
 export function SettingsPage() {
   const { settings, loading, fetchSettings, updateSettings } = useSettingsStore();
-  const form = useForm({
+  const form = useForm<Settings>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
       serverAddress: '',
@@ -36,7 +36,6 @@ export function SettingsPage() {
       dbPassword: '',
       timezone: 'est',
       emailNotifications: false,
-      pricePerMinute: 0,
       aiBasePricePerMinute: 0,
       aiAgentSipMinuteCost: 0,
       sippulseApiKey: '',
@@ -131,7 +130,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.connection.dbPort}</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="5432" {...field} value={Number(field.value) || ''} />
+                        <Input type="number" placeholder="5432" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -218,28 +217,12 @@ export function SettingsPage() {
               <CardContent className="space-y-4">
                 <FormField
                   control={form.control}
-                  name="pricePerMinute"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{tr.settingsPage.pricing.pricePerMinute}</FormLabel>
-                      <FormControl>
-                        <Input type="number" step="0.001" placeholder="e.g., 0.050" {...field} value={Number(field.value) || ''} />
-                      </FormControl>
-                      <FormDescription>
-                        {tr.settingsPage.pricing.pricePerMinuteDescription}
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
                   name="aiBasePricePerMinute"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>{tr.settingsPage.pricing.aiBasePrice}</FormLabel>
                       <FormControl>
-                        <Input type="number" step="0.001" placeholder="e.g., 0.025" {...field} value={Number(field.value) || ''} />
+                        <Input type="number" step="0.001" placeholder="e.g., 0.025" {...field} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.pricing.aiBasePriceDescription}
@@ -255,7 +238,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.pricing.sipCost}</FormLabel>
                       <FormControl>
-                        <Input type="number" step="0.001" placeholder="e.g., 0.015" {...field} value={Number(field.value) || ''} />
+                        <Input type="number" step="0.001" placeholder="e.g., 0.015" {...field} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.pricing.sipCostDescription}
@@ -279,7 +262,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.integrations.sippulseApiKey}</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="••••••••••••••••" {...field} value={field.value ?? ''} />
+                        <Input type="password" placeholder="••••••••••••••••" {...field} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.integrations.sippulseDescription}

@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Target, Phone, Percent } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
-import { tr } from '@/lib/locales/tr';
 const StatCard = ({ title, value, icon: Icon }: { title: string, value: string, icon: React.ElementType }) => (
   <Card className="shadow-sm">
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -65,33 +64,33 @@ export function CallListDetailPage() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold font-display">{selectedCallList.name}</h1>
-          <p className="text-sm text-muted-foreground">{tr.callListDetailPage.uploadedOn} {new Date(selectedCallList.uploadedAt).toLocaleDateString()}</p>
+          <p className="text-sm text-muted-foreground">Uploaded on {new Date(selectedCallList.uploadedAt).toLocaleDateString()}</p>
         </div>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <StatCard title={tr.callListDetailPage.totalLeads} value={selectedCallList.totalLeads.toLocaleString()} icon={Target} />
-        <StatCard title={tr.callListDetailPage.dialedLeads} value={selectedCallList.dialedLeads.toLocaleString()} icon={Phone} />
-        <StatCard title={tr.callListDetailPage.dialedPercentage} value={`${dialedPercentage}%`} icon={Percent} />
+        <StatCard title="Total Leads" value={selectedCallList.totalLeads.toLocaleString()} icon={Target} />
+        <StatCard title="Dialed Leads" value={selectedCallList.dialedLeads.toLocaleString()} icon={Phone} />
+        <StatCard title="Dialed Percentage" value={`${dialedPercentage}%`} icon={Percent} />
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>{tr.callListDetailPage.dialingProgress}</CardTitle>
+          <CardTitle>Dialing Progress</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-2 text-sm text-muted-foreground">
-            <span>{selectedCallList.dialedLeads.toLocaleString()} {tr.callListDetailPage.dialed}</span>
-            <span>{selectedCallList.totalLeads.toLocaleString()} {tr.callListDetailPage.total}</span>
+            <span>{selectedCallList.dialedLeads.toLocaleString()} dialed</span>
+            <span>{selectedCallList.totalLeads.toLocaleString()} total</span>
           </div>
           <Progress value={parseFloat(dialedPercentage)} className="h-4" />
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>{tr.callListDetailPage.leadsTitle}</CardTitle>
+          <CardTitle>Leads</CardTitle>
         </CardHeader>
         <CardContent className="pt-4">
           <p className="text-center text-muted-foreground">
-            {tr.callListDetailPage.leadsDescription}
+            A detailed view of individual leads will be available in a future update.
           </p>
         </CardContent>
       </Card>

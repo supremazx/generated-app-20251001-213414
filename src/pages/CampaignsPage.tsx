@@ -11,19 +11,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, MoreHorizontal, Loader2, Play, Pause, Square, BrainCircuit, Music } from "lucide-react";
+import { PlusCircle, MoreHorizontal, Loader2, Play, Pause, Square } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import type { Campaign, CampaignStatus } from "@shared/types";
 import { Progress } from "@/components/ui/progress";
 import { useCampaignStore } from '@/stores/useCampaignStore';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { CreateCampaignDialog } from '@/components/CreateCampaignDialog';
 import { EditCampaignDialog } from '@/components/EditCampaignDialog';
 import {
@@ -43,22 +41,18 @@ const statusColors: Record<CampaignStatus, string> = {
   Completed: "bg-blue-500 hover:bg-blue-600",
   Draft: "bg-gray-500 hover:bg-gray-600",
 };
-const statusTranslations: Record<CampaignStatus, string> = tr.campaignStatus;
 export function CampaignsPage() {
   const { campaigns, loading, fetchCampaigns, deleteCampaign, updateCampaignStatus } = useCampaignStore();
-  const user = useAuthStore(s => s.user);
   const [isCreateDialogOpen, setCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
-  const [campaignType, setCampaignType] = useState<'ai' | 'audio' | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
-    const userId = user?.role === 'user' ? user.id : undefined;
-    fetchCampaigns(userId);
-    const intervalId = setInterval(() => fetchCampaigns(userId), 5000); // Poll for updates from simulation
+    fetchCampaigns();
+    const intervalId = setInterval(fetchCampaigns, 5000); // Poll for updates from simulation
     return () => clearInterval(intervalId);
-  }, [fetchCampaigns, user]);
+  }, [fetchCampaigns]);
   const handleDeleteClick = (campaign: Campaign) => {
     setSelectedCampaign(campaign);
     setDeleteDialogOpen(true);
@@ -77,35 +71,15 @@ export function CampaignsPage() {
     setDeleteDialogOpen(false);
     setSelectedCampaign(null);
   };
-  const handleCreateCampaign = (type: 'ai' | 'audio') => {
-    setCampaignType(type);
-    setCreateDialogOpen(true);
-  };
   return (
     <>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>{tr.campaignsPage.title}</CardTitle>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                {tr.campaignsPage.newCampaign}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>{tr.createCampaignDialog.selectTypeTitle}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleCreateCampaign('ai')}>
-                <BrainCircuit className="mr-2 h-4 w-4" />
-                {tr.createCampaignDialog.createWithAi}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCreateCampaign('audio')}>
-                <Music className="mr-2 h-4 w-4" />
-                {tr.createCampaignDialog.createWithAudio}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button onClick={() => setCreateDialogOpen(true)}>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            {tr.campaignsPage.newCampaign}
+          </Button>
         </CardHeader>
         <CardContent>
           <Table>
@@ -139,7 +113,7 @@ export function CampaignsPage() {
                   <TableRow key={campaign.id} className="hover:bg-muted/50">
                     <TableCell className="font-medium">{campaign.name}</TableCell>
                     <TableCell>
-                      <Badge className={statusColors[campaign.status]}>{statusTranslations[campaign.status]}</Badge>
+                      <Badge className={statusColors[campaign.status]}>{campaign.status}</Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
@@ -185,7 +159,7 @@ export function CampaignsPage() {
           </Table>
         </CardContent>
       </Card>
-      <CreateCampaignDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} campaignType={campaignType} />
+      <CreateCampaignDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} />
       <EditCampaignDialog open={isEditDialogOpen} onOpenChange={setEditDialogOpen} campaign={selectedCampaign} />
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>

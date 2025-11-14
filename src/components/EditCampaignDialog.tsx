@@ -20,9 +20,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { EditCampaignSchema, type EditCampaignData, type Campaign } from '@shared/types';
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
-import { useAgentStore } from '@/stores/useAgentStore';
-import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
-import { useAudioFileStore } from '@/stores/useAudioFileStore';
 import { useEffect } from 'react';
 import {
   Form,
@@ -42,18 +39,11 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
   const updateCampaign = useCampaignStore((state) => state.updateCampaign);
   const callLists = useCallListStore((state) => state.callLists);
   const fetchCallLists = useCallListStore((state) => state.fetchCallLists);
-  const agents = useAgentStore((state) => state.agents);
-  const fetchAgents = useAgentStore((state) => state.fetchAgents);
-  const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
-  const { audioFiles, fetchAudioFiles } = useAudioFileStore();
   const form = useForm<EditCampaignData>({
     resolver: zodResolver(EditCampaignSchema),
     defaultValues: {
       name: '',
       callListId: '',
-      agentId: '',
-      knowledgeBaseId: '',
-      audioFileId: '',
     },
   });
   const { reset } = form;
@@ -62,20 +52,14 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
       reset({
         name: campaign.name,
         callListId: campaign.callListId,
-        agentId: campaign.agentId || '',
-        knowledgeBaseId: campaign.knowledgeBaseId || '',
-        audioFileId: campaign.audioFileId || '',
       });
     }
   }, [campaign, reset]);
   useEffect(() => {
     if (open) {
       fetchCallLists();
-      fetchAgents();
-      fetchKnowledgeBases();
-      fetchAudioFiles();
     }
-  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases, fetchAudioFiles]);
+  }, [open, fetchCallLists]);
   const onSubmit = async (data: EditCampaignData) => {
     if (!campaign) return;
     await updateCampaign(campaign.id, data);
@@ -84,7 +68,7 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[500px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{tr.editCampaignDialog.title}</DialogTitle>
           <DialogDescription>
@@ -122,78 +106,6 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
                       {callLists.map((list) => (
                         <SelectItem key={list.id} value={list.id}>
                           {list.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="agentId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={tr.createCampaignDialog.assignAgentsPlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {agents.map((agent) => (
-                        <SelectItem key={agent.id} value={agent.id}>
-                          {agent.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="knowledgeBaseId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tr.createCampaignDialog.knowledgeBaseLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={tr.createCampaignDialog.knowledgeBasePlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {knowledgeBases.map((kb) => (
-                        <SelectItem key={kb.id} value={kb.id}>
-                          {kb.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="audioFileId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tr.createCampaignDialog.audioFileLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={tr.createCampaignDialog.audioFilePlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {audioFiles.map((af) => (
-                        <SelectItem key={af.id} value={af.id}>
-                          {af.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

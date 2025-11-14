@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserDashboardStore } from '@/stores/useUserDashboardStore';
-import { DollarSign, Bot, Phone, Timer, UserCog, TrendingUp } from 'lucide-react';
+import { DollarSign, Bot, Phone, Timer, KeyRound, TrendingUp } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { ChangePasswordDialog } from '@/components/ChangePasswordDialog';
 import { tr } from '@/lib/locales/tr';
 const InfoCard = ({ title, value, icon: Icon }: { title: string, value: string | number, icon: React.ElementType }) => (
   <div className="flex items-center space-x-4">
@@ -25,7 +25,7 @@ const formatDuration = (seconds: number) => {
 };
 export function UserDashboardPage() {
   const { userInfo, loading, fetchUserInfo } = useUserDashboardStore();
-  const navigate = useNavigate();
+  const [isPasswordDialogOpen, setPasswordDialogOpen] = useState(false);
   useEffect(() => {
     fetchUserInfo();
   }, [fetchUserInfo]);
@@ -74,9 +74,9 @@ export function UserDashboardPage() {
                 <h1 className="text-3xl font-bold font-display">{userInfo.userName}</h1>
                 <p className="text-lg text-muted-foreground">{userInfo.userEmail}</p>
               </div>
-              <Button variant="outline" className="ml-auto" onClick={() => navigate('/account-settings')}>
-                <UserCog className="mr-2 h-4 w-4" />
-                {tr.userDashboardPage.accountSettings}
+              <Button variant="outline" className="ml-auto" onClick={() => setPasswordDialogOpen(true)}>
+                <KeyRound className="mr-2 h-4 w-4" />
+                {tr.userDashboardPage.changePassword}
               </Button>
             </div>
           </div>
@@ -120,6 +120,7 @@ export function UserDashboardPage() {
             </CardContent>
         </Card>
       </div>
+      <ChangePasswordDialog open={isPasswordDialogOpen} onOpenChange={setPasswordDialogOpen} />
     </>
   );
 }
