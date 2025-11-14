@@ -77,7 +77,7 @@ export const tr = {
     uploadList: "Liste Yükle",
     table: {
       name: "İsim",
-      totalLeads: "Toplam Ki��i",
+      totalLeads: "Toplam Kişi",
       dialedLeads: "Aranan Kişi",
       uploadedAt: "Yüklenme Tarihi",
       actions: "Eylemler",
@@ -177,7 +177,7 @@ export const tr = {
     integrations: {
         title: "Yapay Zeka Sağlayıcı",
         description: "Dinamik fiyatlandırma için harici servislere bağlanın.",
-        sippulseApiKey: "vogent.ai API Anahtarı",
+        sippulseApiKey: "Yapay Zeka Sağlayıcı Anahtarı",
         sippulseDescription: "AI dakikaları için dinamik, gerçek zamanlı fiyatlandırmayı etkinleştirir.",
     },
   },
@@ -249,9 +249,9 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
-    namePlaceholder: "Örn., 4. ��eyrek Satışları",
+    namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
     callListPlaceholder: "Bir arama listesi seçin",
     assignAgentsLabel: "Agent Ata",
