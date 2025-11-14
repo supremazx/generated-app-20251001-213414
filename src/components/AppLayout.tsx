@@ -9,6 +9,7 @@ import {
   Power,
   CreditCard,
   Briefcase,
+  BrainCircuit,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -32,6 +33,12 @@ const navGroups = [
       { href: '/campaigns', label: tr.nav.campaigns, icon: PhoneCall },
       { href: '/call-lists', label: tr.nav.callLists, icon: List },
     ],
+  },
+  {
+    title: tr.nav.vogent.title,
+    items: [
+      { href: '/knowledge-base', label: tr.nav.vogent.knowledgeBase, icon: BrainCircuit },
+    ]
   },
   {
     title: tr.nav.account,
