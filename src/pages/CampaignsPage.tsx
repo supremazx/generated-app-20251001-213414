@@ -41,6 +41,7 @@ const statusColors: Record<CampaignStatus, string> = {
   Completed: "bg-blue-500 hover:bg-blue-600",
   Draft: "bg-gray-500 hover:bg-gray-600",
 };
+const statusTranslations: Record<CampaignStatus, string> = tr.campaignStatus;
 export function CampaignsPage() {
   const { campaigns, loading, fetchCampaigns, deleteCampaign, updateCampaignStatus } = useCampaignStore();
   const [isCreateDialogOpen, setCreateDialogOpen] = useState(false);
@@ -113,7 +114,7 @@ export function CampaignsPage() {
                   <TableRow key={campaign.id} className="hover:bg-muted/50">
                     <TableCell className="font-medium">{campaign.name}</TableCell>
                     <TableCell>
-                      <Badge className={statusColors[campaign.status]}>{campaign.status}</Badge>
+                      <Badge className={statusColors[campaign.status]}>{statusTranslations[campaign.status]}</Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">

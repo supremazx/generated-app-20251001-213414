@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CampaignStatus } from '@shared/types';
+import { tr } from '@/lib/locales/tr';
 const statusColors: Record<CampaignStatus, string> = {
   Active: "bg-green-500 hover:bg-green-600",
   Paused: "bg-yellow-500 hover:bg-yellow-600",
@@ -62,7 +63,7 @@ export function CampaignDetailPage() {
       </div>
     );
   }
-  const connectionRate = selectedCampaign.dialedLeads > 0 
+  const connectionRate = selectedCampaign.dialedLeads > 0
     ? ((selectedCampaign.connections / selectedCampaign.dialedLeads) * 100).toFixed(1)
     : '0.0';
   return (
@@ -73,34 +74,33 @@ export function CampaignDetailPage() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold font-display">{selectedCampaign.name}</h1>
-          <Badge className={statusColors[selectedCampaign.status]}>{selectedCampaign.status}</Badge>
+          <Badge className={statusColors[selectedCampaign.status]}>{tr.campaignStatus[selectedCampaign.status]}</Badge>
         </div>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Leads" value={selectedCampaign.totalLeads.toLocaleString()} icon={Target} />
-        <StatCard title="Dialed Leads" value={selectedCampaign.dialedLeads.toLocaleString()} icon={Phone} />
-        <StatCard title="Connections" value={selectedCampaign.connections.toLocaleString()} icon={CheckCircle} />
-        <StatCard title="Connection Rate" value={`${connectionRate}%`} icon={Percent} />
+        <StatCard title={tr.campaignDetailPage.totalLeads} value={selectedCampaign.totalLeads.toLocaleString()} icon={Target} />
+        <StatCard title={tr.campaignDetailPage.dialedLeads} value={selectedCampaign.dialedLeads.toLocaleString()} icon={Phone} />
+        <StatCard title={tr.campaignDetailPage.connections} value={selectedCampaign.connections.toLocaleString()} icon={CheckCircle} />
+        <StatCard title={tr.campaignDetailPage.connectionRate} value={`${connectionRate}%`} icon={Percent} />
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Campaign Progress</CardTitle>
+          <CardTitle>{tr.campaignDetailPage.progress}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-2 text-sm text-muted-foreground">
-            <span>{selectedCampaign.dialedLeads.toLocaleString()} dialed</span>
-            <span>{selectedCampaign.totalLeads.toLocaleString()} total</span>
+            <span>{selectedCampaign.dialedLeads.toLocaleString()} arandı</span>
+            <span>{selectedCampaign.totalLeads.toLocaleString()} toplam</span>
           </div>
           <Progress value={(selectedCampaign.dialedLeads / selectedCampaign.totalLeads) * 100} className="h-4" />
         </CardContent>
       </Card>
-      {/* Placeholder for more detailed charts or tables */}
       <Card>
         <CardHeader>
-          <CardTitle>Call List Details</CardTitle>
+          <CardTitle>{tr.campaignDetailPage.callListDetails}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">Detailed call list information will be displayed here in a future update.</p>
+          <p className="text-muted-foreground">{tr.campaignDetailPage.callListDescription}</p>
         </CardContent>
       </Card>
     </div>

@@ -18,6 +18,13 @@ export const tr = {
       billing: "Faturalandırma",
     },
   },
+  // Campaign Statuses
+  campaignStatus: {
+    Active: "Aktif",
+    Paused: "Duraklatıldı",
+    Completed: "Tamamlandı",
+    Draft: "Taslak",
+  },
   // Dashboard Page
   dashboardPage: {
     title: "Kontrol Paneli",
@@ -61,6 +68,16 @@ export const tr = {
     },
     emptyState: "Kampanya bulunamadı. Başlamak için bir tane oluşturun.",
   },
+  // Campaign Detail Page
+  campaignDetailPage: {
+    totalLeads: "Toplam Potansiyel Müşteri",
+    dialedLeads: "Aranan Potansiyel Müşteri",
+    connections: "Bağlantılar",
+    connectionRate: "Bağlantı Oranı",
+    progress: "Kampanya İlerlemesi",
+    callListDetails: "Arama Listesi Detayları",
+    callListDescription: "Detaylı arama listesi bilgileri gelecekteki bir güncellemede burada görüntülenecektir.",
+  },
   // Agents Page
   agentsPage: {
     title: "Operatörler",
@@ -93,6 +110,19 @@ export const tr = {
       confirm: "Sil",
     },
     emptyState: "Arama listesi bulunamadı. Başlamak için bir tane yükleyin.",
+  },
+  // Call List Detail Page
+  callListDetailPage: {
+    title: "Arama Listesi Detayları",
+    uploadedOn: "Yüklenme Tarihi",
+    totalLeads: "Toplam Potansiyel Müşteri",
+    dialedLeads: "Aranan Potansiyel Müşteri",
+    dialedPercentage: "Aranma Yüzdesi",
+    dialingProgress: "Arama İlerlemesi",
+    dialed: "arandı",
+    total: "toplam",
+    leadsTitle: "Potansiyel Müşteriler",
+    leadsDescription: "Bireysel potansiyel müşterilerin detaylı görünümü gelecekteki bir güncellemede mevcut olacaktır.",
   },
   // Billing Page
   billingPage: {
@@ -249,7 +279,7 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
