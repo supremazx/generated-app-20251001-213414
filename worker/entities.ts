@@ -29,6 +29,7 @@ export class SettingsEntity extends Entity<Settings> {
         dbPassword: '',
         timezone: 'est',
         emailNotifications: false,
+        pricePerMinute: 0.050,
         aiBasePricePerMinute: 0.025,
         aiAgentSipMinuteCost: 0.015,
         sippulseApiKey: '',
@@ -65,11 +66,7 @@ export class BillingService {
         const aiServiceCostPerMinute = settings.aiBasePricePerMinute;
         const sipCostPerMinute = settings.aiAgentSipMinuteCost;
         const totalBaseCostPerMinute = aiServiceCostPerMinute + sipCostPerMinute;
-        // Simulate fetching dynamic price. If Sippulse API key is present, we get a better rate.
-        const basePrice = settings.sippulseApiKey ? 0.048 : 0.050;
-        const pricePerMinute = await new Promise<number>(resolve =>
-            setTimeout(() => resolve(basePrice + Math.random() * 0.002 - 0.001), 200)
-        );
+        const pricePerMinute = settings.pricePerMinute;
         const { currentUsageMinutes, cycleEndDate, history } = MOCK_BILLING_INFO;
         const profitPerMinute = pricePerMinute - totalBaseCostPerMinute;
         const totalProfit = profitPerMinute * currentUsageMinutes;

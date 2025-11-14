@@ -36,6 +36,7 @@ export function SettingsPage() {
       dbPassword: '',
       timezone: 'est',
       emailNotifications: false,
+      pricePerMinute: 0,
       aiBasePricePerMinute: 0,
       aiAgentSipMinuteCost: 0,
       sippulseApiKey: '',
@@ -215,6 +216,22 @@ export function SettingsPage() {
                 <CardDescription>{tr.settingsPage.pricing.description}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="pricePerMinute"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{tr.settingsPage.pricing.pricePerMinute}</FormLabel>
+                      <FormControl>
+                        <Input type="number" step="0.001" placeholder="e.g., 0.050" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        {tr.settingsPage.pricing.pricePerMinuteDescription}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="aiBasePricePerMinute"

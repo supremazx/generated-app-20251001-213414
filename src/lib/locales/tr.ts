@@ -99,7 +99,7 @@ export const tr = {
       pricePerMinute: "/dk",
     },
     profitabilityAnalysis: {
-      title: "Kârlılık Analizi",
+      title: "K��rlılık Analizi",
       aiServiceCost: "AI Servis Maliyeti",
       sipCost: "SIP Maliyeti",
       profitMargin: "Kâr Marjı",
@@ -161,6 +161,8 @@ export const tr = {
     pricing: {
       title: "Fiyatlandırma Yapılandırması",
       description: "Kârlılık analizi için iç maliyetleri belirleyin.",
+      pricePerMinute: "Kullanıcı Dakika Başına Fiyatı",
+      pricePerMinuteDescription: "Kullanıcılardan AI dakikası başına alınacak ücret.",
       aiBasePrice: "AI Dakika Başına Taban Fiyatı",
       aiBasePriceDescription: "AI servisleri için dakika başına iç maliyetiniz.",
       sipCost: "AI Agent SIP Dakika Maliyeti",
