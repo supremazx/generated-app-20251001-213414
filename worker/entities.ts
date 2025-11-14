@@ -149,7 +149,7 @@ export class DialerSimulationService {
 export class ResellerClientEntity extends IndexedEntity<ResellerClient> {
   static readonly entityName = "resellerClient";
   static readonly indexName = "resellerClients";
-  static readonly initialState: ResellerClient = { id: "", companyName: "", contactEmail: "", status: 'Active', provisionedAgents: 0, monthlySpend: 0, createdAt: '' };
+  static readonly initialState: ResellerClient = { id: "", companyName: "", contactEmail: "", status: 'Active', agentId: '', createdAt: '' };
   static seedData = MOCK_RESELLER_CLIENTS;
 }
 export class ResellerDashboardService {

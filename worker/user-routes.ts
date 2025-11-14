@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import type { Env } from './core-utils';
 import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -198,14 +198,13 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     if (!validation.success) {
       return bad(c, 'Invalid client data');
     }
-    const { companyName, contactEmail, provisionedAgents } = validation.data;
+    const { companyName, contactEmail, agentId } = validation.data;
     const newClient: ResellerClient = {
       id: `rc-${crypto.randomUUID().slice(0, 8)}`,
       companyName,
       contactEmail,
-      provisionedAgents,
+      agentId,
       status: 'Active',
-      monthlySpend: provisionedAgents * 125, // Example calculation
       createdAt: new Date().toISOString(),
     };
     await ResellerClientEntity.create(c.env, newClient);
@@ -233,6 +232,22 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       return notFound(c, 'Client not found');
     }
     return ok(c, { id });
+  });
+  app.post('/api/clients/:id/status', async (c) => {
+    const id = c.req.param('id');
+    const body = await c.req.json();
+    const validation = UpdateClientStatusSchema.safeParse(body);
+    if (!validation.success) {
+        return bad(c, 'Invalid status data');
+    }
+    const { status } = validation.data;
+    const clientEntity = new ResellerClientEntity(c.env, id);
+    if (!(await clientEntity.exists())) {
+        return notFound(c, 'Client not found');
+    }
+    await clientEntity.patch({ status });
+    const updatedClient = await clientEntity.getState();
+    return ok(c, updatedClient);
   });
   // RESELLER PANEL
   app.get('/api/reseller/dashboard', async (c) => {

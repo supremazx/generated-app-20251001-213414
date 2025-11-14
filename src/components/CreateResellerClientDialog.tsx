@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,10 +9,18 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateResellerClientSchema, type CreateResellerClientData } from '@shared/types';
 import { useResellerClientsStore } from '@/stores/useResellerClientsStore';
+import { useAgentStore } from '@/stores/useAgentStore';
 import {
   Form,
   FormControl,
@@ -27,14 +36,21 @@ interface CreateResellerClientDialogProps {
 }
 export function CreateResellerClientDialog({ open, onOpenChange }: CreateResellerClientDialogProps) {
   const addClient = useResellerClientsStore((state) => state.addClient);
+  const agents = useAgentStore((state) => state.agents);
+  const fetchAgents = useAgentStore((state) => state.fetchAgents);
   const form = useForm<CreateResellerClientData>({
     resolver: zodResolver(CreateResellerClientSchema),
     defaultValues: {
       companyName: '',
       contactEmail: '',
-      provisionedAgents: 1,
+      agentId: '',
     },
   });
+  useEffect(() => {
+    if (open) {
+      fetchAgents();
+    }
+  }, [open, fetchAgents]);
   const onSubmit = async (data: CreateResellerClientData) => {
     const client = await addClient(data);
     if (client) {
@@ -75,11 +91,24 @@ export function CreateResellerClientDialog({ open, onOpenChange }: CreateReselle
             />
             <FormField
               control={form.control}
-              name="provisionedAgents"
+              name="agentId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{tr.createResellerClientDialog.provisionedAgentsLabel}</FormLabel>
-                  <FormControl><Input type="number" min="1" {...field} /></FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={tr.createCampaignDialog.assignAgentsPlaceholder} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {agents.map((agent) => (
+                        <SelectItem key={agent.id} value={agent.id}>
+                          {agent.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

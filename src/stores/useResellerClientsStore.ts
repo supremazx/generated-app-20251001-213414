@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { api } from '@/lib/api-client';
-import type { ResellerClient, CreateResellerClientData, EditResellerClientData } from '@shared/types';
+import type { ResellerClient, CreateResellerClientData, EditResellerClientData, ClientStatus } from '@shared/types';
 import { toast } from 'sonner';
 import { tr } from '@/lib/locales/tr';
 interface ResellerClientsState {
@@ -12,6 +12,7 @@ interface ResellerClientsState {
   addClient: (newClient: CreateResellerClientData) => Promise<ResellerClient | undefined>;
   updateClient: (id: string, data: EditResellerClientData) => Promise<void>;
   deleteClient: (id: string) => Promise<void>;
+  updateClientStatus: (id: string, status: ClientStatus) => Promise<void>;
 }
 export const useResellerClientsStore = create<ResellerClientsState>()(
   immer((set) => ({
@@ -76,6 +77,25 @@ export const useResellerClientsStore = create<ResellerClientsState>()(
         const errorMessage = error instanceof Error ? error.message : tr.toasts.error.deleteResellerClient;
         toast.error(errorMessage);
         console.error("Failed to delete client:", error);
+      }
+    },
+    updateClientStatus: async (id: string, status: ClientStatus) => {
+      try {
+        const updatedClient = await api<ResellerClient>(`/api/clients/${id}/status`, {
+          method: 'POST',
+          body: JSON.stringify({ status }),
+        });
+        set((state) => {
+          const index = state.clients.findIndex((c) => c.id === id);
+          if (index !== -1) {
+            state.clients[index] = updatedClient;
+          }
+        });
+        toast.success(`Client status updated to ${status}.`);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to update client status.';
+        toast.error(errorMessage);
+        console.error("Failed to update client status:", error);
       }
     },
   }))
