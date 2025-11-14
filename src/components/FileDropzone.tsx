@@ -6,15 +6,25 @@ interface FileDropzoneProps {
   onFileChange: (file: File | null) => void;
   className?: string;
   file: File | null;
+  accept?: string;
+  acceptedMimeTypes?: string[];
+  description?: string;
 }
-export function FileDropzone({ onFileChange, className, file }: FileDropzoneProps) {
+export function FileDropzone({
+  onFileChange,
+  className,
+  file,
+  accept = ".csv",
+  acceptedMimeTypes = ['text/csv'],
+  description = "Drag 'n' drop a CSV file here, or click to select"
+}: FileDropzoneProps) {
   const [isDragActive, setIsDragActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const handleFile = useCallback((selectedFile: File | null) => {
     setError(null);
     if (selectedFile) {
-      if (selectedFile.type !== 'text/csv') {
-        setError('Only .csv files are accepted.');
+      if (!acceptedMimeTypes.includes(selectedFile.type)) {
+        setError(`Invalid file type. Please upload one of: ${accept}`);
         onFileChange(null);
         return;
       }
@@ -25,7 +35,7 @@ export function FileDropzone({ onFileChange, className, file }: FileDropzoneProp
       }
     }
     onFileChange(selectedFile);
-  }, [onFileChange]);
+  }, [onFileChange, accept, acceptedMimeTypes]);
   const handleDrag = useCallback((e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -70,7 +80,7 @@ export function FileDropzone({ onFileChange, className, file }: FileDropzoneProp
         id="file-upload"
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         onChange={handleChange}
-        accept=".csv"
+        accept={accept}
       />
       {file ? (
         <div className="flex flex-col items-center justify-center gap-4">
@@ -91,7 +101,7 @@ export function FileDropzone({ onFileChange, className, file }: FileDropzoneProp
         <div className="flex flex-col items-center justify-center gap-4">
           <UploadCloud className="w-12 h-12 text-muted-foreground" />
           <p className="text-muted-foreground">
-            {isDragActive ? 'Drop the file here...' : "Drag 'n' drop a CSV file here, or click to select"}
+            {isDragActive ? 'Drop the file here...' : description}
           </p>
           {error && <p className="text-sm text-destructive">{error}</p>}
         </div>
