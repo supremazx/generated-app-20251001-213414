@@ -100,6 +100,7 @@ export const SettingsSchema = z.object({
   dbPassword: z.string(),
   timezone: z.string(),
   emailNotifications: z.boolean(),
+  pricePerMinute: z.coerce.number().min(0, "Price must be a positive number."),
   aiBasePricePerMinute: z.coerce.number().min(0, "Price must be a positive number."),
   aiAgentSipMinuteCost: z.coerce.number().min(0, "Cost must be a positive number."),
   sippulseApiKey: z.string().optional(),
