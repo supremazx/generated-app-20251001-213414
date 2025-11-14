@@ -36,7 +36,6 @@ const navGroups = [
   {
     title: tr.nav.account,
     items: [
-      { href: '/clients', label: tr.nav.clients, icon: Users },
       { href: '/billing', label: tr.nav.billing, icon: CreditCard },
       { href: '/settings', label: tr.nav.settings, icon: Settings },
     ],
@@ -44,7 +43,8 @@ const navGroups = [
   {
     title: tr.nav.reseller.title,
     items: [
-        { href: '/reseller/dashboard', label: tr.nav.reseller.dashboard, icon: LayoutDashboard },
+        { href: '/reseller/dashboard', label: tr.nav.reseller.dashboard, icon: Briefcase },
+        { href: '/clients', label: tr.nav.clients, icon: Users },
         { href: '/reseller/billing', label: tr.nav.reseller.billing, icon: CreditCard },
     ]
   }
