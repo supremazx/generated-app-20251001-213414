@@ -11,7 +11,6 @@ export class AgentEntity extends IndexedEntity<Agent> {
   static readonly entityName = "agent";
   static readonly indexName = "agents";
   static readonly initialState: Agent = { id: "", name: "", extension: "", status: 'Offline', currentCallDuration: 0, avatarUrl: '' };
-  static seedData = MOCK_AGENTS;
 }
 export class CallListEntity extends IndexedEntity<CallList> {
     static readonly entityName = "callList";
@@ -41,7 +40,7 @@ export class SettingsEntity extends Entity<Settings> {
 export class DialerStatsService {
     static async getStats(env: Env): Promise<DialerStats> {
         const campaigns = (await CampaignEntity.list(env)).items;
-        const agents = (await AgentEntity.list(env)).items;
+        const agents = await VogentAgentService.list();
         const activeCampaigns = campaigns.filter(c => c.status === 'Active');
         const totalCallsMade = campaigns.reduce((sum, c) => sum + c.dialedLeads, 0);
         const totalConnections = campaigns.reduce((sum, c) => sum + c.connections, 0);
@@ -164,5 +163,12 @@ export class ResellerBillingService {
     static async getInfo(env: Env): Promise<ResellerBillingInfo> {
         // In a real implementation, this would calculate stats from ResellerClientEntity and their usage
         return MOCK_RESELLER_BILLING_INFO;
+    }
+}
+export class VogentAgentService {
+    static async list(): Promise<Agent[]> {
+        // This simulates fetching agents from an external vogent.ai system.
+        // In a real implementation, this would make an API call.
+        return Promise.resolve(MOCK_AGENTS);
     }
 }

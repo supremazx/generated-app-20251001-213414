@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService } from "./entities";
 import { ok, bad, notFound } from './core-utils';
 import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
@@ -111,9 +111,8 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   });
   // AGENTS
   app.get('/api/agents', async (c) => {
-    await AgentEntity.ensureSeed(c.env);
-    const page = await AgentEntity.list(c.env);
-    return ok(c, page.items);
+    const agents = await VogentAgentService.list();
+    return ok(c, agents);
   });
   // CALL LISTS
   app.get('/api/call-lists', async (c) => {
