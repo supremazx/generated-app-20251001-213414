@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -162,6 +162,46 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const deleted = await CallListEntity.delete(c.env, id);
     if (!deleted) {
       return notFound(c, 'Call list not found');
+    }
+    return ok(c, { id });
+  });
+  // KNOWLEDGE BASES
+  app.get('/api/knowledge-bases', async (c) => {
+    const page = await KnowledgeBaseEntity.list(c.env);
+    return ok(c, page.items);
+  });
+  app.post('/api/knowledge-bases', async (c) => {
+    const formData = await c.req.formData();
+    const file = formData.get('file');
+    const name = formData.get('name');
+    if (!(file instanceof File)) {
+      return bad(c, 'File is required');
+    }
+    if (typeof name !== 'string' || name.length < 3) {
+      return bad(c, 'Knowledge base name must be at least 3 characters long.');
+    }
+    try {
+      const fileContent = await file.text();
+      const lineCount = fileContent.split('\n').filter(line => line.trim() !== '').length;
+      const leadCount = Math.max(0, lineCount > 0 ? lineCount - 1 : 0); // Subtract header
+      const newKnowledgeBase: KnowledgeBase = {
+        id: crypto.randomUUID(),
+        name,
+        leadCount,
+        uploadedAt: new Date().toISOString(),
+      };
+      await KnowledgeBaseEntity.create(c.env, newKnowledgeBase);
+      return ok(c, newKnowledgeBase);
+    } catch (e) {
+      console.error("Error parsing CSV for knowledge base:", e);
+      return bad(c, 'Could not parse the uploaded CSV file.');
+    }
+  });
+  app.delete('/api/knowledge-bases/:id', async (c) => {
+    const id = c.req.param('id');
+    const deleted = await KnowledgeBaseEntity.delete(c.env, id);
+    if (!deleted) {
+      return notFound(c, 'Knowledge base not found');
     }
     return ok(c, { id });
   });

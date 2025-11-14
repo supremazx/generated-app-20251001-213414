@@ -23,6 +23,7 @@ import { UserDashboardPage } from "@/pages/UserDashboardPage";
 import { ResellerDashboardPage } from "@/pages/reseller/ResellerDashboardPage";
 import { ClientsPage } from "@/pages/ClientsPage";
 import { ResellerBillingPage } from "@/pages/reseller/ResellerBillingPage";
+import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: "agents", element: <AgentsPage /> },
       { path: "call-lists", element: <CallListsPage /> },
       { path: "call-lists/:callListId", element: <CallListDetailPage /> },
+      { path: "knowledge-base", element: <KnowledgeBasePage /> },
       { path: "clients", element: <ClientsPage /> },
       { path: "billing", element: <BillingPage /> },
       { path: "settings", element: <SettingsPage /> },

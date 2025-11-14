@@ -8,7 +8,7 @@ interface KnowledgeBaseState {
   knowledgeBases: KnowledgeBase[];
   loading: boolean;
   error: string | null;
-  fetchKnowledgeBases: (userId?: string) => Promise<void>;
+  fetchKnowledgeBases: () => Promise<void>;
   addKnowledgeBase: (formData: FormData) => Promise<KnowledgeBase | undefined>;
   deleteKnowledgeBase: (id: string) => Promise<void>;
 }
@@ -28,11 +28,10 @@ export const useKnowledgeBaseStore = create<KnowledgeBaseState>()(
     knowledgeBases: [],
     loading: false,
     error: null,
-    fetchKnowledgeBases: async (userId?: string) => {
+    fetchKnowledgeBases: async () => {
       set({ loading: true, error: null });
       try {
-        const url = userId ? `/api/knowledge-bases?userId=${userId}` : '/api/knowledge-bases';
-        const knowledgeBases = await api<KnowledgeBase[]>(url);
+        const knowledgeBases = await api<KnowledgeBase[]>('/api/knowledge-bases');
         set({ knowledgeBases, loading: false });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to fetch knowledge bases';

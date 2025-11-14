@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { UploadKnowledgeBaseDialog } from '@/components/UploadKnowledgeBaseDialog';
 import {
   AlertDialog,
@@ -32,14 +31,12 @@ import {
 import { tr } from '@/lib/locales/tr';
 export function KnowledgeBasePage() {
   const { knowledgeBases, loading, fetchKnowledgeBases, deleteKnowledgeBase } = useKnowledgeBaseStore();
-  const user = useAuthStore(s => s.user);
   const [isUploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   useEffect(() => {
-    const userId = user?.role === 'user' ? user.id : undefined;
-    fetchKnowledgeBases(userId);
-  }, [fetchKnowledgeBases, user]);
+    fetchKnowledgeBases();
+  }, [fetchKnowledgeBases]);
   const handleDeleteClick = (id: string) => {
     setSelectedId(id);
     setDeleteDialogOpen(true);

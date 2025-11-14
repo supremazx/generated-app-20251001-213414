@@ -9,7 +9,7 @@ export const tr = {
     callLists: "Arama Listeleri",
     account: "Hesap",
     clients: "Müşteriler",
-    billing: "Faturalandırma",
+    billing: "Analiz ve Faturalandırma",
     settings: "Ayarlar",
     logout: "Çıkış Yap",
     reseller: {
@@ -17,6 +17,10 @@ export const tr = {
       dashboard: "Bayi Paneli",
       billing: "Faturalandırma",
     },
+    vogent: {
+      title: "Vogent.ai",
+      knowledgeBase: "Bilgi Bankası",
+    }
   },
   // Campaign Statuses
   campaignStatus: {
@@ -45,7 +49,7 @@ export const tr = {
     title: "Kampanyalar",
     newCampaign: "Yeni Kampanya",
     table: {
-      name: "İsim",
+      name: "��sim",
       status: "Durum",
       progress: "İlerleme",
       connections: "Bağlantılar",
@@ -124,9 +128,30 @@ export const tr = {
     leadsTitle: "Potansiyel Müşteriler",
     leadsDescription: "Bireysel potansiyel müşterilerin detaylı görünümü gelecekteki bir güncellemede mevcut olacaktır.",
   },
+  // Knowledge Base Page
+  knowledgeBasePage: {
+    title: "Vogent.ai Bilgi Bankası",
+    upload: "Yükle",
+    table: {
+      name: "İsim",
+      leadCount: "Kişi Sayısı",
+      uploadedAt: "Yüklenme Tarihi",
+      actions: "Eylemler",
+    },
+    actions: {
+      delete: "Sil",
+    },
+    deleteDialog: {
+      title: "Emin misiniz?",
+      description: "Bu eylem geri alınamaz. Bu, bilgi bankasını kalıcı olarak silecektir.",
+      cancel: "İptal",
+      confirm: "Sil",
+    },
+    emptyState: "Bilgi bankası bulunamadı. Başlamak için bir tane yükleyin.",
+  },
   // Billing Page
   billingPage: {
-    title: "Faturalandırma",
+    title: "Analiz ve Faturalandırma",
     usageOverview: "Kullanım Özeti",
     statCards: {
       currentUsage: "Mevcut Kullanım",
@@ -279,7 +304,7 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
@@ -304,6 +329,15 @@ export const tr = {
     fileDescription: "Sürükleyip bırakın veya seçmek için tıklayın",
     cancel: "İptal",
     submit: "Listeyi Yükle",
+  },
+  uploadKnowledgeBaseDialog: {
+    title: "Yeni Bilgi Bankası Yükle",
+    description: "Bir isim belirtin ve verilerinizi içeren bir CSV dosyası yükleyin.",
+    nameLabel: "Bilgi Bankası Adı",
+    namePlaceholder: "Örn., Ürün Bilgileri",
+    fileLabel: "CSV Dosyası",
+    cancel: "İptal",
+    submit: "Yükle",
   },
   changePasswordDialog: {
     title: "Şifre Değiştir",
@@ -339,6 +373,8 @@ export const tr = {
     campaignUpdated: "Kampanya başarıyla güncellendi!",
     callListUploaded: "Arama listesi başarıyla yüklendi!",
     callListDeleted: "Arama listesi başarıyla silindi!",
+    knowledgeBaseUploaded: "Bilgi bankası başarıyla yüklendi!",
+    knowledgeBaseDeleted: "Bilgi bankası başarıyla silindi!",
     settingsSaved: "Ayarlar başarıyla kaydedildi!",
     passwordChanged: "Şifre başarıyla değiştirildi!",
     resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
@@ -353,6 +389,8 @@ export const tr = {
       updateCampaign: "Kampanya güncellenemedi",
       uploadCallList: "Arama listesi yüklenemedi",
       deleteCallList: "Arama listesi silinemedi",
+      uploadKnowledgeBase: "Bilgi bankası yüklenemedi",
+      deleteKnowledgeBase: "Bilgi bankası silinemedi",
       changePassword: "Şifre değiştirilemedi",
       createResellerClient: "Müşteri oluşturulamadı",
       updateResellerClient: "Müşteri güncellenemedi",

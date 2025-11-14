@@ -33,6 +33,12 @@ export interface CallList {
   dialedLeads: number;
   uploadedAt: string;
 }
+export interface KnowledgeBase {
+  id: string;
+  name: string;
+  uploadedAt: string;
+  leadCount: number;
+}
 export interface DialerStats {
   callsMade: number;
   connectionRate: number;
@@ -94,6 +100,17 @@ export const CreateCallListSchema = z.object({
     ),
 });
 export type CreateCallListData = z.infer<typeof CreateCallListSchema>;
+export const CreateKnowledgeBaseSchema = z.object({
+  name: z.string().min(3, { message: "Knowledge base name must be at least 3 characters long." }),
+  file: z.instanceof(File, { message: 'A CSV file is required.' })
+    .refine((file) => file.size > 0, 'A CSV file is required.')
+    .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
+    .refine(
+      (file) => ACCEPTED_FILE_TYPES.includes(file.type),
+      'Only .csv files are accepted.'
+    ),
+});
+export type CreateKnowledgeBaseData = z.infer<typeof CreateKnowledgeBaseSchema>;
 export const SettingsSchema = z.object({
   serverAddress: z.string().min(1, "Server address is required."),
   dbHost: z.string().min(1, "Database host is required."),
