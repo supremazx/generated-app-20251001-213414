@@ -279,7 +279,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.integrations.sippulseApiKey}</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="••••••••••••••••" {...field} />
+                        <Input type="password" placeholder="••••••••••••••••" {...field} value={field.value ?? ''} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.integrations.sippulseDescription}

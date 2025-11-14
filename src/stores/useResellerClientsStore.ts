@@ -91,7 +91,7 @@ export const useResellerClientsStore = create<ResellerClientsState>()(
             state.clients[index] = updatedClient;
           }
         });
-        toast.success(`Client status updated to ${status}.`);
+        toast.success(tr.toasts.clientStatusUpdated(status));
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to update client status.';
         toast.error(errorMessage);
