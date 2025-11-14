@@ -11,7 +11,7 @@ export interface Campaign {
   name: string;
   status: CampaignStatus;
   callListId: string;
-  agentIds: string[];
+  agentId: string;
   totalLeads: number;
   dialedLeads: number;
   connections: number;
@@ -72,7 +72,7 @@ export interface UserDashboardInfo {
 export const CreateCampaignSchema = z.object({
   name: z.string().min(3, { message: "Campaign name must be at least 3 characters long." }),
   callListId: z.string().min(1, { message: "Please select a call list." }),
-  agentIds: z.array(z.string()).optional(),
+  agentId: z.string().min(1, { message: "Please select an agent." }),
 });
 export type CreateCampaignData = z.infer<typeof CreateCampaignSchema>;
 export const EditCampaignSchema = CreateCampaignSchema;

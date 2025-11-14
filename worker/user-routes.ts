@@ -50,7 +50,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     if (!validation.success) {
       return bad(c, 'Invalid campaign data');
     }
-    const { name, callListId, agentIds } = validation.data;
+    const { name, callListId, agentId } = validation.data;
     const callListEntity = new CallListEntity(c.env, callListId);
     if (!(await callListEntity.exists())) {
         return bad(c, 'Call list not found');
@@ -60,7 +60,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       id: crypto.randomUUID(),
       name,
       callListId,
-      agentIds: agentIds || [],
+      agentId,
       status: 'Draft',
       totalLeads: callList.totalLeads,
       dialedLeads: 0,
