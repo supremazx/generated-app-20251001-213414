@@ -1,10 +1,10 @@
 import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo, ResellerClient, ResellerDashboardStats, ResellerInvoice, ResellerBillingInfo } from './types';
 export const MOCK_CAMPAIGNS: Campaign[] = [
-  { id: 'c-001', name: 'Q4 Sales Push', status: 'Active', callListId: 'cl-101', totalLeads: 5000, dialedLeads: 1250, connections: 312, createdAt: '2023-10-01T10:00:00Z' },
-  { id: 'c-002', name: 'New Product Launch', status: 'Active', callListId: 'cl-102', totalLeads: 10000, dialedLeads: 8500, connections: 1500, createdAt: '2023-10-05T14:30:00Z' },
-  { id: 'c-003', name: 'Customer Feedback Follow-up', status: 'Paused', callListId: 'cl-103', totalLeads: 2500, dialedLeads: 1000, connections: 450, createdAt: '2023-09-20T09:00:00Z' },
-  { id: 'c-004', name: 'Lead Nurturing Campaign', status: 'Completed', callListId: 'cl-104', totalLeads: 7500, dialedLeads: 7500, connections: 2100, createdAt: '2023-08-15T11:00:00Z' },
-  { id: 'c-005', name: 'Website Demo Signups', status: 'Draft', callListId: 'cl-105', totalLeads: 1500, dialedLeads: 0, connections: 0, createdAt: '2023-10-10T16:00:00Z' },
+  { id: 'c-001', name: 'Q4 Sales Push', status: 'Active', callListId: 'cl-101', agentIds: ['a-101', 'a-102', 'a-104'], totalLeads: 5000, dialedLeads: 1250, connections: 312, createdAt: '2023-10-01T10:00:00Z' },
+  { id: 'c-002', name: 'New Product Launch', status: 'Active', callListId: 'cl-102', agentIds: ['a-105', 'a-107'], totalLeads: 10000, dialedLeads: 8500, connections: 1500, createdAt: '2023-10-05T14:30:00Z' },
+  { id: 'c-003', name: 'Customer Feedback Follow-up', status: 'Paused', callListId: 'cl-103', agentIds: ['a-101', 'a-103', 'a-108'], totalLeads: 2500, dialedLeads: 1000, connections: 450, createdAt: '2023-09-20T09:00:00Z' },
+  { id: 'c-004', name: 'Lead Nurturing Campaign', status: 'Completed', callListId: 'cl-104', agentIds: ['a-102', 'a-104', 'a-105'], totalLeads: 7500, dialedLeads: 7500, connections: 2100, createdAt: '2023-08-15T11:00:00Z' },
+  { id: 'c-005', name: 'Website Demo Signups', status: 'Draft', callListId: 'cl-105', agentIds: [], totalLeads: 1500, dialedLeads: 0, connections: 0, createdAt: '2023-10-10T16:00:00Z' },
 ];
 export const MOCK_AGENTS: Agent[] = [
   { id: 'a-101', name: 'Alice Johnson', extension: '1001', status: 'On Call', currentCallDuration: 125, avatarUrl: 'https://i.pravatar.cc/150?u=a-101' },

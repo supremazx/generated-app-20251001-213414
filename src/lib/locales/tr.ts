@@ -8,15 +8,14 @@ export const tr = {
     agents: "Operatörler",
     callLists: "Arama Listeleri",
     account: "Hesap",
+    clients: "Müşteriler",
     billing: "Faturalandırma",
     settings: "Ayarlar",
     logout: "Çıkış Yap",
     reseller: {
       title: "Bayi",
       dashboard: "Bayi Paneli",
-      clients: "Müşteriler",
       billing: "Faturalandırma",
-      settings: "Ayarlar",
     },
   },
   // Dashboard Page
@@ -78,7 +77,7 @@ export const tr = {
     uploadList: "Liste Yükle",
     table: {
       name: "İsim",
-      totalLeads: "Toplam Ki��i",
+      totalLeads: "Toplam Kişi",
       dialedLeads: "Aranan Kişi",
       uploadedAt: "Yüklenme Tarihi",
       actions: "Eylemler",
@@ -102,7 +101,7 @@ export const tr = {
     statCards: {
       currentUsage: "Mevcut Kullanım",
       nextInvoice: "Sonraki Fatura (Tahmini)",
-      cycleEnds: "Fatura D��nemi Sonu",
+      cycleEnds: "Fatura Dönemi Sonu",
       pricePerMinute: "/dk",
     },
     profitabilityAnalysis: {
@@ -123,13 +122,13 @@ export const tr = {
       status: "Durum",
       actions: "Eylemler",
       download: "İndir",
-      paid: "��dendi",
+      paid: "Ödendi",
     },
   },
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "��ifre Değiştir",
+    changePassword: "Şifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -196,7 +195,7 @@ export const tr = {
       revenueOverTime: "Zamana Göre Gelir",
     },
   },
-  // Reseller Clients Page
+  // Reseller Clients Page (now Clients Page)
   resellerClientsPage: {
     title: "Müşteriler",
     newClient: "Yeni Müşteri",
@@ -215,23 +214,6 @@ export const tr = {
       confirm: "Sil",
     },
     emptyState: "Müşteri bulunamadı. Başlamak için bir tane ekleyin.",
-  },
-  resellerSettingsPage: {
-    title: "Bayi Ayarları",
-    saveButton: "Ayarları Kaydet",
-    branding: {
-      title: "Markalama",
-      description: "Bayi arayüzü için markalamayı yapılandırın.",
-      companyName: "Şirket Adı",
-      companyNamePlaceholder: "Örn., Vogent.ai",
-    },
-    pricing: {
-      title: "Fiyatlandırma",
-      description: "Müşterileriniz için fiyatlandırma modelini belirleyin.",
-      pricePerMinute: "Müşteri Dakika Başına Fiyatı",
-      pricePerMinutePlaceholder: "Örn., 0.080",
-      pricePerMinuteDescription: "Müşterilerinizden AI dakikası başına alınacak ücret.",
-    },
   },
   resellerBillingPage: {
     title: "Bayi Faturalandırma",
@@ -266,6 +248,8 @@ export const tr = {
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
     callListPlaceholder: "Bir arama listesi seçin",
+    assignAgentsLabel: "Operatör Ata",
+    assignAgentsPlaceholder: "Operatör seçin...",
     cancel: "İptal",
     submit: "Kampanya Oluştur",
   },
@@ -305,6 +289,12 @@ export const tr = {
     cancel: "İptal",
     submit: "Müşteri Oluştur",
   },
+  editClientDialog: {
+    title: "Müşteriyi Düzenle",
+    description: "Müşteri bilgilerini aşağıda güncelleyin.",
+    cancel: "İptal",
+    submit: "Değişiklikleri Kaydet",
+  },
   // Toasts (Notifications)
   toasts: {
     campaignCreated: "Kampanya başarıyla oluşturuldu!",
@@ -316,6 +306,7 @@ export const tr = {
     settingsSaved: "Ayarlar başarıyla kaydedildi!",
     passwordChanged: "Şifre başarıyla değiştirildi!",
     resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
+    resellerClientUpdated: "Müşteri başarıyla güncellendi!",
     resellerClientDeleted: "Müşteri başarıyla silindi!",
     error: {
       generic: "Bir hata oluştu",
@@ -327,6 +318,7 @@ export const tr = {
       deleteCallList: "Arama listesi silinemedi",
       changePassword: "Şifre değiştirilemedi",
       createResellerClient: "Müşteri oluşturulamadı",
+      updateResellerClient: "Müşteri güncellenemedi",
       deleteResellerClient: "Müşteri silinemedi",
     },
   },

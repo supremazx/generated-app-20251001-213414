@@ -20,7 +20,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { EditCampaignSchema, type EditCampaignData, type Campaign } from '@shared/types';
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
-import { useEffect } from 'react';
+import { useAgentStore } from '@/stores/useAgentStore';
+import { useEffect, useMemo } from 'react';
 import {
   Form,
   FormControl,
@@ -29,6 +30,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { MultiSelect } from './ui/multi-select';
 import { tr } from '@/lib/locales/tr';
 interface EditCampaignDialogProps {
   open: boolean;
@@ -39,11 +41,14 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
   const updateCampaign = useCampaignStore((state) => state.updateCampaign);
   const callLists = useCallListStore((state) => state.callLists);
   const fetchCallLists = useCallListStore((state) => state.fetchCallLists);
+  const agents = useAgentStore((state) => state.agents);
+  const fetchAgents = useAgentStore((state) => state.fetchAgents);
   const form = useForm<EditCampaignData>({
     resolver: zodResolver(EditCampaignSchema),
     defaultValues: {
       name: '',
       callListId: '',
+      agentIds: [],
     },
   });
   const { reset } = form;
@@ -52,14 +57,17 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
       reset({
         name: campaign.name,
         callListId: campaign.callListId,
+        agentIds: campaign.agentIds || [],
       });
     }
   }, [campaign, reset]);
   useEffect(() => {
     if (open) {
       fetchCallLists();
+      fetchAgents();
     }
-  }, [open, fetchCallLists]);
+  }, [open, fetchCallLists, fetchAgents]);
+  const agentOptions = useMemo(() => agents.map(agent => ({ value: agent.id, label: agent.name })), [agents]);
   const onSubmit = async (data: EditCampaignData) => {
     if (!campaign) return;
     await updateCampaign(campaign.id, data);
@@ -110,6 +118,24 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="agentIds"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={agentOptions}
+                      selected={field.value || []}
+                      onChange={(selected) => field.onChange(selected)}
+                      placeholder={tr.createCampaignDialog.assignAgentsPlaceholder}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
