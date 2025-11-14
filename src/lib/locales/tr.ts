@@ -33,7 +33,7 @@ export const tr = {
   dashboardPage: {
     title: "Kontrol Paneli",
     statCards: {
-      callsMade: "Bugünkü Aramalar",
+      callsMade: "Bug��nkü Aramalar",
       connectionRate: "Bağlantı Oranı",
       activeAgents: "Aktif Operatörler",
       liveCampaigns: "Aktif Kampanyalar",
@@ -49,7 +49,7 @@ export const tr = {
     title: "Kampanyalar",
     newCampaign: "Yeni Kampanya",
     table: {
-      name: "��sim",
+      name: "İsim",
       status: "Durum",
       progress: "İlerleme",
       connections: "Bağlantılar",
@@ -178,13 +178,13 @@ export const tr = {
       status: "Durum",
       actions: "Eylemler",
       download: "İndir",
-      paid: "��dendi",
+      paid: "Ödendi",
     },
   },
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "��ifre Değiştir",
+    changePassword: "Şifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -299,7 +299,7 @@ export const tr = {
     status: {
       paid: "Ödendi",
       due: "Vadesi Geldi",
-      overdue: "Vadesi Ge��ti",
+      overdue: "Vadesi Geçti",
     },
   },
   // Dialogs
@@ -335,10 +335,11 @@ export const tr = {
   },
   uploadKnowledgeBaseDialog: {
     title: "Yeni Bilgi Bankası Yükle",
-    description: "Bir isim belirtin ve verilerinizi içeren bir CSV dosyası yükleyin.",
+    description: "Bir isim belirtin ve verilerinizi içeren bir CSV, PDF, Excel veya TXT dosyası yükleyin.",
     nameLabel: "Bilgi Bankası Adı",
     namePlaceholder: "Örn., Ürün Bilgileri",
-    fileLabel: "CSV Dosyası",
+    fileLabel: "Veri Dosyası (CSV, PDF, XLS, XLSX, TXT)",
+    fileDescription: "Dosyayı buraya sürükleyin veya seçmek için tıklayın",
     cancel: "İptal",
     submit: "Yükle",
   },
