@@ -77,10 +77,10 @@ export const MOCK_USER_DASHBOARD_INFO: UserDashboardInfo = {
   aiCostThisCycle: totalAiMinutesUsed * totalBaseCost,
 };
 export const MOCK_RESELLER_CLIENTS: ResellerClient[] = [
-  { id: 'rc-001', companyName: 'Innovate Corp', contactEmail: 'contact@innovate.com', status: 'Active', provisionedAgents: 10, monthlySpend: 1250.00, createdAt: '2023-08-15T10:00:00Z' },
-  { id: 'rc-002', companyName: 'Solutions Inc.', contactEmail: 'admin@solutions.com', status: 'Active', provisionedAgents: 5, monthlySpend: 650.50, createdAt: '2023-09-01T14:30:00Z' },
-  { id: 'rc-003', companyName: 'NextGen Systems', contactEmail: 'support@nextgen.com', status: 'Suspended', provisionedAgents: 20, monthlySpend: 2500.00, createdAt: '2023-07-20T09:00:00Z' },
-  { id: 'rc-004', companyName: 'Quantum Leap', contactEmail: 'billing@quantum.com', status: 'Active', provisionedAgents: 8, monthlySpend: 980.75, createdAt: '2023-10-02T11:00:00Z' },
+  { id: 'rc-001', companyName: 'Innovate Corp', contactEmail: 'contact@innovate.com', status: 'Active', agentId: 'a-101', createdAt: '2023-08-15T10:00:00Z' },
+  { id: 'rc-002', companyName: 'Solutions Inc.', contactEmail: 'admin@solutions.com', status: 'Active', agentId: 'a-102', createdAt: '2023-09-01T14:30:00Z' },
+  { id: 'rc-003', companyName: 'NextGen Systems', contactEmail: 'support@nextgen.com', status: 'Suspended', agentId: 'a-103', createdAt: '2023-07-20T09:00:00Z' },
+  { id: 'rc-004', companyName: 'Quantum Leap', contactEmail: 'billing@quantum.com', status: 'Active', agentId: 'a-104', createdAt: '2023-10-02T11:00:00Z' },
 ];
 export const MOCK_RESELLER_DASHBOARD_STATS: ResellerDashboardStats = {
   totalClients: 4,

@@ -118,13 +118,14 @@ export const ChangePasswordSchema = z.object({
 });
 export type ChangePasswordData = z.infer<typeof ChangePasswordSchema>;
 // Reseller Panel Types
+export const ClientStatusSchema = z.enum(['Active', 'Suspended']);
+export type ClientStatus = z.infer<typeof ClientStatusSchema>;
 export interface ResellerClient {
   id: string;
   companyName: string;
   contactEmail: string;
-  status: 'Active' | 'Suspended';
-  provisionedAgents: number;
-  monthlySpend: number;
+  status: ClientStatus;
+  agentId: string;
   createdAt: string;
 }
 export interface ResellerDashboardStats {
@@ -138,11 +139,15 @@ export interface ResellerDashboardStats {
 export const CreateResellerClientSchema = z.object({
   companyName: z.string().min(2, "Company name is required."),
   contactEmail: z.string().email("Invalid email address."),
-  provisionedAgents: z.coerce.number().int().min(1, "At least one agent is required."),
+  agentId: z.string().min(1, "Bir agent seçmek zorunludur."),
 });
 export type CreateResellerClientData = z.infer<typeof CreateResellerClientSchema>;
 export const EditResellerClientSchema = CreateResellerClientSchema;
 export type EditResellerClientData = z.infer<typeof EditResellerClientSchema>;
+export const UpdateClientStatusSchema = z.object({
+    status: ClientStatusSchema,
+});
+export type UpdateClientStatusData = z.infer<typeof UpdateClientStatusSchema>;
 export interface ResellerInvoice {
   id: string;
   clientName: string;
