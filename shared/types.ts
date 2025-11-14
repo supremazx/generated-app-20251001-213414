@@ -90,26 +90,33 @@ export const UpdateCampaignStatusSchema = z.object({
 });
 export type UpdateCampaignStatusData = z.infer<typeof UpdateCampaignStatusSchema>;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_FILE_TYPES = ['text/csv'];
+const ACCEPTED_CALL_LIST_TYPES = ['text/csv'];
 export const CreateCallListSchema = z.object({
   name: z.string().min(3, { message: "List name must be at least 3 characters long." }),
   file: z.instanceof(File, { message: 'A CSV file is required.' })
     .refine((file) => file.size > 0, 'A CSV file is required.')
     .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
     .refine(
-      (file) => ACCEPTED_FILE_TYPES.includes(file.type),
+      (file) => ACCEPTED_CALL_LIST_TYPES.includes(file.type),
       'Only .csv files are accepted.'
     ),
 });
 export type CreateCallListData = z.infer<typeof CreateCallListSchema>;
+const ACCEPTED_KB_FILE_TYPES = [
+  'text/csv',
+  'application/pdf',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'text/plain',
+];
 export const CreateKnowledgeBaseSchema = z.object({
   name: z.string().min(3, { message: "Knowledge base name must be at least 3 characters long." }),
-  file: z.instanceof(File, { message: 'A CSV file is required.' })
-    .refine((file) => file.size > 0, 'A CSV file is required.')
+  file: z.instanceof(File, { message: 'A file is required.' })
+    .refine((file) => file.size > 0, 'A file is required.')
     .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
     .refine(
-      (file) => ACCEPTED_FILE_TYPES.includes(file.type),
-      'Only .csv files are accepted.'
+      (file) => ACCEPTED_KB_FILE_TYPES.includes(file.type),
+      'Only .csv, .pdf, .xls, .xlsx, and .txt files are accepted.'
     ),
 });
 export type CreateKnowledgeBaseData = z.infer<typeof CreateKnowledgeBaseSchema>;
