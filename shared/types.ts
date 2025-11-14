@@ -144,3 +144,16 @@ export const ResellerSettingsSchema = z.object({
   resellerPricePerMinute: z.coerce.number().min(0, "Price must be a positive number."),
 });
 export type ResellerSettings = z.infer<typeof ResellerSettingsSchema>;
+export interface ResellerInvoice {
+  id: string;
+  clientName: string;
+  date: string;
+  amount: number;
+  status: 'Paid' | 'Due' | 'Overdue';
+}
+export interface ResellerBillingInfo {
+  totalRevenue: number;
+  activeSubscriptions: number;
+  monthlyRecurringRevenue: number;
+  invoices: ResellerInvoice[];
+}

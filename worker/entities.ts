@@ -1,6 +1,6 @@
 import { IndexedEntity, Entity, type Env } from "./core-utils";
-import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerSettings } from "@shared/types";
-import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_BILLING_INFO, MOCK_USER_DASHBOARD_INFO, MOCK_RESELLER_CLIENTS, MOCK_RESELLER_DASHBOARD_STATS } from "@shared/mock-data";
+import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerSettings, ResellerBillingInfo } from "@shared/types";
+import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_BILLING_INFO, MOCK_USER_DASHBOARD_INFO, MOCK_RESELLER_CLIENTS, MOCK_RESELLER_DASHBOARD_STATS, MOCK_RESELLER_BILLING_INFO } from "@shared/mock-data";
 export class CampaignEntity extends IndexedEntity<Campaign> {
   static readonly entityName = "campaign";
   static readonly indexName = "campaigns";
@@ -168,5 +168,11 @@ export class ResellerSettingsEntity extends Entity<ResellerSettings> {
     };
     constructor(env: Env) {
         super(env, 'global-reseller-settings'); // Use a fixed ID for the singleton settings object
+    }
+}
+export class ResellerBillingService {
+    static async getInfo(env: Env): Promise<ResellerBillingInfo> {
+        // In a real implementation, this would calculate stats from ResellerClientEntity and their usage
+        return MOCK_RESELLER_BILLING_INFO;
     }
 }

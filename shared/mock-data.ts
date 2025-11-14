@@ -1,4 +1,4 @@
-import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo, ResellerClient, ResellerDashboardStats } from './types';
+import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo, ResellerClient, ResellerDashboardStats, ResellerInvoice, ResellerBillingInfo } from './types';
 export const MOCK_CAMPAIGNS: Campaign[] = [
   { id: 'c-001', name: 'Q4 Sales Push', status: 'Active', callListId: 'cl-101', totalLeads: 5000, dialedLeads: 1250, connections: 312, createdAt: '2023-10-01T10:00:00Z' },
   { id: 'c-002', name: 'New Product Launch', status: 'Active', callListId: 'cl-102', totalLeads: 10000, dialedLeads: 8500, connections: 1500, createdAt: '2023-10-05T14:30:00Z' },
@@ -99,4 +99,17 @@ export const MOCK_RESELLER_DASHBOARD_STATS: ResellerDashboardStats = {
     { month: 'Sep', revenue: 4400 },
     { month: 'Oct', revenue: 2881 },
   ],
+};
+export const MOCK_RESELLER_INVOICES: ResellerInvoice[] = [
+  { id: 'RINV-1023-001', clientName: 'Innovate Corp', date: '2023-10-01', amount: 1250.00, status: 'Paid' },
+  { id: 'RINV-1023-002', clientName: 'Solutions Inc.', date: '2023-10-01', amount: 650.50, status: 'Paid' },
+  { id: 'RINV-1023-003', clientName: 'Quantum Leap', date: '2023-10-02', amount: 980.75, status: 'Due' },
+  { id: 'RINV-0923-001', clientName: 'Innovate Corp', date: '2023-09-01', amount: 1250.00, status: 'Paid' },
+  { id: 'RINV-0923-002', clientName: 'NextGen Systems', date: '2023-09-01', amount: 2500.00, status: 'Overdue' },
+];
+export const MOCK_RESELLER_BILLING_INFO: ResellerBillingInfo = {
+  totalRevenue: 4531.25,
+  activeSubscriptions: 3,
+  monthlyRecurringRevenue: 2881.25,
+  invoices: MOCK_RESELLER_INVOICES,
 };

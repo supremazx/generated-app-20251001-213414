@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerSettingsEntity } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerSettingsEntity, ResellerBillingService } from "./entities";
 import { ok, bad, notFound } from './core-utils';
 import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, ResellerSettingsSchema } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
@@ -237,5 +237,9 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const settingsEntity = new ResellerSettingsEntity(c.env);
     await settingsEntity.save(validation.data);
     return ok(c, validation.data);
+  });
+  app.get('/api/reseller/billing', async (c) => {
+    const info = await ResellerBillingService.getInfo(c.env);
+    return ok(c, info);
   });
 }
