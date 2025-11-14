@@ -26,6 +26,13 @@ interface UploadKnowledgeBaseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+const ACCEPTED_FILE_TYPES = {
+  'text/csv': ['.csv'],
+  'application/pdf': ['.pdf'],
+  'application/vnd.ms-excel': ['.xls'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+  'text/plain': ['.txt'],
+};
 export function UploadKnowledgeBaseDialog({ open, onOpenChange }: UploadKnowledgeBaseDialogProps) {
   const addKnowledgeBase = useKnowledgeBaseStore((state) => state.addKnowledgeBase);
   const form = useForm<CreateKnowledgeBaseData>({
@@ -75,7 +82,13 @@ export function UploadKnowledgeBaseDialog({ open, onOpenChange }: UploadKnowledg
                 <FormItem>
                   <FormLabel>{tr.uploadKnowledgeBaseDialog.fileLabel}</FormLabel>
                   <FormControl>
-                    <FileDropzone onFileChange={field.onChange} file={field.value} />
+                    <FileDropzone
+                      onFileChange={field.onChange}
+                      file={field.value}
+                      accept={Object.values(ACCEPTED_FILE_TYPES).flat().join(',')}
+                      acceptedMimeTypes={Object.keys(ACCEPTED_FILE_TYPES)}
+                      description={tr.uploadKnowledgeBaseDialog.fileDescription}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
