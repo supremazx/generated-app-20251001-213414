@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCampaignStore } from '@/stores/useCampaignStore';
+import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Phone, CheckCircle, Percent, Target } from 'lucide-react';
+import { ArrowLeft, Phone, CheckCircle, Percent, Target, BrainCircuit } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -41,11 +42,19 @@ export function CampaignDetailPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
   const navigate = useNavigate();
   const { selectedCampaign, fetchCampaignById, loading } = useCampaignStore();
+  const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
   useEffect(() => {
     if (campaignId) {
       fetchCampaignById(campaignId);
     }
-  }, [campaignId, fetchCampaignById]);
+    fetchKnowledgeBases();
+  }, [campaignId, fetchCampaignById, fetchKnowledgeBases]);
+  const knowledgeBaseName = useMemo(() => {
+    if (!selectedCampaign?.knowledgeBaseId || knowledgeBases.length === 0) {
+      return null;
+    }
+    return knowledgeBases.find(kb => kb.id === selectedCampaign.knowledgeBaseId)?.name;
+  }, [selectedCampaign, knowledgeBases]);
   if (loading || !selectedCampaign) {
     return (
       <div className="space-y-6">
@@ -83,18 +92,29 @@ export function CampaignDetailPage() {
         <StatCard title={tr.campaignDetailPage.connections} value={selectedCampaign.connections.toLocaleString()} icon={CheckCircle} />
         <StatCard title={tr.campaignDetailPage.connectionRate} value={`${connectionRate}%`} icon={Percent} />
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>{tr.campaignDetailPage.progress}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex justify-between mb-2 text-sm text-muted-foreground">
-            <span>{selectedCampaign.dialedLeads.toLocaleString()} arandı</span>
-            <span>{selectedCampaign.totalLeads.toLocaleString()} toplam</span>
-          </div>
-          <Progress value={(selectedCampaign.dialedLeads / selectedCampaign.totalLeads) * 100} className="h-4" />
-        </CardContent>
-      </Card>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>{tr.campaignDetailPage.progress}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex justify-between mb-2 text-sm text-muted-foreground">
+              <span>{selectedCampaign.dialedLeads.toLocaleString()} arandı</span>
+              <span>{selectedCampaign.totalLeads.toLocaleString()} toplam</span>
+            </div>
+            <Progress value={(selectedCampaign.dialedLeads / selectedCampaign.totalLeads) * 100} className="h-4" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>{tr.campaignDetailPage.knowledgeBase}</CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center gap-3">
+            <BrainCircuit className="h-6 w-6 text-muted-foreground" />
+            <p className="text-md font-medium">{knowledgeBaseName || 'Atanmam��ş'}</p>
+          </CardContent>
+        </Card>
+      </div>
       <Card>
         <CardHeader>
           <CardTitle>{tr.campaignDetailPage.callListDetails}</CardTitle>

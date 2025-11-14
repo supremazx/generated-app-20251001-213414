@@ -21,6 +21,7 @@ import { EditCampaignSchema, type EditCampaignData, type Campaign } from '@share
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
 import { useAgentStore } from '@/stores/useAgentStore';
+import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
 import { useEffect } from 'react';
 import {
   Form,
@@ -42,12 +43,14 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
   const fetchCallLists = useCallListStore((state) => state.fetchCallLists);
   const agents = useAgentStore((state) => state.agents);
   const fetchAgents = useAgentStore((state) => state.fetchAgents);
+  const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
   const form = useForm<EditCampaignData>({
     resolver: zodResolver(EditCampaignSchema),
     defaultValues: {
       name: '',
       callListId: '',
       agentId: '',
+      knowledgeBaseId: '',
     },
   });
   const { reset } = form;
@@ -57,6 +60,7 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
         name: campaign.name,
         callListId: campaign.callListId,
         agentId: campaign.agentId || '',
+        knowledgeBaseId: campaign.knowledgeBaseId || '',
       });
     }
   }, [campaign, reset]);
@@ -64,8 +68,9 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
     if (open) {
       fetchCallLists();
       fetchAgents();
+      fetchKnowledgeBases();
     }
-  }, [open, fetchCallLists, fetchAgents]);
+  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases]);
   const onSubmit = async (data: EditCampaignData) => {
     if (!campaign) return;
     await updateCampaign(campaign.id, data);
@@ -136,6 +141,30 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
                       {agents.map((agent) => (
                         <SelectItem key={agent.id} value={agent.id}>
                           {agent.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="knowledgeBaseId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tr.createCampaignDialog.knowledgeBaseLabel}</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={tr.createCampaignDialog.knowledgeBasePlaceholder} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {knowledgeBases.map((kb) => (
+                        <SelectItem key={kb.id} value={kb.id}>
+                          {kb.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
