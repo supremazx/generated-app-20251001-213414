@@ -8,6 +8,7 @@ import {
   Menu,
   Power,
   CreditCard,
+  Briefcase,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -39,6 +40,15 @@ const navGroups = [
       { href: '/settings', label: tr.nav.settings, icon: Settings },
     ],
   },
+  {
+    title: tr.nav.reseller.title,
+    items: [
+        { href: '/reseller/dashboard', label: tr.nav.reseller.dashboard, icon: LayoutDashboard },
+        { href: '/reseller/clients', label: tr.nav.reseller.clients, icon: Users },
+        { href: '/reseller/billing', label: tr.nav.reseller.billing, icon: CreditCard },
+        { href: '/reseller/settings', label: tr.nav.reseller.settings, icon: Settings },
+    ]
+  }
 ];
 const NavContent = () => {
   return (

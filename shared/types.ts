@@ -115,3 +115,27 @@ export const ChangePasswordSchema = z.object({
   path: ["confirmPassword"],
 });
 export type ChangePasswordData = z.infer<typeof ChangePasswordSchema>;
+// Reseller Panel Types
+export interface ResellerClient {
+  id: string;
+  companyName: string;
+  contactEmail: string;
+  status: 'Active' | 'Suspended';
+  provisionedAgents: number;
+  monthlySpend: number;
+  createdAt: string;
+}
+export interface ResellerDashboardStats {
+  totalClients: number;
+  activeClients: number;
+  monthlyRecurringRevenue: number;
+  totalProvisionedAgents: number;
+  clientGrowth: { month: string; count: number }[];
+  revenueOverTime: { month: string; revenue: number }[];
+}
+export const CreateResellerClientSchema = z.object({
+  companyName: z.string().min(2, "Company name is required."),
+  contactEmail: z.string().email("Invalid email address."),
+  provisionedAgents: z.coerce.number().int().min(1, "At least one agent is required."),
+});
+export type CreateResellerClientData = z.infer<typeof CreateResellerClientSchema>;

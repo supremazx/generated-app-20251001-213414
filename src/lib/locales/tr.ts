@@ -11,6 +11,13 @@ export const tr = {
     billing: "Faturalandırma",
     settings: "Ayarlar",
     logout: "Çıkış Yap",
+    reseller: {
+      title: "Bayi",
+      dashboard: "Bayi Paneli",
+      clients: "Müşteriler",
+      billing: "Faturalandırma",
+      settings: "Ayarlar",
+    },
   },
   // Dashboard Page
   dashboardPage: {
@@ -175,10 +182,44 @@ export const tr = {
         sippulseDescription: "AI dakikaları için dinamik, gerçek zamanlı fiyatlandırmayı etkinleştirir.",
     },
   },
+  // Reseller Dashboard Page
+  resellerDashboardPage: {
+    title: "Bayi Paneli",
+    statCards: {
+      totalClients: "Toplam Müşteri",
+      activeClients: "Aktif Müşteri",
+      mrr: "Aylık Yinelenen Gelir",
+      totalAgents: "Toplam Agent",
+    },
+    charts: {
+      clientGrowth: "Müşteri Büyümesi",
+      revenueOverTime: "Zamana Göre Gelir",
+    },
+  },
+  // Reseller Clients Page
+  resellerClientsPage: {
+    title: "Müşteriler",
+    newClient: "Yeni Müşteri",
+    table: {
+      companyName: "Şirket Adı",
+      status: "Durum",
+      provisionedAgents: "Agent Sayısı",
+      monthlySpend: "Aylık Harcama",
+      createdAt: "Katılma Tarihi",
+      actions: "Eylemler",
+    },
+    deleteDialog: {
+      title: "Müşteriyi silmek istediğinizden emin misiniz?",
+      description: "Bu eylem geri alınamaz. Bu, müşteriyi ve ilişkili tüm verileri kalıcı olarak silecektir.",
+      cancel: "İptal",
+      confirm: "Sil",
+    },
+    emptyState: "Müşteri bulunamadı. Başlamak için bir tane ekleyin.",
+  },
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
@@ -211,6 +252,17 @@ export const tr = {
     cancel: "İptal",
     submit: "Şifreyi Güncelle",
   },
+  createResellerClientDialog: {
+    title: "Yeni Müşteri Ekle",
+    description: "Yeni bir bayi müşterisi oluşturmak için aşağıdaki ayrıntıları doldurun.",
+    companyNameLabel: "Şirket Adı",
+    companyNamePlaceholder: "Örn., Innovate Corp",
+    contactEmailLabel: "Yetkili E-postası",
+    contactEmailPlaceholder: "Örn., contact@innovate.com",
+    provisionedAgentsLabel: "Agent Sayısı",
+    cancel: "İptal",
+    submit: "Müşteri Oluştur",
+  },
   // Toasts (Notifications)
   toasts: {
     campaignCreated: "Kampanya başarıyla oluşturuldu!",
@@ -221,6 +273,8 @@ export const tr = {
     callListDeleted: "Arama listesi başarıyla silindi!",
     settingsSaved: "Ayarlar başarıyla kaydedildi!",
     passwordChanged: "Şifre başarıyla değiştirildi!",
+    resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
+    resellerClientDeleted: "Müşteri başarıyla silindi!",
     error: {
       generic: "Bir hata oluştu",
       createCampaign: "Kampanya oluşturulamadı",
@@ -230,6 +284,8 @@ export const tr = {
       uploadCallList: "Arama listesi yüklenemedi",
       deleteCallList: "Arama listesi silinemedi",
       changePassword: "Şifre değiştirilemedi",
+      createResellerClient: "Müşteri oluşturulamadı",
+      deleteResellerClient: "Müşteri silinemedi",
     },
   },
 };
