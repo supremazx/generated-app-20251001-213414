@@ -1,4 +1,4 @@
-import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo } from './types';
+import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo, ResellerClient, ResellerDashboardStats } from './types';
 export const MOCK_CAMPAIGNS: Campaign[] = [
   { id: 'c-001', name: 'Q4 Sales Push', status: 'Active', callListId: 'cl-101', totalLeads: 5000, dialedLeads: 1250, connections: 312, createdAt: '2023-10-01T10:00:00Z' },
   { id: 'c-002', name: 'New Product Launch', status: 'Active', callListId: 'cl-102', totalLeads: 10000, dialedLeads: 8500, connections: 1500, createdAt: '2023-10-05T14:30:00Z' },
@@ -75,4 +75,28 @@ export const MOCK_USER_DASHBOARD_INFO: UserDashboardInfo = {
   totalCallsMade: 8320,
   averageCallDuration: 145, // in seconds
   aiCostThisCycle: totalAiMinutesUsed * totalBaseCost,
+};
+export const MOCK_RESELLER_CLIENTS: ResellerClient[] = [
+  { id: 'rc-001', companyName: 'Innovate Corp', contactEmail: 'contact@innovate.com', status: 'Active', provisionedAgents: 10, monthlySpend: 1250.00, createdAt: '2023-08-15T10:00:00Z' },
+  { id: 'rc-002', companyName: 'Solutions Inc.', contactEmail: 'admin@solutions.com', status: 'Active', provisionedAgents: 5, monthlySpend: 650.50, createdAt: '2023-09-01T14:30:00Z' },
+  { id: 'rc-003', companyName: 'NextGen Systems', contactEmail: 'support@nextgen.com', status: 'Suspended', provisionedAgents: 20, monthlySpend: 2500.00, createdAt: '2023-07-20T09:00:00Z' },
+  { id: 'rc-004', companyName: 'Quantum Leap', contactEmail: 'billing@quantum.com', status: 'Active', provisionedAgents: 8, monthlySpend: 980.75, createdAt: '2023-10-02T11:00:00Z' },
+];
+export const MOCK_RESELLER_DASHBOARD_STATS: ResellerDashboardStats = {
+  totalClients: 4,
+  activeClients: 3,
+  monthlyRecurringRevenue: 2881.25,
+  totalProvisionedAgents: 43,
+  clientGrowth: [
+    { month: 'Jul', count: 1 },
+    { month: 'Aug', count: 2 },
+    { month: 'Sep', count: 3 },
+    { month: 'Oct', count: 4 },
+  ],
+  revenueOverTime: [
+    { month: 'Jul', revenue: 2500 },
+    { month: 'Aug', revenue: 3750 },
+    { month: 'Sep', revenue: 4400 },
+    { month: 'Oct', revenue: 2881 },
+  ],
 };

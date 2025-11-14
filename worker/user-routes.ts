@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -185,5 +185,42 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   app.get('/api/billing', async (c) => {
     const billingInfo = await BillingService.getInfo(c.env);
     return ok(c, billingInfo);
+  });
+  // RESELLER PANEL
+  app.get('/api/reseller/dashboard', async (c) => {
+    const stats = await ResellerDashboardService.getStats(c.env);
+    return ok(c, stats);
+  });
+  app.get('/api/reseller/clients', async (c) => {
+    await ResellerClientEntity.ensureSeed(c.env);
+    const page = await ResellerClientEntity.list(c.env);
+    return ok(c, page.items);
+  });
+  app.post('/api/reseller/clients', async (c) => {
+    const body = await c.req.json();
+    const validation = CreateResellerClientSchema.safeParse(body);
+    if (!validation.success) {
+      return bad(c, 'Invalid client data');
+    }
+    const { companyName, contactEmail, provisionedAgents } = validation.data;
+    const newClient: ResellerClient = {
+      id: `rc-${crypto.randomUUID().slice(0, 8)}`,
+      companyName,
+      contactEmail,
+      provisionedAgents,
+      status: 'Active',
+      monthlySpend: provisionedAgents * 125, // Example calculation
+      createdAt: new Date().toISOString(),
+    };
+    await ResellerClientEntity.create(c.env, newClient);
+    return ok(c, newClient);
+  });
+  app.delete('/api/reseller/clients/:id', async (c) => {
+    const id = c.req.param('id');
+    const deleted = await ResellerClientEntity.delete(c.env, id);
+    if (!deleted) {
+      return notFound(c, 'Client not found');
+    }
+    return ok(c, { id });
   });
 }

@@ -20,6 +20,10 @@ import { CampaignDetailPage } from "@/pages/CampaignDetailPage";
 import { CallListDetailPage } from "@/pages/CallListDetailPage";
 import { BillingPage } from "@/pages/BillingPage";
 import { UserDashboardPage } from "@/pages/UserDashboardPage";
+import { ResellerDashboardPage } from "@/pages/reseller/ResellerDashboardPage";
+import { ResellerClientsPage } from "@/pages/reseller/ResellerClientsPage";
+import { ResellerBillingPage } from "@/pages/reseller/ResellerBillingPage";
+import { ResellerSettingsPage } from "@/pages/reseller/ResellerSettingsPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +39,10 @@ const router = createBrowserRouter([
       { path: "call-lists/:callListId", element: <CallListDetailPage /> },
       { path: "billing", element: <BillingPage /> },
       { path: "settings", element: <SettingsPage /> },
+      { path: "reseller/dashboard", element: <ResellerDashboardPage /> },
+      { path: "reseller/clients", element: <ResellerClientsPage /> },
+      { path: "reseller/billing", element: <ResellerBillingPage /> },
+      { path: "reseller/settings", element: <ResellerSettingsPage /> },
     ],
   },
   {
