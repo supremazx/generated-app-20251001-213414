@@ -78,7 +78,7 @@ export const tr = {
     uploadList: "Liste Yükle",
     table: {
       name: "İsim",
-      totalLeads: "Toplam Kişi",
+      totalLeads: "Toplam Ki��i",
       dialedLeads: "Aranan Kişi",
       uploadedAt: "Yüklenme Tarihi",
       actions: "Eylemler",
@@ -129,7 +129,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre De��iştir",
+    changePassword: "��ifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -231,6 +231,31 @@ export const tr = {
       pricePerMinute: "Müşteri Dakika Başına Fiyatı",
       pricePerMinutePlaceholder: "Örn., 0.080",
       pricePerMinuteDescription: "Müşterilerinizden AI dakikası başına alınacak ücret.",
+    },
+  },
+  resellerBillingPage: {
+    title: "Bayi Faturalandırma",
+    overview: "Genel Bakış",
+    statCards: {
+      totalRevenue: "Toplam Gelir",
+      activeSubscriptions: "Aktif Abonelikler",
+      mrr: "Aylık Yinelenen Gelir",
+    },
+    invoiceHistory: {
+      title: "Fatura Geçmişi",
+      description: "Tüm müşteri faturalarını görüntüleyin ve yönetin.",
+      invoiceId: "Fatura ID",
+      clientName: "Müşteri Adı",
+      date: "Tarih",
+      amount: "Tutar",
+      status: "Durum",
+      actions: "Eylemler",
+      download: "İndir",
+    },
+    status: {
+      paid: "Ödendi",
+      due: "Vadesi Geldi",
+      overdue: "Vadesi Geçti",
     },
   },
   // Dialogs
