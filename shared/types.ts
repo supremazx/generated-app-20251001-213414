@@ -11,6 +11,7 @@ export interface Campaign {
   name: string;
   status: CampaignStatus;
   callListId: string;
+  agentIds: string[];
   totalLeads: number;
   dialedLeads: number;
   connections: number;
@@ -71,6 +72,7 @@ export interface UserDashboardInfo {
 export const CreateCampaignSchema = z.object({
   name: z.string().min(3, { message: "Campaign name must be at least 3 characters long." }),
   callListId: z.string().min(1, { message: "Please select a call list." }),
+  agentIds: z.array(z.string()).optional(),
 });
 export type CreateCampaignData = z.infer<typeof CreateCampaignSchema>;
 export const EditCampaignSchema = CreateCampaignSchema;
@@ -139,11 +141,8 @@ export const CreateResellerClientSchema = z.object({
   provisionedAgents: z.coerce.number().int().min(1, "At least one agent is required."),
 });
 export type CreateResellerClientData = z.infer<typeof CreateResellerClientSchema>;
-export const ResellerSettingsSchema = z.object({
-  resellerCompanyName: z.string().min(1, "Company name is required."),
-  resellerPricePerMinute: z.coerce.number().min(0, "Price must be a positive number."),
-});
-export type ResellerSettings = z.infer<typeof ResellerSettingsSchema>;
+export const EditResellerClientSchema = CreateResellerClientSchema;
+export type EditResellerClientData = z.infer<typeof EditResellerClientSchema>;
 export interface ResellerInvoice {
   id: string;
   clientName: string;

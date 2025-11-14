@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -10,12 +10,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, Loader2, Edit, Trash2, UserX, UserCheck, MoreHorizontal } from "lucide-react";
+import { PlusCircle, MoreHorizontal, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -29,7 +28,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useResellerClientsStore } from '@/stores/useResellerClientsStore';
-import { useAgentStore } from '@/stores/useAgentStore';
 import { CreateResellerClientDialog } from '@/components/CreateResellerClientDialog';
 import { EditClientDialog } from '@/components/EditClientDialog';
 import { tr } from '@/lib/locales/tr';
@@ -39,17 +37,14 @@ const statusColors: Record<ResellerClient['status'], string> = {
   Suspended: "bg-red-500",
 };
 export function ClientsPage() {
-  const { clients, loading, fetchClients, deleteClient, updateClientStatus } = useResellerClientsStore();
-  const { agents, fetchAgents } = useAgentStore();
+  const { clients, loading, fetchClients, deleteClient } = useResellerClientsStore();
   const [isCreateDialogOpen, setCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<ResellerClient | null>(null);
   useEffect(() => {
     fetchClients();
-    fetchAgents();
-  }, [fetchClients, fetchAgents]);
-  const agentMap = useMemo(() => new Map(agents.map(agent => [agent.id, agent.name])), [agents]);
+  }, [fetchClients]);
   const handleDeleteClick = (client: ResellerClient) => {
     setSelectedClient(client);
     setDeleteDialogOpen(true);
@@ -57,10 +52,6 @@ export function ClientsPage() {
   const handleEditClick = (client: ResellerClient) => {
     setSelectedClient(client);
     setEditDialogOpen(true);
-  };
-  const handleStatusToggleClick = (client: ResellerClient) => {
-    const newStatus = client.status === 'Active' ? 'Suspended' : 'Active';
-    updateClientStatus(client.id, newStatus);
   };
   const confirmDelete = () => {
     if (selectedClient) {
@@ -85,15 +76,16 @@ export function ClientsPage() {
               <TableRow>
                 <TableHead>{tr.resellerClientsPage.table.companyName}</TableHead>
                 <TableHead>{tr.resellerClientsPage.table.status}</TableHead>
-                <TableHead>Atanan Agent</TableHead>
+                <TableHead>{tr.resellerClientsPage.table.provisionedAgents}</TableHead>
+                <TableHead>{tr.resellerClientsPage.table.monthlySpend}</TableHead>
                 <TableHead>{tr.resellerClientsPage.table.createdAt}</TableHead>
-                <TableHead className="text-right w-[100px]">{tr.resellerClientsPage.table.actions}</TableHead>
+                <TableHead className="text-right">{tr.resellerClientsPage.table.actions}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center">
+                  <TableCell colSpan={6} className="text-center">
                     <div className="flex justify-center items-center p-8">
                       <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                     </div>
@@ -101,7 +93,7 @@ export function ClientsPage() {
                 </TableRow>
               ) : clients.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center h-24">
+                  <TableCell colSpan={6} className="text-center h-24">
                     {tr.resellerClientsPage.emptyState}
                   </TableCell>
                 </TableRow>
@@ -112,7 +104,8 @@ export function ClientsPage() {
                     <TableCell>
                       <Badge className={`${statusColors[client.status]} hover:${statusColors[client.status]}`}>{client.status}</Badge>
                     </TableCell>
-                    <TableCell>{agentMap.get(client.agentId) || 'N/A'}</TableCell>
+                    <TableCell>{client.provisionedAgents}</TableCell>
+                    <TableCell>${client.monthlySpend.toFixed(2)}</TableCell>
                     <TableCell>{new Date(client.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
@@ -121,28 +114,12 @@ export function ClientsPage() {
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+                        <DropdownMenuContent>
                           <DropdownMenuItem onClick={() => handleEditClick(client)}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            {tr.resellerClientsPage.actions.edit}
+                            {tr.campaignsPage.actions.edit}
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleStatusToggleClick(client)}>
-                            {client.status === 'Active' ? (
-                              <>
-                                <UserX className="mr-2 h-4 w-4" />
-                                {tr.resellerClientsPage.actions.suspend}
-                              </>
-                            ) : (
-                              <>
-                                <UserCheck className="mr-2 h-4 w-4" />
-                                {tr.resellerClientsPage.actions.activate}
-                              </>
-                            )}
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => handleDeleteClick(client)} className="text-red-500 focus:text-red-500">
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            {tr.resellerClientsPage.actions.delete}
+                            {tr.campaignsPage.actions.delete}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

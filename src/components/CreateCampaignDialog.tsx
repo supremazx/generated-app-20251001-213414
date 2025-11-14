@@ -20,7 +20,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateCampaignSchema, type CreateCampaignData } from '@shared/types';
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
-import { useEffect } from 'react';
+import { useAgentStore } from '@/stores/useAgentStore';
+import { useEffect, useMemo } from 'react';
 import {
   Form,
   FormControl,
@@ -29,6 +30,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { MultiSelect } from './ui/multi-select';
 import { tr } from '@/lib/locales/tr';
 interface CreateCampaignDialogProps {
   open: boolean;
@@ -38,18 +40,23 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
   const addCampaign = useCampaignStore((state) => state.addCampaign);
   const callLists = useCallListStore((state) => state.callLists);
   const fetchCallLists = useCallListStore((state) => state.fetchCallLists);
+  const agents = useAgentStore((state) => state.agents);
+  const fetchAgents = useAgentStore((state) => state.fetchAgents);
   const form = useForm<CreateCampaignData>({
     resolver: zodResolver(CreateCampaignSchema),
     defaultValues: {
       name: '',
       callListId: '',
+      agentIds: [],
     },
   });
   useEffect(() => {
     if (open) {
       fetchCallLists();
+      fetchAgents();
     }
-  }, [open, fetchCallLists]);
+  }, [open, fetchCallLists, fetchAgents]);
+  const agentOptions = useMemo(() => agents.map(agent => ({ value: agent.id, label: agent.name })), [agents]);
   const onSubmit = async (data: CreateCampaignData) => {
     await addCampaign(data);
     form.reset();
@@ -99,6 +106,24 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="agentIds"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={agentOptions}
+                      selected={field.value || []}
+                      onChange={(selected) => field.onChange(selected)}
+                      placeholder={tr.createCampaignDialog.assignAgentsPlaceholder}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

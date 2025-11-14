@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerSettingsEntity, ResellerBillingService } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, ResellerSettingsSchema } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -50,7 +50,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     if (!validation.success) {
       return bad(c, 'Invalid campaign data');
     }
-    const { name, callListId } = validation.data;
+    const { name, callListId, agentIds } = validation.data;
     const callListEntity = new CallListEntity(c.env, callListId);
     if (!(await callListEntity.exists())) {
         return bad(c, 'Call list not found');
@@ -60,6 +60,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       id: crypto.randomUUID(),
       name,
       callListId,
+      agentIds: agentIds || [],
       status: 'Draft',
       totalLeads: callList.totalLeads,
       dialedLeads: 0,
@@ -186,17 +187,13 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const billingInfo = await BillingService.getInfo(c.env);
     return ok(c, billingInfo);
   });
-  // RESELLER PANEL
-  app.get('/api/reseller/dashboard', async (c) => {
-    const stats = await ResellerDashboardService.getStats(c.env);
-    return ok(c, stats);
-  });
-  app.get('/api/reseller/clients', async (c) => {
+  // CLIENTS (formerly Reseller Clients)
+  app.get('/api/clients', async (c) => {
     await ResellerClientEntity.ensureSeed(c.env);
     const page = await ResellerClientEntity.list(c.env);
     return ok(c, page.items);
   });
-  app.post('/api/reseller/clients', async (c) => {
+  app.post('/api/clients', async (c) => {
     const body = await c.req.json();
     const validation = CreateResellerClientSchema.safeParse(body);
     if (!validation.success) {
@@ -215,7 +212,22 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     await ResellerClientEntity.create(c.env, newClient);
     return ok(c, newClient);
   });
-  app.delete('/api/reseller/clients/:id', async (c) => {
+  app.put('/api/clients/:id', async (c) => {
+    const id = c.req.param('id');
+    const body = await c.req.json();
+    const validation = EditResellerClientSchema.safeParse(body);
+    if (!validation.success) {
+        return bad(c, 'Invalid client data');
+    }
+    const clientEntity = new ResellerClientEntity(c.env, id);
+    if (!(await clientEntity.exists())) {
+        return notFound(c, 'Client not found');
+    }
+    await clientEntity.patch(validation.data);
+    const updatedClient = await clientEntity.getState();
+    return ok(c, updatedClient);
+  });
+  app.delete('/api/clients/:id', async (c) => {
     const id = c.req.param('id');
     const deleted = await ResellerClientEntity.delete(c.env, id);
     if (!deleted) {
@@ -223,20 +235,10 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     }
     return ok(c, { id });
   });
-  app.get('/api/reseller/settings', async (c) => {
-    const settingsEntity = new ResellerSettingsEntity(c.env);
-    const settings = await settingsEntity.getState();
-    return ok(c, settings);
-  });
-  app.post('/api/reseller/settings', async (c) => {
-    const body = await c.req.json();
-    const validation = ResellerSettingsSchema.safeParse(body);
-    if (!validation.success) {
-      return bad(c, 'Invalid settings data');
-    }
-    const settingsEntity = new ResellerSettingsEntity(c.env);
-    await settingsEntity.save(validation.data);
-    return ok(c, validation.data);
+  // RESELLER PANEL
+  app.get('/api/reseller/dashboard', async (c) => {
+    const stats = await ResellerDashboardService.getStats(c.env);
+    return ok(c, stats);
   });
   app.get('/api/reseller/billing', async (c) => {
     const info = await ResellerBillingService.getInfo(c.env);
