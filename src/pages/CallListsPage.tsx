@@ -18,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCallListStore } from '@/stores/useCallListStore';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { UploadCallListDialog } from '@/components/UploadCallListDialog';
 import {
   AlertDialog,
@@ -33,15 +32,13 @@ import {
 import { tr } from '@/lib/locales/tr';
 export function CallListsPage() {
   const { callLists, loading, fetchCallLists, deleteCallList } = useCallListStore();
-  const user = useAuthStore(s => s.user);
   const [isUploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
-    const userId = user?.role === 'user' ? user.id : undefined;
-    fetchCallLists(userId);
-  }, [fetchCallLists, user]);
+    fetchCallLists();
+  }, [fetchCallLists]);
   const handleDeleteClick = (id: string) => {
     setSelectedListId(id);
     setDeleteDialogOpen(true);

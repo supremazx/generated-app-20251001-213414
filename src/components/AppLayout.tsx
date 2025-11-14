@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   PhoneCall,
@@ -8,15 +8,10 @@ import {
   Menu,
   Power,
   CreditCard,
-  Briefcase,
-  BrainCircuit,
-  Music,
-  User,
-  UserCog,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
@@ -28,78 +23,28 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { tr } from '@/lib/locales/tr';
-import { useAuthStore } from '@/stores/useAuthStore';
 const dashboardItem = { href: '/', label: tr.nav.dashboard, icon: LayoutDashboard };
-const userDashboardItem = { href: '/user-dashboard', label: tr.nav.userDashboard, icon: User };
-const adminNavGroups = [
+const navGroups = [
   {
     title: tr.nav.dialer,
     items: [
       { href: '/campaigns', label: tr.nav.campaigns, icon: PhoneCall },
       { href: '/call-lists', label: tr.nav.callLists, icon: List },
-      { href: '/audio-files', label: tr.nav.audioFiles, icon: Music },
     ],
-  },
-  {
-    title: tr.nav.vogent.title,
-    items: [
-      { href: '/knowledge-base', label: tr.nav.vogent.knowledgeBase, icon: BrainCircuit },
-    ]
   },
   {
     title: tr.nav.account,
     items: [
       { href: '/billing', label: tr.nav.billing, icon: CreditCard },
       { href: '/settings', label: tr.nav.settings, icon: Settings },
-      { href: '/account-settings', label: tr.nav.accountSettings, icon: UserCog },
     ],
   },
-  {
-    title: tr.nav.reseller.title,
-    items: [
-        { href: '/reseller/dashboard', label: tr.nav.reseller.dashboard, icon: Briefcase },
-        { href: '/clients', label: tr.nav.clients, icon: Users },
-        { href: '/reseller/billing', label: tr.nav.reseller.billing, icon: CreditCard },
-    ]
-  }
-];
-const userNavGroups = [
-  {
-    title: tr.nav.dialer,
-    items: [
-      { href: '/campaigns', label: tr.nav.campaigns, icon: PhoneCall },
-      { href: '/call-lists', label: tr.nav.callLists, icon: List },
-      { href: '/audio-files', label: tr.nav.audioFiles, icon: Music },
-    ],
-  },
-  {
-    title: tr.nav.vogent.title,
-    items: [
-      { href: '/knowledge-base', label: tr.nav.vogent.knowledgeBase, icon: BrainCircuit },
-    ]
-  },
-  {
-    title: tr.nav.account,
-    items: [
-      { href: '/billing', label: tr.nav.billing, icon: CreditCard },
-    ],
-  }
 ];
 const NavContent = () => {
-  const user = useAuthStore(s => s.user);
-  const navGroups = useMemo(() => {
-    if (user?.role === 'admin') {
-      return adminNavGroups;
-    }
-    if (user?.role === 'user') {
-      return userNavGroups;
-    }
-    return [];
-  }, [user?.role]);
   return (
     <>
       <div className="flex h-16 items-center px-4 border-b border-gray-800">
-        <h1 className="text-xl font-display text-white">{tr.appTitle}</h1>
+        <h1 className="text-2xl font-display text-white">{tr.appTitle}</h1>
       </div>
       <nav className="flex-1 space-y-2 p-4">
         <NavLink
@@ -115,20 +60,6 @@ const NavContent = () => {
           <dashboardItem.icon className="h-5 w-5" />
           {dashboardItem.label}
         </NavLink>
-        {user?.role === 'user' && (
-          <NavLink
-            to={userDashboardItem.href}
-            className={({ isActive }) =>
-              cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-white hover:bg-gray-700',
-                isActive && 'bg-blue-600 text-white'
-              )
-            }
-          >
-            <userDashboardItem.icon className="h-5 w-5" />
-            {userDashboardItem.label}
-          </NavLink>
-        )}
         <div className="pt-2 space-y-2">
           {navGroups.map((group) => (
             <div key={group.title} className="space-y-2">
@@ -160,28 +91,13 @@ const NavContent = () => {
 export function AppLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const logout = useAuthStore(s => s.logout);
-  const user = useAuthStore(s => s.user);
-  const allNavItems = useMemo(() => {
-    if (user?.role === 'admin') {
-      return [dashboardItem, ...adminNavGroups.flatMap(g => g.items)];
-    }
-    if (user?.role === 'user') {
-      return [dashboardItem, userDashboardItem, ...userNavGroups.flatMap(g => g.items)];
-    }
-    return [];
-  }, [user?.role]);
+  const allNavItems = [dashboardItem, ...navGroups.flatMap(g => g.items)];
   const pageTitle = allNavItems.find(item => {
     if (item.href === '/') {
       return location.pathname === '/';
     }
     return location.pathname.startsWith(item.href);
   })?.label || 'Details';
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
   return (
     <TooltipProvider>
       <div className="min-h-screen w-full bg-slate-100 dark:bg-gray-900">
@@ -210,7 +126,7 @@ export function AppLayout() {
                     variant="ghost"
                     size="icon"
                     className="text-muted-foreground hover:text-foreground"
-                    onClick={handleLogout}
+                    onClick={() => console.log('Logout action triggered')}
                   >
                     <Power className="h-5 w-5" />
                   </Button>
