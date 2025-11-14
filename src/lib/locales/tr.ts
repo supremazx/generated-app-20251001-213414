@@ -22,7 +22,7 @@ export const tr = {
   dashboardPage: {
     title: "Kontrol Paneli",
     statCards: {
-      callsMade: "Bug����nkü Aramalar",
+      callsMade: "Bugünkü Aramalar",
       connectionRate: "Bağlantı Oranı",
       activeAgents: "Aktif Operatörler",
       liveCampaigns: "Aktif Kampanyalar",
@@ -59,7 +59,7 @@ export const tr = {
       cancel: "İptal",
       confirm: "Sil",
     },
-    emptyState: "Kampanya bulunamad��. Başlamak için bir tane oluşturun.",
+    emptyState: "Kampanya bulunamadı. Başlamak için bir tane oluşturun.",
   },
   // Agents Page
   agentsPage: {
@@ -77,7 +77,7 @@ export const tr = {
     uploadList: "Liste Yükle",
     table: {
       name: "İsim",
-      totalLeads: "Toplam Kişi",
+      totalLeads: "Toplam Ki��i",
       dialedLeads: "Aranan Kişi",
       uploadedAt: "Yüklenme Tarihi",
       actions: "Eylemler",
@@ -175,9 +175,9 @@ export const tr = {
       sipCostDescription: "Agent'ın SIP bağlantısı için iç maliyetiniz.",
     },
     integrations: {
-        title: "Üçüncü Parti Entegrasyonlar",
-        description: "Dinamik fiyatlandırma için Sippulse gibi harici servislere bağlanın.",
-        sippulseApiKey: "Sippulse AI API Anahtarı",
+        title: "Yapay Zeka Sağlayıcı",
+        description: "Dinamik fiyatlandırma için harici servislere bağlanın.",
+        sippulseApiKey: "vogent.ai API Anahtarı",
         sippulseDescription: "AI dakikaları için dinamik, gerçek zamanlı fiyatlandırmayı etkinleştirir.",
     },
   },
@@ -249,9 +249,9 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
-    namePlaceholder: "Örn., 4. Çeyrek Satışları",
+    namePlaceholder: "Örn., 4. ��eyrek Satışları",
     callListLabel: "Arama Listesi",
     callListPlaceholder: "Bir arama listesi seçin",
     assignAgentsLabel: "Agent Ata",
