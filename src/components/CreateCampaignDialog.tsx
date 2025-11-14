@@ -21,7 +21,7 @@ import { CreateCampaignSchema, type CreateCampaignData } from '@shared/types';
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
 import { useAgentStore } from '@/stores/useAgentStore';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import {
   Form,
   FormControl,
@@ -30,7 +30,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { MultiSelect } from './ui/multi-select';
 import { tr } from '@/lib/locales/tr';
 interface CreateCampaignDialogProps {
   open: boolean;
@@ -47,7 +46,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
     defaultValues: {
       name: '',
       callListId: '',
-      agentIds: [],
+      agentId: '',
     },
   });
   useEffect(() => {
@@ -56,7 +55,6 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
       fetchAgents();
     }
   }, [open, fetchCallLists, fetchAgents]);
-  const agentOptions = useMemo(() => agents.map(agent => ({ value: agent.id, label: agent.name })), [agents]);
   const onSubmit = async (data: CreateCampaignData) => {
     await addCampaign(data);
     form.reset();
@@ -112,18 +110,24 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
             />
             <FormField
               control={form.control}
-              name="agentIds"
+              name="agentId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      options={agentOptions}
-                      selected={field.value || []}
-                      onChange={(selected) => field.onChange(selected)}
-                      placeholder={tr.createCampaignDialog.assignAgentsPlaceholder}
-                    />
-                  </FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={tr.createCampaignDialog.assignAgentsPlaceholder} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {agents.map((agent) => (
+                        <SelectItem key={agent.id} value={agent.id}>
+                          {agent.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
