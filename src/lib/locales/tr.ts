@@ -22,7 +22,7 @@ export const tr = {
   dashboardPage: {
     title: "Kontrol Paneli",
     statCards: {
-      callsMade: "Bugünkü Aramalar",
+      callsMade: "Bug��nkü Aramalar",
       connectionRate: "Bağlantı Oranı",
       activeAgents: "Aktif Operatörler",
       liveCampaigns: "Aktif Kampanyalar",
@@ -122,7 +122,7 @@ export const tr = {
       status: "Durum",
       actions: "Eylemler",
       download: "İndir",
-      paid: "��dendi",
+      paid: "Ödendi",
     },
   },
   // User Dashboard Page
@@ -168,7 +168,7 @@ export const tr = {
       title: "Fiyatlandırma Yapılandırması",
       description: "Kârlılık analizi için iç maliyetleri belirleyin.",
       pricePerMinute: "Kullanıcı Dakika Başına Fiyatı",
-      pricePerMinuteDescription: "Kullanıcılardan AI dakikası başına alınacak ��cret.",
+      pricePerMinuteDescription: "Kullanıcılardan AI dakikası başına alınacak ücret.",
       aiBasePrice: "AI Dakika Başına Taban Fiyatı",
       aiBasePriceDescription: "AI servisleri için dakika başına iç maliyetiniz.",
       sipCost: "AI Agent SIP Dakika Maliyeti",
@@ -285,7 +285,7 @@ export const tr = {
     companyNamePlaceholder: "Örn., Innovate Corp",
     contactEmailLabel: "Yetkili E-postası",
     contactEmailPlaceholder: "Örn., contact@innovate.com",
-    provisionedAgentsLabel: "Agent Sayısı",
+    provisionedAgentsLabel: "Agent Ata",
     cancel: "İptal",
     submit: "Müşteri Oluştur",
   },
@@ -308,6 +308,7 @@ export const tr = {
     resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
     resellerClientUpdated: "Müşteri başarıyla güncellendi!",
     resellerClientDeleted: "Müşteri başarıyla silindi!",
+    clientStatusUpdated: (status: string) => `Müşteri durumu ${status} olarak güncellendi.`,
     error: {
       generic: "Bir hata oluştu",
       createCampaign: "Kampanya oluşturulamadı",
