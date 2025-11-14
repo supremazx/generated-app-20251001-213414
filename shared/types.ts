@@ -139,3 +139,8 @@ export const CreateResellerClientSchema = z.object({
   provisionedAgents: z.coerce.number().int().min(1, "At least one agent is required."),
 });
 export type CreateResellerClientData = z.infer<typeof CreateResellerClientSchema>;
+export const ResellerSettingsSchema = z.object({
+  resellerCompanyName: z.string().min(1, "Company name is required."),
+  resellerPricePerMinute: z.coerce.number().min(0, "Price must be a positive number."),
+});
+export type ResellerSettings = z.infer<typeof ResellerSettingsSchema>;

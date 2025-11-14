@@ -102,11 +102,11 @@ export const tr = {
     statCards: {
       currentUsage: "Mevcut Kullanım",
       nextInvoice: "Sonraki Fatura (Tahmini)",
-      cycleEnds: "Fatura Dönemi Sonu",
+      cycleEnds: "Fatura D��nemi Sonu",
       pricePerMinute: "/dk",
     },
     profitabilityAnalysis: {
-      title: "K��rlılık Analizi",
+      title: "Kârlılık Analizi",
       aiServiceCost: "AI Servis Maliyeti",
       sipCost: "SIP Maliyeti",
       profitMargin: "Kâr Marjı",
@@ -123,13 +123,13 @@ export const tr = {
       status: "Durum",
       actions: "Eylemler",
       download: "İndir",
-      paid: "Ödendi",
+      paid: "��dendi",
     },
   },
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre Değiştir",
+    changePassword: "Şifre De��iştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -216,10 +216,27 @@ export const tr = {
     },
     emptyState: "Müşteri bulunamadı. Başlamak için bir tane ekleyin.",
   },
+  resellerSettingsPage: {
+    title: "Bayi Ayarları",
+    saveButton: "Ayarları Kaydet",
+    branding: {
+      title: "Markalama",
+      description: "Bayi arayüzü için markalamayı yapılandırın.",
+      companyName: "Şirket Adı",
+      companyNamePlaceholder: "Örn., Vogent.ai",
+    },
+    pricing: {
+      title: "Fiyatlandırma",
+      description: "Müşterileriniz için fiyatlandırma modelini belirleyin.",
+      pricePerMinute: "Müşteri Dakika Başına Fiyatı",
+      pricePerMinutePlaceholder: "Örn., 0.080",
+      pricePerMinuteDescription: "Müşterilerinizden AI dakikası başına alınacak ücret.",
+    },
+  },
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
