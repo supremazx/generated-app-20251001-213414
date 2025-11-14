@@ -22,7 +22,7 @@ export const tr = {
   dashboardPage: {
     title: "Kontrol Paneli",
     statCards: {
-      callsMade: "Bug��nkü Aramalar",
+      callsMade: "Bug����nkü Aramalar",
       connectionRate: "Bağlantı Oranı",
       activeAgents: "Aktif Operatörler",
       liveCampaigns: "Aktif Kampanyalar",
@@ -59,7 +59,7 @@ export const tr = {
       cancel: "İptal",
       confirm: "Sil",
     },
-    emptyState: "Kampanya bulunamadı. Başlamak için bir tane oluşturun.",
+    emptyState: "Kampanya bulunamad��. Başlamak için bir tane oluşturun.",
   },
   // Agents Page
   agentsPage: {
@@ -128,7 +128,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre De��iştir",
+    changePassword: "Şifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -207,6 +207,12 @@ export const tr = {
       createdAt: "Katılma Tarihi",
       actions: "Eylemler",
     },
+    actions: {
+      edit: "Düzenle",
+      delete: "Sil",
+      suspend: "Askıya Al",
+      activate: "Aktif Et",
+    },
     deleteDialog: {
       title: "Müşteriyi silmek istediğinizden emin misiniz?",
       description: "Bu eylem geri alınamaz. Bu, müşteriyi ve ilişkili tüm verileri kalıcı olarak silecektir.",
@@ -243,7 +249,7 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",

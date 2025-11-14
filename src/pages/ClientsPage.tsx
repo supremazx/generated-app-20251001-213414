@@ -10,7 +10,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, Loader2, Edit, Trash2, UserX } from "lucide-react";
+import { PlusCircle, Loader2, Edit, Trash2, UserX, UserCheck, MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,31 +34,9 @@ import { CreateResellerClientDialog } from '@/components/CreateResellerClientDia
 import { EditClientDialog } from '@/components/EditClientDialog';
 import { tr } from '@/lib/locales/tr';
 import type { ResellerClient } from '@shared/types';
-import { AnimatePresence, motion } from 'framer-motion';
 const statusColors: Record<ResellerClient['status'], string> = {
   Active: "bg-green-500",
   Suspended: "bg-red-500",
-};
-const RowActions = ({ client, onEdit, onDelete, onSuspend }: { client: ResellerClient, onEdit: () => void, onDelete: () => void, onSuspend: () => void }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-1 bg-background p-1 rounded-md border shadow-lg"
-          >
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onEdit}><Edit className="h-4 w-4" /></Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-600" onClick={onDelete}><Trash2 className="h-4 w-4" /></Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-yellow-500 hover:text-yellow-600" onClick={onSuspend}><UserX className="h-4 w-4" /></Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
 };
 export function ClientsPage() {
   const { clients, loading, fetchClients, deleteClient, updateClientStatus } = useResellerClientsStore();
@@ -73,7 +58,7 @@ export function ClientsPage() {
     setSelectedClient(client);
     setEditDialogOpen(true);
   };
-  const handleSuspendClick = (client: ResellerClient) => {
+  const handleStatusToggleClick = (client: ResellerClient) => {
     const newStatus = client.status === 'Active' ? 'Suspended' : 'Active';
     updateClientStatus(client.id, newStatus);
   };
@@ -102,7 +87,7 @@ export function ClientsPage() {
                 <TableHead>{tr.resellerClientsPage.table.status}</TableHead>
                 <TableHead>Atanan Agent</TableHead>
                 <TableHead>{tr.resellerClientsPage.table.createdAt}</TableHead>
-                <TableHead className="text-right w-20">{tr.resellerClientsPage.table.actions}</TableHead>
+                <TableHead className="text-right w-[100px]">{tr.resellerClientsPage.table.actions}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -122,20 +107,45 @@ export function ClientsPage() {
                 </TableRow>
               ) : (
                 clients.map((client) => (
-                  <TableRow key={client.id} className="hover:bg-muted/50 group">
+                  <TableRow key={client.id} className="hover:bg-muted/50">
                     <TableCell className="font-medium">{client.companyName}</TableCell>
                     <TableCell>
                       <Badge className={`${statusColors[client.status]} hover:${statusColors[client.status]}`}>{client.status}</Badge>
                     </TableCell>
                     <TableCell>{agentMap.get(client.agentId) || 'N/A'}</TableCell>
                     <TableCell>{new Date(client.createdAt).toLocaleDateString()}</TableCell>
-                    <TableCell className="text-right relative">
-                      <RowActions
-                        client={client}
-                        onEdit={() => handleEditClick(client)}
-                        onDelete={() => handleDeleteClick(client)}
-                        onSuspend={() => handleSuspendClick(client)}
-                      />
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleEditClick(client)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            {tr.resellerClientsPage.actions.edit}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleStatusToggleClick(client)}>
+                            {client.status === 'Active' ? (
+                              <>
+                                <UserX className="mr-2 h-4 w-4" />
+                                {tr.resellerClientsPage.actions.suspend}
+                              </>
+                            ) : (
+                              <>
+                                <UserCheck className="mr-2 h-4 w-4" />
+                                {tr.resellerClientsPage.actions.activate}
+                              </>
+                            )}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={() => handleDeleteClick(client)} className="text-red-500 focus:text-red-500">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            {tr.resellerClientsPage.actions.delete}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))
