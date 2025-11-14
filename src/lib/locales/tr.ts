@@ -79,6 +79,7 @@ export const tr = {
     connections: "Bağlantılar",
     connectionRate: "Bağlantı Oranı",
     progress: "Kampanya İlerlemesi",
+    knowledgeBase: "Bilgi Bankası",
     callListDetails: "Arama Listesi Detayları",
     callListDescription: "Detaylı arama listesi bilgileri gelecekteki bir güncellemede burada görüntülenecektir.",
   },
@@ -177,13 +178,13 @@ export const tr = {
       status: "Durum",
       actions: "Eylemler",
       download: "İndir",
-      paid: "Ödendi",
+      paid: "��dendi",
     },
   },
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre Değiştir",
+    changePassword: "��ifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -298,19 +299,21 @@ export const tr = {
     status: {
       paid: "Ödendi",
       due: "Vadesi Geldi",
-      overdue: "Vadesi Geçti",
+      overdue: "Vadesi Ge��ti",
     },
   },
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşa��ıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
     callListPlaceholder: "Bir arama listesi seçin",
     assignAgentsLabel: "Agent Ata",
     assignAgentsPlaceholder: "Bir agent seçin",
+    knowledgeBaseLabel: "Bilgi Bankası (Opsiyonel)",
+    knowledgeBasePlaceholder: "Bir bilgi bankası seçin",
     cancel: "İptal",
     submit: "Kampanya Oluştur",
   },
