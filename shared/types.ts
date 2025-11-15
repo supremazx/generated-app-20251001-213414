@@ -11,7 +11,7 @@ export interface Campaign {
   name: string;
   status: CampaignStatus;
   callListId: string;
-  agentId: string;
+  agentId?: string;
   knowledgeBaseId?: string;
   audioFileId?: string;
   totalLeads: number;
