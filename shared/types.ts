@@ -96,12 +96,18 @@ export interface UserDashboardInfo {
 export const CreateCampaignSchema = z.object({
   name: z.string().min(3, { message: "Campaign name must be at least 3 characters long." }),
   callListId: z.string().min(1, { message: "Please select a call list." }),
-  agentId: z.string().min(1, { message: "Please select an agent." }),
+  agentId: z.string().optional(),
   knowledgeBaseId: z.string().optional(),
   audioFileId: z.string().optional(),
 });
 export type CreateCampaignData = z.infer<typeof CreateCampaignSchema>;
-export const EditCampaignSchema = CreateCampaignSchema;
+export const EditCampaignSchema = z.object({
+  name: z.string().min(3, { message: "Campaign name must be at least 3 characters long." }),
+  callListId: z.string().min(1, { message: "Please select a call list." }),
+  agentId: z.string().optional(),
+  knowledgeBaseId: z.string().optional(),
+  audioFileId: z.string().optional(),
+});
 export type EditCampaignData = z.infer<typeof EditCampaignSchema>;
 export const UpdateCampaignStatusSchema = z.object({
     status: CampaignStatusSchema,
