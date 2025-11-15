@@ -9,7 +9,7 @@ interface CallListState {
   selectedCallList: CallList | null;
   loading: boolean;
   error: string | null;
-  fetchCallLists: () => Promise<void>;
+  fetchCallLists: (userId?: string) => Promise<void>;
   fetchCallListById: (id: string) => Promise<void>;
   addCallList: (formData: FormData) => Promise<CallList | undefined>;
   deleteCallList: (id: string) => Promise<void>;
@@ -31,10 +31,11 @@ export const useCallListStore = create<CallListState>()(
     selectedCallList: null,
     loading: false,
     error: null,
-    fetchCallLists: async () => {
+    fetchCallLists: async (userId?: string) => {
       set({ loading: true, error: null });
       try {
-        const callLists = await api<CallList[]>('/api/call-lists');
+        const url = userId ? `/api/call-lists?userId=${userId}` : '/api/call-lists';
+        const callLists = await api<CallList[]>(url);
         set({ callLists, loading: false });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to fetch call lists';

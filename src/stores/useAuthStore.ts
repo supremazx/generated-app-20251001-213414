@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { toast } from 'sonner';
 type User = {
+  id: string;
   email: string;
   role: 'admin' | 'user';
 };
@@ -39,9 +40,9 @@ export const useAuthStore = create<AuthState>()(
       if (password === 'password') {
         let user: User | null = null;
         if (email === 'admin@example.com') {
-          user = { email, role: 'admin' };
+          user = { id: 'admin-001', email, role: 'admin' };
         } else if (email === 'user@example.com') {
-          user = { email, role: 'user' };
+          user = { id: 'user-123', email, role: 'user' };
         }
         if (user) {
           localStorage.setItem('edgedialer_user', JSON.stringify(user));
@@ -57,7 +58,7 @@ export const useAuthStore = create<AuthState>()(
     logout: () => {
       localStorage.removeItem('edgedialer_user');
       set({ isAuthenticated: false, user: null });
-      toast.info('Başarıyla ç��kış yapıldı.');
+      toast.info('Başarıyla çıkış yapıldı.');
     },
   }))
 );
