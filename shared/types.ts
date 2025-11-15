@@ -91,6 +91,8 @@ export interface UserDashboardInfo {
   totalCallsMade: number;
   averageCallDuration: number; // in seconds
   aiCostThisCycle: number;
+  userCampaignProgress: { name: string; dialed: number; total: number }[];
+  userCallsOverTime: { name: string; calls: number }[];
 }
 // Zod Schemas for Validation
 export const CreateCampaignSchema = z.object({

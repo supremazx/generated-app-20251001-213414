@@ -17,7 +17,12 @@ export const useUserDashboardStore = create<UserDashboardState>()(
     loading: false,
     error: null,
     fetchUserInfo: async () => {
-      set({ loading: true, error: null });
+      set((state) => {
+        if (!state.userInfo) {
+          state.loading = true;
+        }
+        state.error = null;
+      });
       try {
         const info = await api<UserDashboardInfo>('/api/user-dashboard');
         set({ userInfo: info, loading: false });
