@@ -11,10 +11,11 @@ import {
   Briefcase,
   BrainCircuit,
   Music,
+  User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
@@ -28,7 +29,8 @@ import {
 import { tr } from '@/lib/locales/tr';
 import { useAuthStore } from '@/stores/useAuthStore';
 const dashboardItem = { href: '/', label: tr.nav.dashboard, icon: LayoutDashboard };
-const navGroups = [
+const userDashboardItem = { href: '/user-dashboard', label: tr.nav.userDashboard, icon: User };
+const adminNavGroups = [
   {
     title: tr.nav.dialer,
     items: [
@@ -60,6 +62,13 @@ const navGroups = [
   }
 ];
 const NavContent = () => {
+  const user = useAuthStore(s => s.user);
+  const navGroups = useMemo(() => {
+    if (user?.role === 'admin') {
+      return adminNavGroups;
+    }
+    return [];
+  }, [user?.role]);
   return (
     <>
       <div className="flex h-16 items-center px-4 border-b border-gray-800">
@@ -79,6 +88,20 @@ const NavContent = () => {
           <dashboardItem.icon className="h-5 w-5" />
           {dashboardItem.label}
         </NavLink>
+        {user?.role === 'user' && (
+          <NavLink
+            to={userDashboardItem.href}
+            className={({ isActive }) =>
+              cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-white hover:bg-gray-700',
+                isActive && 'bg-blue-600 text-white'
+              )
+            }
+          >
+            <userDashboardItem.icon className="h-5 w-5" />
+            {userDashboardItem.label}
+          </NavLink>
+        )}
         <div className="pt-2 space-y-2">
           {navGroups.map((group) => (
             <div key={group.title} className="space-y-2">
@@ -112,7 +135,13 @@ export function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const logout = useAuthStore(s => s.logout);
-  const allNavItems = [dashboardItem, ...navGroups.flatMap(g => g.items)];
+  const user = useAuthStore(s => s.user);
+  const allNavItems = useMemo(() => {
+    if (user?.role === 'admin') {
+      return [dashboardItem, ...adminNavGroups.flatMap(g => g.items)];
+    }
+    return [dashboardItem, userDashboardItem];
+  }, [user?.role]);
   const pageTitle = allNavItems.find(item => {
     if (item.href === '/') {
       return location.pathname === '/';

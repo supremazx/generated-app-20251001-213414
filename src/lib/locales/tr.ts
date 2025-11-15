@@ -3,6 +3,7 @@ export const tr = {
   appTitle: "YzSantralim Edge Dialer",
   nav: {
     dashboard: "Kontrol Paneli",
+    userDashboard: "Kullanıcı Paneli",
     dialer: "Çevirici",
     campaigns: "Kampanyalar",
     agents: "Operatörler",
@@ -30,6 +31,8 @@ export const tr = {
     emailLabel: "E-posta",
     passwordLabel: "Şifre",
     loginButton: "Giriş Yap",
+    loginAsAdmin: "Yönetici Olarak Giriş Yap",
+    loginAsUser: "Kullanıcı Olarak Giriş Yap",
   },
   // Campaign Statuses
   campaignStatus: {
@@ -405,7 +408,7 @@ export const tr = {
   },
   changePasswordDialog: {
     title: "Şifre Değiştir",
-    description: "Aşağıya mevcut ve yeni şifrenizi girin.",
+    description: "Aşağıya mevcut ve yeni ��ifrenizi girin.",
     currentPassword: "Mevcut Şifre",
     newPassword: "Yeni Şifre",
     confirmPassword: "Yeni Şifreyi Onayla",
