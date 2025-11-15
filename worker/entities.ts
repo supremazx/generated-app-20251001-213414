@@ -1,6 +1,6 @@
 import { IndexedEntity, Entity, type Env } from "./core-utils";
-import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerBillingInfo, KnowledgeBase, AudioFile } from "@shared/types";
-import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_BILLING_INFO, MOCK_USER_DASHBOARD_INFO, MOCK_RESELLER_CLIENTS, MOCK_RESELLER_DASHBOARD_STATS, MOCK_RESELLER_BILLING_INFO } from "@shared/mock-data";
+import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerBillingInfo, KnowledgeBase, AudioFile, CallLog, CallLogStatus } from "@shared/types";
+import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_BILLING_INFO, MOCK_USER_DASHBOARD_INFO, MOCK_RESELLER_CLIENTS, MOCK_RESELLER_DASHBOARD_STATS, MOCK_RESELLER_BILLING_INFO, MOCK_CALL_LOGS } from "@shared/mock-data";
 export class CampaignEntity extends IndexedEntity<Campaign> {
   static readonly entityName = "campaign";
   static readonly indexName = "campaigns";
@@ -27,6 +27,12 @@ export class AudioFileEntity extends IndexedEntity<AudioFile> {
     static readonly entityName = "audioFile";
     static readonly indexName = "audioFiles";
     static readonly initialState: AudioFile = { id: "", name: "", fileName: "", size: 0, uploadedAt: "" };
+}
+export class CallLogEntity extends IndexedEntity<CallLog> {
+    static readonly entityName = "callLog";
+    static readonly indexName = "callLogs";
+    static readonly initialState: CallLog = { id: "", campaignId: "", phoneNumber: "", status: 'Dialing', duration: 0, timestamp: "" };
+    static seedData = MOCK_CALL_LOGS;
 }
 export class SettingsEntity extends Entity<Settings> {
     static readonly entityName = "settings";
@@ -128,13 +134,36 @@ export class DialerSimulationService {
             let { dialedLeads, connections, status } = campaign;
             if (dialedLeads >= campaign.totalLeads) {
                 status = 'Completed';
-            } else {
-                const callsThisTick = Math.floor(Math.random() * 5) + 1;
-                dialedLeads = Math.min(campaign.totalLeads, dialedLeads + callsThisTick);
-                const connectionsThisTick = Math.random() < 0.3 ? Math.floor(callsThisTick * Math.random()) : 0;
-                connections += connectionsThisTick;
+                await campaignEntity.patch({ status });
+                continue;
             }
-            await campaignEntity.patch({ dialedLeads, connections, status });
+            const callsThisTick = Math.floor(Math.random() * 5) + 1;
+            const newDialedLeads = Math.min(campaign.totalLeads, dialedLeads + callsThisTick);
+            let newConnections = connections;
+            for (let i = 0; i < callsThisTick; i++) {
+                const rand = Math.random();
+                let callStatus: CallLogStatus;
+                let duration = 0;
+                if (rand < 0.3) {
+                    callStatus = 'Answered';
+                    duration = Math.floor(Math.random() * 180) + 10;
+                    newConnections++;
+                } else if (rand < 0.6) {
+                    callStatus = 'Busy';
+                } else {
+                    callStatus = 'Failed';
+                }
+                const newLog: CallLog = {
+                    id: `log-${crypto.randomUUID()}`,
+                    campaignId: campaign.id,
+                    phoneNumber: `+1-555-${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 9000 + 1000)}`,
+                    status: callStatus,
+                    duration,
+                    timestamp: new Date().toISOString(),
+                };
+                await CallLogEntity.create(env, newLog);
+            }
+            await campaignEntity.patch({ dialedLeads: newDialedLeads, connections: newConnections });
         }
         for (const agent of agents) {
             const agentEntity = new AgentEntity(env, agent.id);

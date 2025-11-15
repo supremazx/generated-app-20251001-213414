@@ -30,6 +30,12 @@ export const tr = {
     Completed: "Tamamlandı",
     Draft: "Taslak",
   },
+  callLogStatus: {
+    Dialing: "Aranıyor",
+    Answered: "Cevaplandı",
+    Busy: "Meşgul",
+    Failed: "Başarısız",
+  },
   // Dashboard Page
   dashboardPage: {
     title: "Kontrol Paneli",
@@ -84,6 +90,13 @@ export const tr = {
     audioFile: "Ses Dosyası",
     callListDetails: "Arama Listesi Detayları",
     callListDescription: "Detaylı arama listesi bilgileri gelecekteki bir güncellemede burada görüntülenecektir.",
+    callLogs: {
+      title: "Arama Kayıtları",
+      phoneNumber: "Telefon Numarası",
+      status: "Durum",
+      duration: "Süre",
+      timestamp: "Zaman Damgası",
+    },
   },
   // Agents Page
   agentsPage: {
@@ -329,7 +342,7 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşağ��daki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşa����daki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
@@ -345,7 +358,7 @@ export const tr = {
   },
   editCampaignDialog: {
     title: "Kampanyayı Düzenle",
-    description: "Kampanyanızın ayrıntılarını aşağıda güncelleyin.",
+    description: "Kampanyanızın ayrıntılarını aşağ��da güncelleyin.",
     cancel: "İptal",
     submit: "Değişiklikleri Kaydet",
   },

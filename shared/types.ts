@@ -48,6 +48,15 @@ export interface AudioFile {
   size: number; // in bytes
   uploadedAt: string;
 }
+export type CallLogStatus = 'Dialing' | 'Answered' | 'Busy' | 'Failed';
+export interface CallLog {
+  id: string;
+  campaignId: string;
+  phoneNumber: string;
+  status: CallLogStatus;
+  duration: number; // in seconds
+  timestamp: string;
+}
 export interface DialerStats {
   callsMade: number;
   connectionRate: number;

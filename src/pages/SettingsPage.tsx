@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from "@/components/ui/button";
 import {
@@ -50,7 +50,7 @@ export function SettingsPage() {
       form.reset(settings);
     }
   }, [settings, form]);
-  const onSubmit: SubmitHandler<Settings> = async (data) => {
+  const onSubmit = async (data: Settings) => {
     await updateSettings(data);
     toast.success(tr.toasts.settingsSaved);
   };

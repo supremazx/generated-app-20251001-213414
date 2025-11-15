@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity, AudioFileEntity } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity, AudioFileEntity, CallLogEntity } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile, CallLog } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -43,6 +43,13 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     }
     const campaign = await campaignEntity.getState();
     return ok(c, campaign);
+  });
+  app.get('/api/campaigns/:id/logs', async (c) => {
+    const campaignId = c.req.param('id');
+    await CallLogEntity.ensureSeed(c.env);
+    const allLogs = (await CallLogEntity.list(c.env)).items;
+    const campaignLogs = allLogs.filter(log => log.campaignId === campaignId);
+    return ok(c, campaignLogs);
   });
   app.post('/api/campaigns', async (c) => {
     const body = await c.req.json();
