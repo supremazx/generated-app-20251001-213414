@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAudioFileStore } from '@/stores/useAudioFileStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { UploadAudioFileDialog } from '@/components/UploadAudioFileDialog';
 import {
   AlertDialog,
@@ -39,12 +40,14 @@ const formatBytes = (bytes: number, decimals = 2) => {
 }
 export function AudioFilesPage() {
   const { audioFiles, loading, fetchAudioFiles, deleteAudioFile } = useAudioFileStore();
+  const user = useAuthStore(s => s.user);
   const [isUploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   useEffect(() => {
-    fetchAudioFiles();
-  }, [fetchAudioFiles]);
+    const userId = user?.role === 'user' ? user.id : undefined;
+    fetchAudioFiles(userId);
+  }, [fetchAudioFiles, user]);
   const handleDeleteClick = (id: string) => {
     setSelectedId(id);
     setDeleteDialogOpen(true);

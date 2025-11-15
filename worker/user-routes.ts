@@ -31,8 +31,13 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   });
   // CAMPAIGNS
   app.get('/api/campaigns', async (c) => {
+    const userId = c.req.query('userId');
     await CampaignEntity.ensureSeed(c.env);
     const page = await CampaignEntity.list(c.env);
+    if (userId) {
+        // Simulate filtering for a specific user. Return a subset.
+        return ok(c, page.items.slice(0, 2));
+    }
     return ok(c, page.items);
   });
   app.get('/api/campaigns/:id', async (c) => {
@@ -125,8 +130,12 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   });
   // CALL LISTS
   app.get('/api/call-lists', async (c) => {
+    const userId = c.req.query('userId');
     await CallListEntity.ensureSeed(c.env);
     const page = await CallListEntity.list(c.env);
+    if (userId) {
+        return ok(c, page.items.slice(0, 3));
+    }
     return ok(c, page.items);
   });
   app.get('/api/call-lists/:id', async (c) => {
@@ -176,7 +185,11 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   });
   // KNOWLEDGE BASES
   app.get('/api/knowledge-bases', async (c) => {
+    const userId = c.req.query('userId');
     const page = await KnowledgeBaseEntity.list(c.env);
+    if (userId) {
+        return ok(c, page.items.slice(0, 1));
+    }
     return ok(c, page.items);
   });
   app.post('/api/knowledge-bases', async (c) => {
@@ -222,7 +235,11 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   });
   // AUDIO FILES
   app.get('/api/audio-files', async (c) => {
+    const userId = c.req.query('userId');
     const page = await AudioFileEntity.list(c.env);
+    if (userId) {
+        return ok(c, page.items.slice(0, 2));
+    }
     return ok(c, page.items);
   });
   app.post('/api/audio-files', async (c) => {

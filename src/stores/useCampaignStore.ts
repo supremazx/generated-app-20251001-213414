@@ -11,7 +11,7 @@ interface CampaignState {
   callLogsLoading: boolean;
   loading: boolean;
   error: string | null;
-  fetchCampaigns: () => Promise<void>;
+  fetchCampaigns: (userId?: string) => Promise<void>;
   fetchCampaignById: (id: string) => Promise<void>;
   fetchCallLogs: (campaignId: string) => Promise<void>;
   addCampaign: (newCampaign: CreateCampaignData) => Promise<Campaign | undefined>;
@@ -27,7 +27,7 @@ export const useCampaignStore = create<CampaignState>()(
     callLogsLoading: false,
     loading: false,
     error: null,
-    fetchCampaigns: async () => {
+    fetchCampaigns: async (userId?: string) => {
       set((state) => {
         if (state.campaigns.length === 0) {
           state.loading = true;
@@ -35,7 +35,8 @@ export const useCampaignStore = create<CampaignState>()(
         state.error = null;
       });
       try {
-        const campaigns = await api<Campaign[]>('/api/campaigns');
+        const url = userId ? `/api/campaigns?userId=${userId}` : '/api/campaigns';
+        const campaigns = await api<Campaign[]>(url);
         set({ campaigns, loading: false });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to fetch campaigns';

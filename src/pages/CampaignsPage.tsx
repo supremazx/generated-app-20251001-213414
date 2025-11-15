@@ -23,6 +23,7 @@ import {
 import type { Campaign, CampaignStatus } from "@shared/types";
 import { Progress } from "@/components/ui/progress";
 import { useCampaignStore } from '@/stores/useCampaignStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { CreateCampaignDialog } from '@/components/CreateCampaignDialog';
 import { EditCampaignDialog } from '@/components/EditCampaignDialog';
 import {
@@ -45,6 +46,7 @@ const statusColors: Record<CampaignStatus, string> = {
 const statusTranslations: Record<CampaignStatus, string> = tr.campaignStatus;
 export function CampaignsPage() {
   const { campaigns, loading, fetchCampaigns, deleteCampaign, updateCampaignStatus } = useCampaignStore();
+  const user = useAuthStore(s => s.user);
   const [isCreateDialogOpen, setCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -52,10 +54,11 @@ export function CampaignsPage() {
   const [campaignType, setCampaignType] = useState<'ai' | 'audio' | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
-    fetchCampaigns();
-    const intervalId = setInterval(fetchCampaigns, 5000); // Poll for updates from simulation
+    const userId = user?.role === 'user' ? user.id : undefined;
+    fetchCampaigns(userId);
+    const intervalId = setInterval(() => fetchCampaigns(userId), 5000); // Poll for updates from simulation
     return () => clearInterval(intervalId);
-  }, [fetchCampaigns]);
+  }, [fetchCampaigns, user]);
   const handleDeleteClick = (campaign: Campaign) => {
     setSelectedCampaign(campaign);
     setDeleteDialogOpen(true);
