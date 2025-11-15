@@ -118,54 +118,58 @@ export function CreateCampaignDialog({ open, onOpenChange, campaignType }: Creat
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="agentId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={tr.createCampaignDialog.assignAgentsPlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {agents.map((agent) => (
-                        <SelectItem key={agent.id} value={agent.id}>
-                          {agent.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="knowledgeBaseId"
-              render={({ field }) => (
-                <FormItem className={cn(campaignType === 'audio' && 'opacity-50')}>
-                  <FormLabel>{tr.createCampaignDialog.knowledgeBaseLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={campaignType === 'audio'}>
-                    <FormControl>
-                      <SelectTrigger className={cn(campaignType === 'ai' && 'ring-2 ring-blue-500')}>
-                        <SelectValue placeholder={tr.createCampaignDialog.knowledgeBasePlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {knowledgeBases.map((kb) => (
-                        <SelectItem key={kb.id} value={kb.id}>
-                          {kb.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {campaignType === 'ai' && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="agentId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{tr.createCampaignDialog.assignAgentsLabel}</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder={tr.createCampaignDialog.assignAgentsPlaceholder} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {agents.map((agent) => (
+                            <SelectItem key={agent.id} value={agent.id}>
+                              {agent.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="knowledgeBaseId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{tr.createCampaignDialog.knowledgeBaseLabel}</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="ring-2 ring-blue-500">
+                            <SelectValue placeholder={tr.createCampaignDialog.knowledgeBasePlaceholder} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {knowledgeBases.map((kb) => (
+                            <SelectItem key={kb.id} value={kb.id}>
+                              {kb.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
             <FormField
               control={form.control}
               name="audioFileId"

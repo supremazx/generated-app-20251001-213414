@@ -26,7 +26,7 @@ import { toast } from 'sonner';
 import { tr } from '@/lib/locales/tr';
 export function SettingsPage() {
   const { settings, loading, fetchSettings, updateSettings } = useSettingsStore();
-  const form = useForm<Settings>({
+  const form = useForm({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
       serverAddress: '',

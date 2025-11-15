@@ -221,7 +221,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "��ifre Değiştir",
+    changePassword: "Şifre De��iştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
