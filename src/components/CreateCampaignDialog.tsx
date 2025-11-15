@@ -22,6 +22,7 @@ import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
 import { useAgentStore } from '@/stores/useAgentStore';
 import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
+import { useAudioFileStore } from '@/stores/useAudioFileStore';
 import { useEffect } from 'react';
 import {
   Form,
@@ -43,6 +44,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
   const agents = useAgentStore((state) => state.agents);
   const fetchAgents = useAgentStore((state) => state.fetchAgents);
   const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
+  const { audioFiles, fetchAudioFiles } = useAudioFileStore();
   const form = useForm<CreateCampaignData>({
     resolver: zodResolver(CreateCampaignSchema),
     defaultValues: {
@@ -50,6 +52,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
       callListId: '',
       agentId: '',
       knowledgeBaseId: '',
+      audioFileId: '',
     },
   });
   useEffect(() => {
@@ -57,8 +60,9 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
       fetchCallLists();
       fetchAgents();
       fetchKnowledgeBases();
+      fetchAudioFiles();
     }
-  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases]);
+  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases, fetchAudioFiles]);
   const onSubmit = async (data: CreateCampaignData) => {
     await addCampaign(data);
     form.reset();
@@ -66,7 +70,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px] md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>{tr.createCampaignDialog.title}</DialogTitle>
           <DialogDescription>
@@ -152,6 +156,30 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
                       {knowledgeBases.map((kb) => (
                         <SelectItem key={kb.id} value={kb.id}>
                           {kb.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="audioFileId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tr.createCampaignDialog.audioFileLabel}</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={tr.createCampaignDialog.audioFilePlaceholder} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {audioFiles.map((af) => (
+                        <SelectItem key={af.id} value={af.id}>
+                          {af.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
