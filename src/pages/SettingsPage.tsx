@@ -131,7 +131,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.connection.dbPort}</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="5432" {...field} value={field.value ?? ''} />
+                        <Input type="number" placeholder="5432" {...field} value={Number(field.value) || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -223,7 +223,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.pricing.pricePerMinute}</FormLabel>
                       <FormControl>
-                        <Input type="number" step="0.001" placeholder="e.g., 0.050" {...field} value={field.value ?? ''} />
+                        <Input type="number" step="0.001" placeholder="e.g., 0.050" {...field} value={Number(field.value) || ''} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.pricing.pricePerMinuteDescription}
@@ -239,7 +239,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.pricing.aiBasePrice}</FormLabel>
                       <FormControl>
-                        <Input type="number" step="0.001" placeholder="e.g., 0.025" {...field} value={field.value ?? ''} />
+                        <Input type="number" step="0.001" placeholder="e.g., 0.025" {...field} value={Number(field.value) || ''} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.pricing.aiBasePriceDescription}
@@ -255,7 +255,7 @@ export function SettingsPage() {
                     <FormItem>
                       <FormLabel>{tr.settingsPage.pricing.sipCost}</FormLabel>
                       <FormControl>
-                        <Input type="number" step="0.001" placeholder="e.g., 0.015" {...field} value={field.value ?? ''} />
+                        <Input type="number" step="0.001" placeholder="e.g., 0.015" {...field} value={Number(field.value) || ''} />
                       </FormControl>
                       <FormDescription>
                         {tr.settingsPage.pricing.sipCostDescription}
