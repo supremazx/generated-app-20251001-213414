@@ -1,4 +1,4 @@
-import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo, ResellerClient, ResellerDashboardStats, ResellerInvoice, ResellerBillingInfo } from './types';
+import type { Campaign, Agent, CallList, DialerStats, BillingInfo, UserDashboardInfo, ResellerClient, ResellerDashboardStats, ResellerInvoice, ResellerBillingInfo, CallLog } from './types';
 export const MOCK_CAMPAIGNS: Campaign[] = [
   { id: 'c-001', name: 'Q4 Sales Push', status: 'Active', callListId: 'cl-101', agentId: 'a-101', totalLeads: 5000, dialedLeads: 1250, connections: 312, createdAt: '2023-10-01T10:00:00Z' },
   { id: 'c-002', name: 'New Product Launch', status: 'Active', callListId: 'cl-102', agentId: 'a-105', totalLeads: 10000, dialedLeads: 8500, connections: 1500, createdAt: '2023-10-05T14:30:00Z' },
@@ -22,6 +22,12 @@ export const MOCK_CALL_LISTS: CallList[] = [
     { id: 'cl-103', name: 'APAC SMB Contacts', totalLeads: 2500, dialedLeads: 1000, uploadedAt: '2023-09-19T10:00:00Z' },
     { id: 'cl-104', name: 'LATAM Prospects', totalLeads: 7500, dialedLeads: 7500, uploadedAt: '2023-08-14T15:00:00Z' },
     { id: 'cl-105', name: 'New Signups Q4', totalLeads: 1500, dialedLeads: 0, uploadedAt: '2023-10-10T14:00:00Z' },
+];
+export const MOCK_CALL_LOGS: CallLog[] = [
+  { id: 'log-001', campaignId: 'c-001', phoneNumber: '+1-555-123-4567', status: 'Answered', duration: 125, timestamp: new Date(Date.now() - 2 * 60 * 1000).toISOString() },
+  { id: 'log-002', campaignId: 'c-001', phoneNumber: '+1-555-234-5678', status: 'Busy', duration: 0, timestamp: new Date(Date.now() - 1.5 * 60 * 1000).toISOString() },
+  { id: 'log-003', campaignId: 'c-001', phoneNumber: '+1-555-345-6789', status: 'Failed', duration: 0, timestamp: new Date(Date.now() - 1 * 60 * 1000).toISOString() },
+  { id: 'log-004', campaignId: 'c-001', phoneNumber: '+1-555-456-7890', status: 'Answered', duration: 45, timestamp: new Date(Date.now() - 0.5 * 60 * 1000).toISOString() },
 ];
 export const MOCK_DIALER_STATS: DialerStats = {
   callsMade: 28753,
