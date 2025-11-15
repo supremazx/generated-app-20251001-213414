@@ -1,6 +1,6 @@
 export const tr = {
   // App Layout
-  appTitle: "Yzsantralim.com",
+  appTitle: "YzSantralim Edge Dialer",
   nav: {
     dashboard: "Kontrol Paneli",
     dialer: "Çevirici",
@@ -22,6 +22,14 @@ export const tr = {
       title: "Vogent.ai",
       knowledgeBase: "Bilgi Bankası",
     }
+  },
+  // Login Page
+  loginPage: {
+    title: "Hesabınıza Giriş Yapın",
+    description: "Devam etmek için bilgilerinizi girin.",
+    emailLabel: "E-posta",
+    passwordLabel: "Şifre",
+    loginButton: "Giriş Yap",
   },
   // Campaign Statuses
   campaignStatus: {
@@ -221,7 +229,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre De��iştir",
+    changePassword: "Şifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -336,7 +344,7 @@ export const tr = {
     status: {
       paid: "Ödendi",
       due: "Vadesi Geldi",
-      overdue: "Vadesi Geçti",
+      overdue: "Vadesi Ge��ti",
     },
   },
   // Dialogs

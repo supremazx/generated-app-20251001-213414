@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   PhoneCall,
@@ -26,6 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { tr } from '@/lib/locales/tr';
+import { useAuthStore } from '@/stores/useAuthStore';
 const dashboardItem = { href: '/', label: tr.nav.dashboard, icon: LayoutDashboard };
 const navGroups = [
   {
@@ -62,7 +63,7 @@ const NavContent = () => {
   return (
     <>
       <div className="flex h-16 items-center px-4 border-b border-gray-800">
-        <h1 className="text-2xl font-display text-white">{tr.appTitle}</h1>
+        <h1 className="text-xl font-display text-white">{tr.appTitle}</h1>
       </div>
       <nav className="flex-1 space-y-2 p-4">
         <NavLink
@@ -109,6 +110,8 @@ const NavContent = () => {
 export function AppLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const logout = useAuthStore(s => s.logout);
   const allNavItems = [dashboardItem, ...navGroups.flatMap(g => g.items)];
   const pageTitle = allNavItems.find(item => {
     if (item.href === '/') {
@@ -116,6 +119,10 @@ export function AppLayout() {
     }
     return location.pathname.startsWith(item.href);
   })?.label || 'Details';
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
   return (
     <TooltipProvider>
       <div className="min-h-screen w-full bg-slate-100 dark:bg-gray-900">
@@ -144,7 +151,7 @@ export function AppLayout() {
                     variant="ghost"
                     size="icon"
                     className="text-muted-foreground hover:text-foreground"
-                    onClick={() => console.log('Logout action triggered')}
+                    onClick={handleLogout}
                   >
                     <Power className="h-5 w-5" />
                   </Button>

@@ -25,10 +25,16 @@ import { ClientsPage } from "@/pages/ClientsPage";
 import { ResellerBillingPage } from "@/pages/reseller/ResellerBillingPage";
 import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
 import { AudioFilesPage } from "@/pages/AudioFilesPage";
+import { LoginPage } from "@/pages/LoginPage";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
     errorElement: <RouteErrorBoundary />,
     children: [
       { index: true, element: <DashboardPage /> },
@@ -46,6 +52,10 @@ const router = createBrowserRouter([
       { path: "reseller/dashboard", element: <ResellerDashboardPage /> },
       { path: "reseller/billing", element: <ResellerBillingPage /> },
     ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
   {
     path: "*",
