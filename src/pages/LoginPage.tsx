@@ -15,7 +15,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useAuthStore } from '@/stores/useAuthStore';
 import { tr } from '@/lib/locales/tr';
 import { Loader2 } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 const LoginSchema = z.object({
   email: z.string().email({ message: "Geçerli bir e-posta adresi girin." }),
   password: z.string().min(1, { message: "Şifre gereklidir." }),
@@ -37,12 +36,6 @@ export function LoginPage() {
     if (success) {
       navigate('/');
     }
-  };
-  const handleQuickLogin = (role: 'admin' | 'user') => {
-    const email = role === 'admin' ? 'admin@example.com' : 'user@example.com';
-    form.setValue('email', email, { shouldValidate: true });
-    form.setValue('password', 'password', { shouldValidate: true });
-    form.handleSubmit(onSubmit)();
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-gray-900 p-4">
@@ -86,15 +79,6 @@ export function LoginPage() {
               </Button>
             </form>
           </Form>
-          <Separator className="my-6" />
-          <div className="space-y-2">
-            <Button variant="outline" className="w-full" onClick={() => handleQuickLogin('admin')} disabled={isLoading}>
-              {tr.loginPage.loginAsAdmin}
-            </Button>
-            <Button variant="outline" className="w-full" onClick={() => handleQuickLogin('user')} disabled={isLoading}>
-              {tr.loginPage.loginAsUser}
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </div>
