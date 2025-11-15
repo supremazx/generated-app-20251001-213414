@@ -172,6 +172,11 @@ export const SettingsSchema = z.object({
   sippulseApiKey: z.string().optional(),
 });
 export type Settings = z.infer<typeof SettingsSchema>;
+export const ChangeEmailSchema = z.object({
+  newEmail: z.string().email({ message: "Invalid email address." }),
+  password: z.string().min(1, { message: "Password is required for confirmation." }),
+});
+export type ChangeEmailData = z.infer<typeof ChangeEmailSchema>;
 export const ChangePasswordSchema = z.object({
   currentPassword: z.string().min(1, { message: "Current password is required." }),
   newPassword: z.string().min(8, { message: "New password must be at least 8 characters long." }),

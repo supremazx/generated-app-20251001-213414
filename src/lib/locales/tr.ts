@@ -13,6 +13,7 @@ export const tr = {
     clients: "Müşteriler",
     billing: "Analiz ve Faturalandırma",
     settings: "Ayarlar",
+    accountSettings: "Hesap Ayarları",
     logout: "Çıkış Yap",
     reseller: {
       title: "Bayi",
@@ -45,7 +46,7 @@ export const tr = {
     Dialing: "Aranıyor",
     Answered: "Cevaplandı",
     Busy: "Meşgul",
-    Failed: "Başarısız",
+    Failed: "Ba��arısız",
   },
   // Dashboard Page
   dashboardPage: {
@@ -232,7 +233,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre Değiştir",
+    accountSettings: "Hesap Ayarları",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -246,6 +247,26 @@ export const tr = {
       title: "AI Maliyet Analizi",
       description: "Mevcut dönem için AI kullanımınızın tahmini maliyeti.",
       estimatedCost: "Tahmini AI Maliyeti",
+    },
+  },
+  // Account Settings Page
+  accountSettingsPage: {
+    title: "Hesap Ayarları",
+    description: "Hesap bilgilerinizi ve güvenlik ayarlarınızı yönetin.",
+    changeEmail: {
+      title: "E-posta Adresini Değiştir",
+      description: "Hesabınızla ilişkili e-posta adresini güncelleyin.",
+      newEmailLabel: "Yeni E-posta Adresi",
+      passwordLabel: "Onay için Şifre",
+      submitButton: "E-postayı Güncelle",
+    },
+    changePassword: {
+      title: "Şifreyi Değiştir",
+      description: "Güvenlik için şifrenizi düzenli olarak güncelleyin.",
+      currentPasswordLabel: "Mevcut Şifre",
+      newPasswordLabel: "Yeni Şifre",
+      confirmPasswordLabel: "Yeni Şifreyi Onayla",
+      submitButton: "Şifreyi Güncelle",
     },
   },
   // Settings Page
@@ -347,7 +368,7 @@ export const tr = {
     status: {
       paid: "Ödendi",
       due: "Vadesi Geldi",
-      overdue: "Vadesi Ge��ti",
+      overdue: "Vadesi Geçti",
     },
   },
   // Dialogs
@@ -406,15 +427,6 @@ export const tr = {
     cancel: "İptal",
     submit: "Yükle",
   },
-  changePasswordDialog: {
-    title: "Şifre Değiştir",
-    description: "Aşağıya mevcut ve yeni ��ifrenizi girin.",
-    currentPassword: "Mevcut Şifre",
-    newPassword: "Yeni Şifre",
-    confirmPassword: "Yeni Şifreyi Onayla",
-    cancel: "İptal",
-    submit: "Şifreyi Güncelle",
-  },
   createResellerClientDialog: {
     title: "Yeni Müşteri Ekle",
     description: "Yeni bir bayi müşterisi oluşturmak için aşağıdaki ayrıntıları doldurun.",
@@ -446,6 +458,7 @@ export const tr = {
     audioFileDeleted: "Ses dosyası başarıyla silindi!",
     settingsSaved: "Ayarlar başarıyla kaydedildi!",
     passwordChanged: "Şifre başarıyla değiştirildi!",
+    emailChanged: "E-posta başarıyla değiştirildi!",
     resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
     resellerClientUpdated: "Müşteri başarıyla güncellendi!",
     resellerClientDeleted: "Müşteri başarıyla silindi!",
@@ -463,6 +476,7 @@ export const tr = {
       uploadAudioFile: "Ses dosyası yüklenemedi",
       deleteAudioFile: "Ses dosyası silinemedi",
       changePassword: "Şifre değiştirilemedi",
+      changeEmail: "E-posta değiştirilemedi",
       createResellerClient: "Müşteri oluşturulamadı",
       updateResellerClient: "Müşteri güncellenemedi",
       deleteResellerClient: "Müşteri silinemedi",
