@@ -3,7 +3,7 @@ export const tr = {
   appTitle: "Yzsantralim.com",
   nav: {
     dashboard: "Kontrol Paneli",
-    dialer: "��evirici",
+    dialer: "Çevirici",
     campaigns: "Kampanyalar",
     agents: "Operatörler",
     callLists: "Arama Listeleri",
@@ -40,7 +40,7 @@ export const tr = {
   dashboardPage: {
     title: "Kontrol Paneli",
     statCards: {
-      callsMade: "Bug��nkü Aramalar",
+      callsMade: "Bugünkü Aramalar",
       connectionRate: "Bağlantı Oranı",
       activeAgents: "Aktif Operatörler",
       liveCampaigns: "Aktif Kampanyalar",
@@ -142,7 +142,7 @@ export const tr = {
     dialed: "arandı",
     total: "toplam",
     leadsTitle: "Potansiyel Müşteriler",
-    leadsDescription: "Bireysel potansiyel müşterilerin detaylı görün��mü gelecekteki bir güncellemede mevcut olacaktır.",
+    leadsDescription: "Bireysel potansiyel müşterilerin detaylı görünümü gelecekteki bir güncellemede mevcut olacaktır.",
   },
   // Knowledge Base Page
   knowledgeBasePage: {
@@ -221,7 +221,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre De��iştir",
+    changePassword: "��ifre Değiştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -336,13 +336,13 @@ export const tr = {
     status: {
       paid: "Ödendi",
       due: "Vadesi Geldi",
-      overdue: "Vadesi Ge��ti",
+      overdue: "Vadesi Geçti",
     },
   },
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşa����daki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
@@ -355,10 +355,13 @@ export const tr = {
     audioFilePlaceholder: "Bir ses dosyası seçin",
     cancel: "İptal",
     submit: "Kampanya Oluştur",
+    selectTypeTitle: "Kampanya Türü Seçin",
+    createWithAi: "Yapay zeka ile yarat",
+    createWithAudio: "Ses gönderme ile yarat",
   },
   editCampaignDialog: {
     title: "Kampanyayı Düzenle",
-    description: "Kampanyanızın ayrıntılarını aşağ��da güncelleyin.",
+    description: "Kampanyanızın ayrıntılarını aşağıda güncelleyin.",
     cancel: "İptal",
     submit: "Değişiklikleri Kaydet",
   },

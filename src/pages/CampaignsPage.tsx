@@ -11,13 +11,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, MoreHorizontal, Loader2, Play, Pause, Square } from "lucide-react";
+import { PlusCircle, MoreHorizontal, Loader2, Play, Pause, Square, BrainCircuit, Music } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import type { Campaign, CampaignStatus } from "@shared/types";
 import { Progress } from "@/components/ui/progress";
@@ -48,6 +49,7 @@ export function CampaignsPage() {
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [campaignType, setCampaignType] = useState<'ai' | 'audio' | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
     fetchCampaigns();
@@ -72,15 +74,35 @@ export function CampaignsPage() {
     setDeleteDialogOpen(false);
     setSelectedCampaign(null);
   };
+  const handleCreateCampaign = (type: 'ai' | 'audio') => {
+    setCampaignType(type);
+    setCreateDialogOpen(true);
+  };
   return (
     <>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>{tr.campaignsPage.title}</CardTitle>
-          <Button onClick={() => setCreateDialogOpen(true)}>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            {tr.campaignsPage.newCampaign}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                {tr.campaignsPage.newCampaign}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>{tr.createCampaignDialog.selectTypeTitle}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleCreateCampaign('ai')}>
+                <BrainCircuit className="mr-2 h-4 w-4" />
+                {tr.createCampaignDialog.createWithAi}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleCreateCampaign('audio')}>
+                <Music className="mr-2 h-4 w-4" />
+                {tr.createCampaignDialog.createWithAudio}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardHeader>
         <CardContent>
           <Table>
@@ -160,7 +182,7 @@ export function CampaignsPage() {
           </Table>
         </CardContent>
       </Card>
-      <CreateCampaignDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} />
+      <CreateCampaignDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} campaignType={campaignType} />
       <EditCampaignDialog open={isEditDialogOpen} onOpenChange={setEditDialogOpen} campaign={selectedCampaign} />
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>

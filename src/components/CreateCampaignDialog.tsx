@@ -33,11 +33,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { tr } from '@/lib/locales/tr';
+import { cn } from '@/lib/utils';
 interface CreateCampaignDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  campaignType: 'ai' | 'audio' | null;
 }
-export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialogProps) {
+export function CreateCampaignDialog({ open, onOpenChange, campaignType }: CreateCampaignDialogProps) {
   const addCampaign = useCampaignStore((state) => state.addCampaign);
   const callLists = useCallListStore((state) => state.callLists);
   const fetchCallLists = useCallListStore((state) => state.fetchCallLists);
@@ -144,11 +146,11 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
               control={form.control}
               name="knowledgeBaseId"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className={cn(campaignType === 'audio' && 'opacity-50')}>
                   <FormLabel>{tr.createCampaignDialog.knowledgeBaseLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={campaignType === 'audio'}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className={cn(campaignType === 'ai' && 'ring-2 ring-blue-500')}>
                         <SelectValue placeholder={tr.createCampaignDialog.knowledgeBasePlaceholder} />
                       </SelectTrigger>
                     </FormControl>
@@ -168,11 +170,11 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
               control={form.control}
               name="audioFileId"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className={cn(campaignType === 'ai' && 'opacity-50')}>
                   <FormLabel>{tr.createCampaignDialog.audioFileLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={campaignType === 'ai'}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className={cn(campaignType === 'audio' && 'ring-2 ring-blue-500')}>
                         <SelectValue placeholder={tr.createCampaignDialog.audioFilePlaceholder} />
                       </SelectTrigger>
                     </FormControl>
