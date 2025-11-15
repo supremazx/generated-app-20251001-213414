@@ -3,10 +3,11 @@ export const tr = {
   appTitle: "Yzsantralim.com",
   nav: {
     dashboard: "Kontrol Paneli",
-    dialer: "Çevirici",
+    dialer: "��evirici",
     campaigns: "Kampanyalar",
     agents: "Operatörler",
     callLists: "Arama Listeleri",
+    audioFiles: "Ses Dosyaları",
     account: "Hesap",
     clients: "Müşteriler",
     billing: "Analiz ve Faturalandırma",
@@ -127,7 +128,7 @@ export const tr = {
     dialed: "arandı",
     total: "toplam",
     leadsTitle: "Potansiyel Müşteriler",
-    leadsDescription: "Bireysel potansiyel müşterilerin detaylı görünümü gelecekteki bir güncellemede mevcut olacaktır.",
+    leadsDescription: "Bireysel potansiyel müşterilerin detaylı görün��mü gelecekteki bir güncellemede mevcut olacaktır.",
   },
   // Knowledge Base Page
   knowledgeBasePage: {
@@ -149,6 +150,28 @@ export const tr = {
       confirm: "Sil",
     },
     emptyState: "Bilgi bankası bulunamadı. Başlamak için bir tane yükleyin.",
+  },
+  // Audio Files Page
+  audioFilesPage: {
+    title: "Ses Dosyaları",
+    upload: "Yükle",
+    table: {
+      name: "İsim",
+      fileName: "Dosya Adı",
+      size: "Boyut",
+      uploadedAt: "Yüklenme Tarihi",
+      actions: "Eylemler",
+    },
+    actions: {
+      delete: "Sil",
+    },
+    deleteDialog: {
+      title: "Emin misiniz?",
+      description: "Bu eylem geri alınamaz. Bu, ses dosyasını kalıcı olarak silecektir.",
+      cancel: "İptal",
+      confirm: "Sil",
+    },
+    emptyState: "Ses dosyası bulunamadı. Başlamak için bir tane yükleyin.",
   },
   // Billing Page
   billingPage: {
@@ -299,7 +322,7 @@ export const tr = {
     status: {
       paid: "Ödendi",
       due: "Vadesi Geldi",
-      overdue: "Vadesi Geçti",
+      overdue: "Vadesi Ge��ti",
     },
   },
   // Dialogs
@@ -343,6 +366,16 @@ export const tr = {
     cancel: "İptal",
     submit: "Yükle",
   },
+  uploadAudioFileDialog: {
+    title: "Yeni Ses Dosyası Yükle",
+    description: "Bir isim belirtin ve bir MP3 veya WAV dosyası yükleyin.",
+    nameLabel: "Ses Dosyası Adı",
+    namePlaceholder: "Örn., Hoş Geldiniz Mesajı",
+    fileLabel: "Ses Dosyası (MP3, WAV)",
+    fileDescription: "Dosyayı buraya sürükleyin veya seçmek için tıklayın",
+    cancel: "İptal",
+    submit: "Yükle",
+  },
   changePasswordDialog: {
     title: "Şifre Değiştir",
     description: "Aşağıya mevcut ve yeni şifrenizi girin.",
@@ -379,6 +412,8 @@ export const tr = {
     callListDeleted: "Arama listesi başarıyla silindi!",
     knowledgeBaseUploaded: "Bilgi bankası başarıyla yüklendi!",
     knowledgeBaseDeleted: "Bilgi bankası başarıyla silindi!",
+    audioFileUploaded: "Ses dosyası başarıyla yüklendi!",
+    audioFileDeleted: "Ses dosyası başarıyla silindi!",
     settingsSaved: "Ayarlar başarıyla kaydedildi!",
     passwordChanged: "Şifre başarıyla değiştirildi!",
     resellerClientCreated: "Müşteri başarıyla oluşturuldu!",
@@ -395,6 +430,8 @@ export const tr = {
       deleteCallList: "Arama listesi silinemedi",
       uploadKnowledgeBase: "Bilgi bankası yüklenemedi",
       deleteKnowledgeBase: "Bilgi bankası silinemedi",
+      uploadAudioFile: "Ses dosyası yüklenemedi",
+      deleteAudioFile: "Ses dosyası silinemedi",
       changePassword: "Şifre değiştirilemedi",
       createResellerClient: "Müşteri oluşturulamadı",
       updateResellerClient: "Müşteri güncellenemedi",

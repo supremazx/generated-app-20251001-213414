@@ -1,5 +1,5 @@
 import { IndexedEntity, Entity, type Env } from "./core-utils";
-import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerBillingInfo, KnowledgeBase } from "@shared/types";
+import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerBillingInfo, KnowledgeBase, AudioFile } from "@shared/types";
 import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_BILLING_INFO, MOCK_USER_DASHBOARD_INFO, MOCK_RESELLER_CLIENTS, MOCK_RESELLER_DASHBOARD_STATS, MOCK_RESELLER_BILLING_INFO } from "@shared/mock-data";
 export class CampaignEntity extends IndexedEntity<Campaign> {
   static readonly entityName = "campaign";
@@ -22,6 +22,11 @@ export class KnowledgeBaseEntity extends IndexedEntity<KnowledgeBase> {
     static readonly entityName = "knowledgeBase";
     static readonly indexName = "knowledgeBases";
     static readonly initialState: KnowledgeBase = { id: "", name: "", uploadedAt: "", leadCount: 0 };
+}
+export class AudioFileEntity extends IndexedEntity<AudioFile> {
+    static readonly entityName = "audioFile";
+    static readonly indexName = "audioFiles";
+    static readonly initialState: AudioFile = { id: "", name: "", fileName: "", size: 0, uploadedAt: "" };
 }
 export class SettingsEntity extends Entity<Settings> {
     static readonly entityName = "settings";

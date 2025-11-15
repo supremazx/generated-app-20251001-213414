@@ -10,6 +10,7 @@ import {
   CreditCard,
   Briefcase,
   BrainCircuit,
+  Music,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -32,6 +33,7 @@ const navGroups = [
     items: [
       { href: '/campaigns', label: tr.nav.campaigns, icon: PhoneCall },
       { href: '/call-lists', label: tr.nav.callLists, icon: List },
+      { href: '/audio-files', label: tr.nav.audioFiles, icon: Music },
     ],
   },
   {

@@ -8,7 +8,7 @@ interface AudioFileState {
   audioFiles: AudioFile[];
   loading: boolean;
   error: string | null;
-  fetchAudioFiles: (userId?: string) => Promise<void>;
+  fetchAudioFiles: () => Promise<void>;
   addAudioFile: (formData: FormData) => Promise<AudioFile | undefined>;
   deleteAudioFile: (id: string) => Promise<void>;
 }
@@ -28,11 +28,10 @@ export const useAudioFileStore = create<AudioFileState>()(
     audioFiles: [],
     loading: false,
     error: null,
-    fetchAudioFiles: async (userId?: string) => {
+    fetchAudioFiles: async () => {
       set({ loading: true, error: null });
       try {
-        const url = userId ? `/api/audio-files?userId=${userId}` : '/api/audio-files';
-        const audioFiles = await api<AudioFile[]>(url);
+        const audioFiles = await api<AudioFile[]>('/api/audio-files');
         set({ audioFiles, loading: false });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to fetch audio files';
