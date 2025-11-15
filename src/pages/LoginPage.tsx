@@ -54,7 +54,7 @@ export function LoginPage() {
                   <FormItem>
                     <FormLabel>{tr.loginPage.emailLabel}</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="admin@example.com" {...field} />
+                      <Input type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
