@@ -77,10 +77,24 @@ export const MOCK_USER_DASHBOARD_INFO: UserDashboardInfo = {
   userName: 'John Doe',
   userEmail: 'john.doe@example.com',
   accountBalance: 1250.75,
-  totalAiMinutesUsed: totalAiMinutesUsed,
-  totalCallsMade: 8320,
-  averageCallDuration: 145, // in seconds
+  totalAiMinutesUsed: 850,
+  totalCallsMade: 1230,
+  averageCallDuration: 115, // in seconds
   aiCostThisCycle: totalAiMinutesUsed * totalBaseCost,
+  userCampaignProgress: [
+    { name: 'My Q4 Follow-up', dialed: 250, total: 1000 },
+    { name: 'Personal Leads', dialed: 800, total: 1200 },
+  ],
+  userCallsOverTime: [
+    { name: '9am', calls: 50 },
+    { name: '10am', calls: 80 },
+    { name: '11am', calls: 120 },
+    { name: '12pm', calls: 100 },
+    { name: '1pm', calls: 150 },
+    { name: '2pm', calls: 200 },
+    { name: '3pm', calls: 180 },
+    { name: '4pm', calls: 220 },
+  ],
 };
 export const MOCK_RESELLER_CLIENTS: ResellerClient[] = [
   { id: 'rc-001', companyName: 'Innovate Corp', contactEmail: 'contact@innovate.com', status: 'Active', agentId: 'a-101', createdAt: '2023-08-15T10:00:00Z' },

@@ -107,6 +107,12 @@ export class UserDashboardService {
         const totalBaseCostPerMinute = settings.aiBasePricePerMinute + settings.aiAgentSipMinuteCost;
         const info = { ...MOCK_USER_DASHBOARD_INFO };
         info.aiCostThisCycle = info.totalAiMinutesUsed * totalBaseCostPerMinute;
+        // Simulate user-specific data
+        info.userCampaignProgress = [
+            { name: 'My Q4 Follow-up', dialed: 250, total: 1000 },
+            { name: 'Personal Leads', dialed: 800, total: 1200 },
+        ];
+        info.userCallsOverTime = MOCK_DIALER_STATS.callsOverTime.map(d => ({...d, calls: Math.floor(d.calls / 5)}));
         return info;
     }
     static async changePassword(data: ChangePasswordData): Promise<{ success: boolean }> {
