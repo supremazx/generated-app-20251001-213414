@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from './core-utils';
-import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity } from "./entities";
+import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity, AudioFileEntity } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -209,6 +209,41 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const deleted = await KnowledgeBaseEntity.delete(c.env, id);
     if (!deleted) {
       return notFound(c, 'Knowledge base not found');
+    }
+    return ok(c, { id });
+  });
+  // AUDIO FILES
+  app.get('/api/audio-files', async (c) => {
+    const page = await AudioFileEntity.list(c.env);
+    return ok(c, page.items);
+  });
+  app.post('/api/audio-files', async (c) => {
+    const formData = await c.req.formData();
+    const file = formData.get('file');
+    const name = formData.get('name');
+    if (!(file instanceof File)) {
+      return bad(c, 'File is required');
+    }
+    if (typeof name !== 'string' || name.length < 3) {
+      return bad(c, 'Audio file name must be at least 3 characters long.');
+    }
+    // NOTE: In a real scenario, you would upload the file to a storage service (like R2)
+    // and store the URL. Here, we only store metadata.
+    const newAudioFile: AudioFile = {
+      id: crypto.randomUUID(),
+      name,
+      fileName: file.name,
+      size: file.size,
+      uploadedAt: new Date().toISOString(),
+    };
+    await AudioFileEntity.create(c.env, newAudioFile);
+    return ok(c, newAudioFile);
+  });
+  app.delete('/api/audio-files/:id', async (c) => {
+    const id = c.req.param('id');
+    const deleted = await AudioFileEntity.delete(c.env, id);
+    if (!deleted) {
+      return notFound(c, 'Audio file not found');
     }
     return ok(c, { id });
   });

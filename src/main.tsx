@@ -24,6 +24,7 @@ import { ResellerDashboardPage } from "@/pages/reseller/ResellerDashboardPage";
 import { ClientsPage } from "@/pages/ClientsPage";
 import { ResellerBillingPage } from "@/pages/reseller/ResellerBillingPage";
 import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
+import { AudioFilesPage } from "@/pages/AudioFilesPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "call-lists", element: <CallListsPage /> },
       { path: "call-lists/:callListId", element: <CallListDetailPage /> },
       { path: "knowledge-base", element: <KnowledgeBasePage /> },
+      { path: "audio-files", element: <AudioFilesPage /> },
       { path: "clients", element: <ClientsPage /> },
       { path: "billing", element: <BillingPage /> },
       { path: "settings", element: <SettingsPage /> },

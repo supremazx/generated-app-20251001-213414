@@ -40,6 +40,13 @@ export interface KnowledgeBase {
   uploadedAt: string;
   leadCount: number;
 }
+export interface AudioFile {
+  id: string;
+  name: string;
+  fileName: string;
+  size: number; // in bytes
+  uploadedAt: string;
+}
 export interface DialerStats {
   callsMade: number;
   connectionRate: number;
@@ -120,6 +127,18 @@ export const CreateKnowledgeBaseSchema = z.object({
     ),
 });
 export type CreateKnowledgeBaseData = z.infer<typeof CreateKnowledgeBaseSchema>;
+const ACCEPTED_AUDIO_FILE_TYPES = ['audio/mpeg', 'audio/wav'];
+export const CreateAudioFileSchema = z.object({
+  name: z.string().min(3, { message: "Audio file name must be at least 3 characters long." }),
+  file: z.instanceof(File, { message: 'An audio file is required.' })
+    .refine((file) => file.size > 0, 'An audio file is required.')
+    .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
+    .refine(
+      (file) => ACCEPTED_AUDIO_FILE_TYPES.includes(file.type),
+      'Only .mp3 and .wav files are accepted.'
+    ),
+});
+export type CreateAudioFileData = z.infer<typeof CreateAudioFileSchema>;
 export const SettingsSchema = z.object({
   serverAddress: z.string().min(1, "Server address is required."),
   dbHost: z.string().min(1, "Database host is required."),
