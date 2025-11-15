@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useAuthStore } from '@/stores/useAuthStore';
 import { tr } from '@/lib/locales/tr';
 import { Loader2 } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 const LoginSchema = z.object({
   email: z.string().email({ message: "Geçerli bir e-posta adresi girin." }),
   password: z.string().min(1, { message: "Şifre gereklidir." }),
@@ -38,7 +39,8 @@ export function LoginPage() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-gray-900 p-4 relative">
+      <ThemeToggle />
       <Card className="w-full max-w-sm shadow-2xl">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold font-display">{tr.loginPage.title}</CardTitle>
