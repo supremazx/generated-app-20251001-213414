@@ -81,6 +81,7 @@ export const tr = {
     connectionRate: "Bağlantı Oranı",
     progress: "Kampanya İlerlemesi",
     knowledgeBase: "Bilgi Bankası",
+    audioFile: "Ses Dosyası",
     callListDetails: "Arama Listesi Detayları",
     callListDescription: "Detaylı arama listesi bilgileri gelecekteki bir güncellemede burada görüntülenecektir.",
   },
@@ -207,7 +208,7 @@ export const tr = {
   // User Dashboard Page
   userDashboardPage: {
     title: "Kullanıcı Paneli",
-    changePassword: "Şifre Değiştir",
+    changePassword: "Şifre De��iştir",
     accountBalance: "Hesap Bakiyesi",
     availableFunds: "Kullanılabilir bakiye",
     usageStatistics: {
@@ -328,7 +329,7 @@ export const tr = {
   // Dialogs
   createCampaignDialog: {
     title: "Yeni Kampanya Oluştur",
-    description: "Yeni bir arama kampanyası başlatmak için aşağıdaki ayrıntıları doldurun.",
+    description: "Yeni bir arama kampanyası başlatmak için aşağ��daki ayrıntıları doldurun.",
     nameLabel: "Kampanya Adı",
     namePlaceholder: "Örn., 4. Çeyrek Satışları",
     callListLabel: "Arama Listesi",
@@ -337,6 +338,8 @@ export const tr = {
     assignAgentsPlaceholder: "Bir agent seçin",
     knowledgeBaseLabel: "Bilgi Bankası (Opsiyonel)",
     knowledgeBasePlaceholder: "Bir bilgi bankası seçin",
+    audioFileLabel: "Ses Dosyası (Opsiyonel)",
+    audioFilePlaceholder: "Bir ses dosyası seçin",
     cancel: "İptal",
     submit: "Kampanya Oluştur",
   },

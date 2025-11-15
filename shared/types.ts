@@ -13,6 +13,7 @@ export interface Campaign {
   callListId: string;
   agentId: string;
   knowledgeBaseId?: string;
+  audioFileId?: string;
   totalLeads: number;
   dialedLeads: number;
   connections: number;
@@ -88,6 +89,7 @@ export const CreateCampaignSchema = z.object({
   callListId: z.string().min(1, { message: "Please select a call list." }),
   agentId: z.string().min(1, { message: "Please select an agent." }),
   knowledgeBaseId: z.string().optional(),
+  audioFileId: z.string().optional(),
 });
 export type CreateCampaignData = z.infer<typeof CreateCampaignSchema>;
 export const EditCampaignSchema = CreateCampaignSchema;
@@ -99,7 +101,7 @@ export type UpdateCampaignStatusData = z.infer<typeof UpdateCampaignStatusSchema
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_CALL_LIST_TYPES = ['text/csv'];
 export const CreateCallListSchema = z.object({
-  name: z.string().min(3, { message: "List name must be at least 3 characters long." }),
+  name: z.string().min(3, { message: "List name must be be at least 3 characters long." }),
   file: z.instanceof(File, { message: 'A CSV file is required.' })
     .refine((file) => file.size > 0, 'A CSV file is required.')
     .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)

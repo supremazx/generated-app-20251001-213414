@@ -22,6 +22,7 @@ import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useCallListStore } from '@/stores/useCallListStore';
 import { useAgentStore } from '@/stores/useAgentStore';
 import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
+import { useAudioFileStore } from '@/stores/useAudioFileStore';
 import { useEffect } from 'react';
 import {
   Form,
@@ -44,6 +45,7 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
   const agents = useAgentStore((state) => state.agents);
   const fetchAgents = useAgentStore((state) => state.fetchAgents);
   const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
+  const { audioFiles, fetchAudioFiles } = useAudioFileStore();
   const form = useForm<EditCampaignData>({
     resolver: zodResolver(EditCampaignSchema),
     defaultValues: {
@@ -51,6 +53,7 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
       callListId: '',
       agentId: '',
       knowledgeBaseId: '',
+      audioFileId: '',
     },
   });
   const { reset } = form;
@@ -61,6 +64,7 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
         callListId: campaign.callListId,
         agentId: campaign.agentId || '',
         knowledgeBaseId: campaign.knowledgeBaseId || '',
+        audioFileId: campaign.audioFileId || '',
       });
     }
   }, [campaign, reset]);
@@ -69,8 +73,9 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
       fetchCallLists();
       fetchAgents();
       fetchKnowledgeBases();
+      fetchAudioFiles();
     }
-  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases]);
+  }, [open, fetchCallLists, fetchAgents, fetchKnowledgeBases, fetchAudioFiles]);
   const onSubmit = async (data: EditCampaignData) => {
     if (!campaign) return;
     await updateCampaign(campaign.id, data);
@@ -79,7 +84,7 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px] md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>{tr.editCampaignDialog.title}</DialogTitle>
           <DialogDescription>
@@ -165,6 +170,30 @@ export function EditCampaignDialog({ open, onOpenChange, campaign }: EditCampaig
                       {knowledgeBases.map((kb) => (
                         <SelectItem key={kb.id} value={kb.id}>
                           {kb.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="audioFileId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tr.createCampaignDialog.audioFileLabel}</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={tr.createCampaignDialog.audioFilePlaceholder} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {audioFiles.map((af) => (
+                        <SelectItem key={af.id} value={af.id}>
+                          {af.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -2,9 +2,10 @@ import { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCampaignStore } from '@/stores/useCampaignStore';
 import { useKnowledgeBaseStore } from '@/stores/useKnowledgeBaseStore';
+import { useAudioFileStore } from '@/stores/useAudioFileStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Phone, CheckCircle, Percent, Target, BrainCircuit } from 'lucide-react';
+import { ArrowLeft, Phone, CheckCircle, Percent, Target, BrainCircuit, Music } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -43,18 +44,26 @@ export function CampaignDetailPage() {
   const navigate = useNavigate();
   const { selectedCampaign, fetchCampaignById, loading } = useCampaignStore();
   const { knowledgeBases, fetchKnowledgeBases } = useKnowledgeBaseStore();
+  const { audioFiles, fetchAudioFiles } = useAudioFileStore();
   useEffect(() => {
     if (campaignId) {
       fetchCampaignById(campaignId);
     }
     fetchKnowledgeBases();
-  }, [campaignId, fetchCampaignById, fetchKnowledgeBases]);
+    fetchAudioFiles();
+  }, [campaignId, fetchCampaignById, fetchKnowledgeBases, fetchAudioFiles]);
   const knowledgeBaseName = useMemo(() => {
     if (!selectedCampaign?.knowledgeBaseId || knowledgeBases.length === 0) {
       return null;
     }
     return knowledgeBases.find(kb => kb.id === selectedCampaign.knowledgeBaseId)?.name;
   }, [selectedCampaign, knowledgeBases]);
+  const audioFileName = useMemo(() => {
+    if (!selectedCampaign?.audioFileId || audioFiles.length === 0) {
+      return null;
+    }
+    return audioFiles.find(af => af.id === selectedCampaign.audioFileId)?.name;
+  }, [selectedCampaign, audioFiles]);
   if (loading || !selectedCampaign) {
     return (
       <div className="space-y-6">
@@ -111,18 +120,29 @@ export function CampaignDetailPage() {
           </CardHeader>
           <CardContent className="flex items-center gap-3">
             <BrainCircuit className="h-6 w-6 text-muted-foreground" />
-            <p className="text-md font-medium">{knowledgeBaseName || 'Atanmam��ş'}</p>
+            <p className="text-md font-medium">{knowledgeBaseName || 'Atanmamış'}</p>
           </CardContent>
         </Card>
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>{tr.campaignDetailPage.callListDetails}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{tr.campaignDetailPage.callListDescription}</p>
-        </CardContent>
-      </Card>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>{tr.campaignDetailPage.audioFile}</CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center gap-3">
+            <Music className="h-6 w-6 text-muted-foreground" />
+            <p className="text-md font-medium">{audioFileName || 'Atanmamış'}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>{tr.campaignDetailPage.callListDetails}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">{tr.campaignDetailPage.callListDescription}</p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

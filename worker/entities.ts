@@ -4,7 +4,7 @@ import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_B
 export class CampaignEntity extends IndexedEntity<Campaign> {
   static readonly entityName = "campaign";
   static readonly indexName = "campaigns";
-  static readonly initialState: Campaign = { id: "", name: "", status: 'Draft', callListId: '', agentId: '', knowledgeBaseId: '', totalLeads: 0, dialedLeads: 0, connections: 0, createdAt: '' };
+  static readonly initialState: Campaign = { id: "", name: "", status: 'Draft', callListId: '', agentId: '', knowledgeBaseId: '', audioFileId: '', totalLeads: 0, dialedLeads: 0, connections: 0, createdAt: '' };
   static seedData = MOCK_CAMPAIGNS;
 }
 export class AgentEntity extends IndexedEntity<Agent> {
