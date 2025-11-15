@@ -61,11 +61,36 @@ const adminNavGroups = [
     ]
   }
 ];
+const userNavGroups = [
+  {
+    title: tr.nav.dialer,
+    items: [
+      { href: '/campaigns', label: tr.nav.campaigns, icon: PhoneCall },
+      { href: '/call-lists', label: tr.nav.callLists, icon: List },
+      { href: '/audio-files', label: tr.nav.audioFiles, icon: Music },
+    ],
+  },
+  {
+    title: tr.nav.vogent.title,
+    items: [
+      { href: '/knowledge-base', label: tr.nav.vogent.knowledgeBase, icon: BrainCircuit },
+    ]
+  },
+  {
+    title: tr.nav.account,
+    items: [
+      { href: '/billing', label: tr.nav.billing, icon: CreditCard },
+    ],
+  }
+];
 const NavContent = () => {
   const user = useAuthStore(s => s.user);
   const navGroups = useMemo(() => {
     if (user?.role === 'admin') {
       return adminNavGroups;
+    }
+    if (user?.role === 'user') {
+      return userNavGroups;
     }
     return [];
   }, [user?.role]);
@@ -140,7 +165,10 @@ export function AppLayout() {
     if (user?.role === 'admin') {
       return [dashboardItem, ...adminNavGroups.flatMap(g => g.items)];
     }
-    return [dashboardItem, userDashboardItem];
+    if (user?.role === 'user') {
+      return [dashboardItem, userDashboardItem, ...userNavGroups.flatMap(g => g.items)];
+    }
+    return [];
   }, [user?.role]);
   const pageTitle = allNavItems.find(item => {
     if (item.href === '/') {
