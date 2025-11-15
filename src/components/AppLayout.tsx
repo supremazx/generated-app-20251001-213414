@@ -12,6 +12,7 @@ import {
   BrainCircuit,
   Music,
   User,
+  UserCog,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -50,6 +51,7 @@ const adminNavGroups = [
     items: [
       { href: '/billing', label: tr.nav.billing, icon: CreditCard },
       { href: '/settings', label: tr.nav.settings, icon: Settings },
+      { href: '/account-settings', label: tr.nav.accountSettings, icon: UserCog },
     ],
   },
   {

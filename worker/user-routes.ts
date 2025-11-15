@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import type { Env } from './core-utils';
 import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity, AudioFileEntity, CallLogEntity } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile, CallLog } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile, CallLog, ChangeEmailSchema } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -15,6 +15,20 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     return ok(c, userInfo);
   });
   // USER ACTIONS
+  app.post('/api/user/change-email', async (c) => {
+    const body = await c.req.json();
+    const validation = ChangeEmailSchema.safeParse(body);
+    if (!validation.success) {
+      return bad(c, 'Invalid email data');
+    }
+    try {
+      const result = await UserDashboardService.changeEmail(validation.data);
+      return ok(c, result);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'An unknown error occurred.';
+      return bad(c, message);
+    }
+  });
   app.post('/api/user/change-password', async (c) => {
     const body = await c.req.json();
     const validation = ChangePasswordSchema.safeParse(body);

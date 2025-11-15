@@ -27,6 +27,7 @@ import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
 import { AudioFilesPage } from "@/pages/AudioFilesPage";
 import { LoginPage } from "@/pages/LoginPage";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AccountSettingsPage } from "./pages/AccountSettingsPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       { path: "clients", element: <ClientsPage /> },
       { path: "billing", element: <BillingPage /> },
       { path: "settings", element: <SettingsPage /> },
+      { path: "account-settings", element: <AccountSettingsPage /> },
       { path: "reseller/dashboard", element: <ResellerDashboardPage /> },
       { path: "reseller/billing", element: <ResellerBillingPage /> },
     ],

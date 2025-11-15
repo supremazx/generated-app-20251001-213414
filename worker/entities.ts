@@ -1,5 +1,5 @@
 import { IndexedEntity, Entity, type Env } from "./core-utils";
-import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerBillingInfo, KnowledgeBase, AudioFile, CallLog, CallLogStatus } from "@shared/types";
+import type { Campaign, Agent, CallList, DialerStats, Settings, BillingInfo, UserDashboardInfo, ChangePasswordData, ResellerClient, ResellerDashboardStats, ResellerBillingInfo, KnowledgeBase, AudioFile, CallLog, CallLogStatus, ChangeEmailData } from "@shared/types";
 import { MOCK_CAMPAIGNS, MOCK_AGENTS, MOCK_CALL_LISTS, MOCK_DIALER_STATS, MOCK_BILLING_INFO, MOCK_USER_DASHBOARD_INFO, MOCK_RESELLER_CLIENTS, MOCK_RESELLER_DASHBOARD_STATS, MOCK_RESELLER_BILLING_INFO, MOCK_CALL_LOGS } from "@shared/mock-data";
 export class CampaignEntity extends IndexedEntity<Campaign> {
   static readonly entityName = "campaign";
@@ -114,6 +114,19 @@ export class UserDashboardService {
         ];
         info.userCallsOverTime = MOCK_DIALER_STATS.callsOverTime.map(d => ({...d, calls: Math.floor(d.calls / 5)}));
         return info;
+    }
+    static async changeEmail(data: ChangeEmailData): Promise<{ success: boolean }> {
+        // In a real application, this would involve verifying the password
+        // and updating the user's email in the database.
+        console.log("Email change requested:", {
+            newEmail: data.newEmail,
+            password: '[REDACTED]',
+        });
+        // Simulate a successful email change.
+        if (data.password === "password123") { // Simulate correct password
+            return { success: true };
+        }
+        throw new Error("Incorrect password.");
     }
     static async changePassword(data: ChangePasswordData): Promise<{ success: boolean }> {
         // In a real application, this would involve hashing the new password
