@@ -5,7 +5,8 @@
 import type { ApiResponse } from "@shared/types";
 import { DurableObject } from "cloudflare:workers";
 import type { Context } from "hono";
-import { DialerSimulationService } from "./entities";
+import type { DurableObjectNamespace, DurableObjectState, DurableObjectStub } from "cloudflare:workers";
+
 export interface Env {
   GlobalDurableObject: DurableObjectNamespace<GlobalDurableObject>;
 }
@@ -25,6 +26,7 @@ export class GlobalDurableObject extends DurableObject<Env, unknown> {
     });
   }
   async alarm() {
+    const { DialerSimulationService } = await import("./entities");
     await DialerSimulationService.tick(this.env);
     const tenSeconds = 10 * 1000;
     await this.ctx.storage.setAlarm(Date.now() + tenSeconds);
