@@ -112,7 +112,7 @@ export const EditCampaignSchema = z.object({
 });
 export type EditCampaignData = z.infer<typeof EditCampaignSchema>;
 export const UpdateCampaignStatusSchema = z.object({
-    status: CampaignStatusSchema,
+  status: CampaignStatusSchema,
 });
 export type UpdateCampaignStatusData = z.infer<typeof UpdateCampaignStatusSchema>;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -214,7 +214,7 @@ export type CreateResellerClientData = z.infer<typeof CreateResellerClientSchema
 export const EditResellerClientSchema = CreateResellerClientSchema;
 export type EditResellerClientData = z.infer<typeof EditResellerClientSchema>;
 export const UpdateClientStatusSchema = z.object({
-    status: ClientStatusSchema,
+  status: ClientStatusSchema,
 });
 export type UpdateClientStatusData = z.infer<typeof UpdateClientStatusSchema>;
 export interface ResellerInvoice {
@@ -230,3 +230,46 @@ export interface ResellerBillingInfo {
   monthlyRecurringRevenue: number;
   invoices: ResellerInvoice[];
 }
+
+// Klassifier Agent Types
+export interface KlassifierAgent {
+  id: number | string;
+  name: string;
+  language: string;
+  voice: string;
+  emotion: string;
+  speed: number | null;
+  systemPrompt: string;
+  agentSpeaksFirst: boolean;
+  defineFirstMessage: boolean;
+  firstMessage: string | null;
+  useStreamTTS: boolean;
+  useAllianzMode: boolean;
+  customDictionary: string | null;
+  knowledgeBaseIds: string[];
+  createdAt: number[] | string;
+  updatedAt: number[] | string;
+}
+
+export const CreateAgentSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  language: z.string().min(1, "Language is required."),
+  voice: z.string().min(1, "Voice is required."),
+  emotion: z.string().optional(),
+  speed: z.number().nullable().optional(),
+  systemPrompt: z.string().min(10, "System prompt must be at least 10 characters."),
+  agentSpeaksFirst: z.boolean().default(true),
+  defineFirstMessage: z.boolean().default(true),
+  firstMessage: z.string().optional(),
+  useStreamTTS: z.boolean().default(false),
+  useAllianzMode: z.boolean().default(false),
+  customDictionary: z.string().optional(),
+  knowledgeBaseIds: z.array(z.string()).default([]),
+});
+
+export interface Voice {
+  id: string;
+  name: string;
+}
+
+export type CreateAgentData = z.infer<typeof CreateAgentSchema>;

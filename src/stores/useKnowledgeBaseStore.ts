@@ -41,7 +41,7 @@ export const useKnowledgeBaseStore = create<KnowledgeBaseState>()(
     },
     addKnowledgeBase: async (formData) => {
       try {
-        const created = await apiFormData<KnowledgeBase>('/api/knowledge-bases', formData);
+        const created = await apiFormData<KnowledgeBase>('https://api.klassifier.com/klassifier/api/knowledge-base/upload', formData);
         set((state) => {
           state.knowledgeBases.push(created);
         });

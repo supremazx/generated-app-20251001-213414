@@ -1,3 +1,23 @@
 
 # Bootstrap marker
 .bootstrap-complete
+
+# Dependencies
+node_modules/
+.pnpm-store
+
+# Environment
+.env
+.env.local
+
+# Build
+dist/
+build/
+.next/
+
+# Misc
+.DS_Store
+.wrangler/
+.idea/
+.vscode/
+*.log

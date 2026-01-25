@@ -28,6 +28,7 @@ import { AudioFilesPage } from "@/pages/AudioFilesPage";
 import { LoginPage } from "@/pages/LoginPage";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AccountSettingsPage } from "./pages/AccountSettingsPage";
+import { AjanlarPage } from "@/pages/admin/AjanlarPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
       { path: "account-settings", element: <AccountSettingsPage /> },
       { path: "reseller/dashboard", element: <ResellerDashboardPage /> },
       { path: "reseller/billing", element: <ResellerBillingPage /> },
+      { path: "admin/ajanlar", element: <AjanlarPage /> },
     ],
   },
   {

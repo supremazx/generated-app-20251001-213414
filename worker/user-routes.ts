@@ -2,7 +2,9 @@ import { Hono } from "hono";
 import type { Env } from './core-utils';
 import { CampaignEntity, AgentEntity, CallListEntity, DialerStatsService, SettingsEntity, BillingService, UserDashboardService, ResellerClientEntity, ResellerDashboardService, ResellerBillingService, VogentAgentService, KnowledgeBaseEntity, AudioFileEntity, CallLogEntity } from "./entities";
 import { ok, bad, notFound } from './core-utils';
-import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile, CallLog, ChangeEmailSchema } from "@shared/types";
+import { CreateCampaignSchema, EditCampaignSchema, Campaign, CallList, UpdateCampaignStatusSchema, SettingsSchema, ChangePasswordSchema, CreateResellerClientSchema, ResellerClient, EditResellerClientSchema, UpdateClientStatusSchema, KnowledgeBase, AudioFile, CallLog, ChangeEmailSchema, CreateAgentSchema } from "@shared/types";
+import { KlassifierService } from "./klassifier-service";
+
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // DASHBOARD
   app.get('/api/dashboard/stats', async (c) => {
@@ -49,8 +51,8 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     await CampaignEntity.ensureSeed(c.env);
     const page = await CampaignEntity.list(c.env);
     if (userId) {
-        // Simulate filtering for a specific user. Return a subset.
-        return ok(c, page.items.slice(0, 2));
+      // Simulate filtering for a specific user. Return a subset.
+      return ok(c, page.items.slice(0, 2));
     }
     return ok(c, page.items);
   });
@@ -58,7 +60,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const id = c.req.param('id');
     const campaignEntity = new CampaignEntity(c.env, id);
     if (!(await campaignEntity.exists())) {
-        return notFound(c, 'Campaign not found');
+      return notFound(c, 'Campaign not found');
     }
     const campaign = await campaignEntity.getState();
     return ok(c, campaign);
@@ -79,7 +81,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const { name, callListId, agentId, knowledgeBaseId, audioFileId } = validation.data;
     const callListEntity = new CallListEntity(c.env, callListId);
     if (!(await callListEntity.exists())) {
-        return bad(c, 'Call list not found');
+      return bad(c, 'Call list not found');
     }
     const callList = await callListEntity.getState();
     const newCampaign: Campaign = {
@@ -103,11 +105,11 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const body = await c.req.json();
     const validation = EditCampaignSchema.safeParse(body);
     if (!validation.success) {
-        return bad(c, 'Invalid campaign data');
+      return bad(c, 'Invalid campaign data');
     }
     const campaignEntity = new CampaignEntity(c.env, id);
     if (!(await campaignEntity.exists())) {
-        return notFound(c, 'Campaign not found');
+      return notFound(c, 'Campaign not found');
     }
     await campaignEntity.patch(validation.data);
     const updatedCampaign = await campaignEntity.getState();
@@ -126,12 +128,12 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const body = await c.req.json();
     const validation = UpdateCampaignStatusSchema.safeParse(body);
     if (!validation.success) {
-        return bad(c, 'Invalid status data');
+      return bad(c, 'Invalid status data');
     }
     const { status } = validation.data;
     const campaignEntity = new CampaignEntity(c.env, id);
     if (!(await campaignEntity.exists())) {
-        return notFound(c, 'Campaign not found');
+      return notFound(c, 'Campaign not found');
     }
     await campaignEntity.patch({ status });
     const updatedCampaign = await campaignEntity.getState();
@@ -139,8 +141,70 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   });
   // AGENTS
   app.get('/api/agents', async (c) => {
-    const agents = await VogentAgentService.list();
-    return ok(c, agents);
+    try {
+      const agents = await KlassifierService.listAgents(c.env);
+      return ok(c, agents);
+    } catch (e: any) {
+      console.error("List Agents Failed:", e);
+      // Fallback to empty list or error out depending on desired UX
+      return c.json({ success: false, error: 'Failed to list agents', details: e.message }, 500);
+    }
+  });
+
+  app.get('/api/agents/:id', async (c) => {
+    const id = c.req.param('id');
+    try {
+      const agent = await KlassifierService.getAgent(c.env, id);
+      return ok(c, agent);
+    } catch (e: any) {
+      console.error(`Get Agent ${id} Failed:`, e);
+      return c.json({ success: false, error: 'Failed to get agent', details: e.message }, 404);
+    }
+  });
+
+  app.put('/api/agents/:id', async (c) => {
+    const id = c.req.param('id');
+    const body = await c.req.json();
+    // Relaxed validation for partial updates or reuse CreateAgentSchema with partial() if using Zod
+    // For now, assuming body is valid partial data or full data
+    try {
+      const updatedAgent = await KlassifierService.updateAgent(c.env, id, body);
+      return ok(c, updatedAgent);
+    } catch (e: any) {
+      console.error(`Update Agent ${id} Failed:`, e);
+      return c.json({ success: false, error: 'Failed to update agent', details: e.message }, 400);
+    }
+  });
+
+  app.delete('/api/agents/:id', async (c) => {
+    const id = c.req.param('id');
+    try {
+      await KlassifierService.deleteAgent(c.env, id);
+      return ok(c, { id });
+    } catch (e: any) {
+      console.error(`Delete Agent ${id} Failed:`, e);
+      return c.json({ success: false, error: 'Failed to delete agent', details: e.message }, 400);
+    }
+  });
+  app.post('/api/agents', async (c) => {
+    const body = await c.req.json();
+    const validation = CreateAgentSchema.safeParse(body);
+    if (!validation.success) {
+      return bad(c, 'Invalid agent data');
+    }
+    try {
+      const agent = await KlassifierService.createAgent(c.env, validation.data);
+      return ok(c, agent);
+    } catch (e: any) {
+      const errorDetails = {
+        message: e.message,
+        cause: e.cause,
+        stack: e.stack,
+        ...e
+      };
+      console.error("Create Agent Failed:", errorDetails);
+      return c.json({ success: false, error: 'Failed to create agent', details: errorDetails }, 400);
+    }
   });
   // CALL LISTS
   app.get('/api/call-lists', async (c) => {
@@ -148,7 +212,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     await CallListEntity.ensureSeed(c.env);
     const page = await CallListEntity.list(c.env);
     if (userId) {
-        return ok(c, page.items.slice(0, 3));
+      return ok(c, page.items.slice(0, 3));
     }
     return ok(c, page.items);
   });
@@ -156,7 +220,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const id = c.req.param('id');
     const callListEntity = new CallListEntity(c.env, id);
     if (!(await callListEntity.exists())) {
-        return notFound(c, 'Call List not found');
+      return notFound(c, 'Call List not found');
     }
     const callList = await callListEntity.getState();
     return ok(c, callList);
@@ -202,7 +266,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const userId = c.req.query('userId');
     const page = await KnowledgeBaseEntity.list(c.env);
     if (userId) {
-        return ok(c, page.items.slice(0, 1));
+      return ok(c, page.items.slice(0, 1));
     }
     return ok(c, page.items);
   });
@@ -252,7 +316,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const userId = c.req.query('userId');
     const page = await AudioFileEntity.list(c.env);
     if (userId) {
-        return ok(c, page.items.slice(0, 2));
+      return ok(c, page.items.slice(0, 2));
     }
     return ok(c, page.items);
   });
@@ -336,11 +400,11 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const body = await c.req.json();
     const validation = EditResellerClientSchema.safeParse(body);
     if (!validation.success) {
-        return bad(c, 'Invalid client data');
+      return bad(c, 'Invalid client data');
     }
     const clientEntity = new ResellerClientEntity(c.env, id);
     if (!(await clientEntity.exists())) {
-        return notFound(c, 'Client not found');
+      return notFound(c, 'Client not found');
     }
     await clientEntity.patch(validation.data);
     const updatedClient = await clientEntity.getState();
@@ -359,12 +423,12 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const body = await c.req.json();
     const validation = UpdateClientStatusSchema.safeParse(body);
     if (!validation.success) {
-        return bad(c, 'Invalid status data');
+      return bad(c, 'Invalid status data');
     }
     const { status } = validation.data;
     const clientEntity = new ResellerClientEntity(c.env, id);
     if (!(await clientEntity.exists())) {
-        return notFound(c, 'Client not found');
+      return notFound(c, 'Client not found');
     }
     await clientEntity.patch({ status });
     const updatedClient = await clientEntity.getState();

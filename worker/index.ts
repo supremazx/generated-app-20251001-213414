@@ -13,51 +13,75 @@ const RETRY_MS = 750;
 let nextRetryAt = 0;
 let userRoutesLoaded = false;
 let userRoutesLoadError: string | null = null;
+let loadingPromise: Promise<void> | null = null;
 
-const safeLoadUserRoutes = async (app: Hono<{ Bindings: Env }>) => {
+const safeLoadUserRoutes = async () => {
   if (userRoutesLoaded) return;
 
-  const now = Date.now();
-  const shouldRetry = userRoutesLoadError !== null;
-  if (shouldRetry && now < nextRetryAt) return;
-  nextRetryAt = now + RETRY_MS;
+  if (loadingPromise) {
+    await loadingPromise;
+    return;
+  }
 
-  const bust = shouldRetry && import.meta.env?.DEV ? `?t=${now}` : '';
-  const spec = `${USER_ROUTES_MODULE}${bust}`;
+  loadingPromise = (async () => {
+    const now = Date.now();
+    const shouldRetry = userRoutesLoadError !== null;
+    if (shouldRetry && now < nextRetryAt) return;
+    nextRetryAt = now + RETRY_MS;
+
+    if (shouldRetry) {
+      app = createApp();
+    }
+
+    const bust = shouldRetry && import.meta.env?.DEV ? `?t=${now}` : '';
+    const spec = `${USER_ROUTES_MODULE}${bust}`;
+
+    try {
+      const mod = (await import(/* @vite-ignore */ spec)) as UserRoutesModule;
+      mod.userRoutes(app);
+      userRoutesLoaded = true;
+      userRoutesLoadError = null;
+    } catch (e) {
+      userRoutesLoadError = e instanceof Error ? e.message : String(e);
+    }
+  })();
 
   try {
-    const mod = (await import(/* @vite-ignore */ spec)) as UserRoutesModule;
-    mod.userRoutes(app);
-    userRoutesLoaded = true;
-    userRoutesLoadError = null;
-  } catch (e) {
-    userRoutesLoadError = e instanceof Error ? e.message : String(e);
+    await loadingPromise;
+  } finally {
+    loadingPromise = null;
   }
 };
 
 export type ClientErrorReport = { message: string; url: string; timestamp: string } & Record<string, unknown>;
 
-const app = new Hono<{ Bindings: Env }>();
+const createApp = () => {
+  const app = new Hono<{ Bindings: Env }>();
 
-app.use('*', logger());
+  app.use('*', logger());
 
-app.use('/api/*', cors({ origin: '*', allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowHeaders: ['Content-Type', 'Authorization'] }));
+  app.use('/api/*', cors({ origin: '*', allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowHeaders: ['Content-Type', 'Authorization', 'NEV-API-KEY'] }));
 
-app.get('/api/health', (c) => c.json({ success: true, data: { status: 'healthy', timestamp: new Date().toISOString() }}));
+  app.get('/api/health', (c) => c.json({ success: true, data: { status: 'healthy', timestamp: new Date().toISOString() } }));
 
-app.post('/api/client-errors', async (c) => {
-  try {
-    const e = await c.req.json<ClientErrorReport>();
-    console.error('[CLIENT ERROR]', JSON.stringify({ timestamp: e.timestamp || new Date().toISOString(), message: e.message, url: e.url, stack: e.stack, componentStack: e.componentStack, errorBoundary: e.errorBoundary }, null, 2));
-    return c.json({ success: true });
-  } catch (error) {
-    console.error('[CLIENT ERROR HANDLER] Failed:', error);
-    return c.json({ success: false, error: 'Failed to process' }, 500);
-  }
-});
+  app.post('/api/client-errors', async (c) => {
+    try {
+      const e = await c.req.json<ClientErrorReport>();
+      console.error('[CLIENT ERROR]', JSON.stringify({ timestamp: e.timestamp || new Date().toISOString(), message: e.message, url: e.url, stack: e.stack, componentStack: e.componentStack, errorBoundary: e.errorBoundary }, null, 2));
+      return c.json({ success: true });
+    } catch (error) {
+      console.error('[CLIENT ERROR HANDLER] Failed:', error);
+      return c.json({ success: false, error: 'Failed to process' }, 500);
+    }
+  });
 
-app.notFound((c) => c.json({ success: false, error: 'Not Found' }, 404));
-app.onError((err, c) => { console.error(`[ERROR] ${err}`); return c.json({ success: false, error: 'Internal Server Error' }, 500); });
+  app.notFound((c) => c.json({ success: false, error: 'Not Found' }, 404));
+  app.onError((err, c) => { console.error(`[ERROR] ${err}`); return c.json({ success: false, error: 'Internal Server Error' }, 500); });
+
+  return app;
+};
+
+let app = createApp();
 
 console.log(`Server is running`)
 
@@ -66,7 +90,7 @@ export default {
     const pathname = new URL(request.url).pathname;
 
     if (pathname.startsWith('/api/') && pathname !== '/api/health' && pathname !== '/api/client-errors') {
-      await safeLoadUserRoutes(app);
+      await safeLoadUserRoutes();
       if (userRoutesLoadError) {
         return new Response(
           JSON.stringify({
